@@ -1,0 +1,13 @@
+services:
+  abito-dev-db:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=abito_dev_user
+      - POSTGRES_PASSWORD=1234
+      - POSTGRES_DB=rredfearn32
+    ports:
+      - "5434:5432"
+    networks:
+      - abito
+networks:
+  abito:
