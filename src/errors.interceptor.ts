@@ -5,11 +5,9 @@ import {
   Injectable,
   InternalServerErrorException,
   NestInterceptor,
-  NotFoundException,
 } from '@nestjs/common';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { TodoItemNotFoundException } from './domain/TodoItemNotFoundException';
 import { InjectPinoLogger, PinoLogger } from 'nestjs-pino';
 
 @Injectable()
@@ -23,13 +21,10 @@ export class ErrorsInterceptor implements NestInterceptor {
     return next.handle().pipe(
       catchError((err: Error) => {
         this.logger.error(err);
-        let mappedException =
+        const mappedException =
           err instanceof HttpException
             ? err
             : new InternalServerErrorException();
-        if (err instanceof TodoItemNotFoundException) {
-          mappedException = new NotFoundException();
-        }
 
         return throwError(() => mappedException);
       }),
