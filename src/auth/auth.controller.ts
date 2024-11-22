@@ -15,4 +15,9 @@ export class AuthController {
   login(@Body() dto: AuthDto) {
     return this.authService.login(dto);
   }
+
+  @Get('health')
+  health() {
+    return 'foo';
+  }
 }
