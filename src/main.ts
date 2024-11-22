@@ -18,7 +18,7 @@ async function bootstrap() {
   app.useLogger(app.get(Logger));
   app.useGlobalInterceptors(new ErrorsInterceptor(app.get(Logger)));
   setupOpenApi(app);
-  await app.listen(process.env.PORT ?? 3000);
+  await app.listen(process.env.PORT ?? 3333);
 }
 
 function setupOpenApi(app: INestApplication) {
