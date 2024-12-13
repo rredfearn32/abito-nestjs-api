@@ -8,6 +8,11 @@
   ],
   "routes": [
     {
+      "src": "/swagger-static/(.*)",
+      "dest": "dist/swagger-static/$1",
+      "methods": ["GET", "HEAD"]
+    },
+    {
       "src": "/(.*)",
       "dest": "dist/main.js",
       "methods": ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"]
