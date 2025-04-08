@@ -5,8 +5,10 @@ const app_module_1 = require("./app.module");
 const swagger_1 = require("@nestjs/swagger");
 const path_1 = require("path");
 const express = require("express");
+const common_1 = require("@nestjs/common");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
+    app.useGlobalPipes(new common_1.ValidationPipe());
     app.use('/swagger-static', express.static((0, path_1.join)(__dirname, '../node_modules/swagger-ui-dist')));
     const config = new swagger_1.DocumentBuilder()
         .setTitle('Abito API')
