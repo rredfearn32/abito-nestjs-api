@@ -1,14 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail } from 'class-validator';
 
-export default class RegisterResponseDto {
-  @ApiProperty()
-  sub: number;
-
+export default class UpdateProfileRequestDto {
   @ApiProperty()
   @IsEmail()
   username: string;
 
   @ApiProperty()
-  access_token: string;
+  password: string;
 }

@@ -19,9 +19,12 @@ const LoginRequestDto_1 = require("./dtos/LoginRequestDto");
 const auth_guard_1 = require("../guards/auth.guard");
 const swagger_1 = require("@nestjs/swagger");
 const RegisterRequestDto_1 = require("./dtos/RegisterRequestDto");
+const UpdateProfileRequestDto_1 = require("./dtos/UpdateProfileRequestDto");
+const users_service_1 = require("../users/users.service");
 let AuthController = class AuthController {
-    constructor(authService) {
+    constructor(authService, userService) {
         this.authService = authService;
+        this.userService = userService;
     }
     register(newUser) {
         return this.authService.register(newUser);
@@ -33,7 +36,10 @@ let AuthController = class AuthController {
         this.authService.deleteAccount(req.jwt);
     }
     getProfile(req) {
-        return req.jwt;
+        return this.userService.findUserById(req.jwt.sub);
+    }
+    async updateProfile(updatedProfile, req) {
+        return this.authService.updateProfile(req.jwt, updatedProfile);
     }
 };
 exports.AuthController = AuthController;
@@ -70,9 +76,19 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "getProfile", null);
+__decorate([
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, common_1.Patch)('profile'),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [UpdateProfileRequestDto_1.default, Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "updateProfile", null);
 exports.AuthController = AuthController = __decorate([
     (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.Controller)('auth'),
-    __metadata("design:paramtypes", [auth_service_1.AuthService])
+    __metadata("design:paramtypes", [auth_service_1.AuthService,
+        users_service_1.UsersService])
 ], AuthController);
 //# sourceMappingURL=auth.controller.js.map

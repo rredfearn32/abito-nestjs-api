@@ -16,21 +16,30 @@ let UsersRepositoryClient = class UsersRepositoryClient {
     constructor(prismaService) {
         this.prismaService = prismaService;
     }
-    async findUser(userWhereUniqueInput) {
+    findUser(userWhereUniqueInput) {
         return this.prismaService.user.findUnique({
             where: userWhereUniqueInput,
         });
     }
-    async createUser(data) {
+    createUser(data) {
         return this.prismaService.user.create({
             data,
         });
     }
-    async deleteUser(userId) {
+    deleteUser(userId) {
         return this.prismaService.user.delete({
             where: {
                 id: userId,
             },
+        });
+    }
+    updateUser(id, updatedUser) {
+        console.log('HERE>>>', id, updatedUser);
+        return this.prismaService.user.update({
+            where: {
+                id,
+            },
+            data: updatedUser,
         });
     }
 };

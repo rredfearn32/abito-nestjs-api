@@ -1,4 +1,5 @@
 export default class RegisterResponseDto {
-    id: number;
+    sub: number;
     username: string;
+    access_token: string;
 }

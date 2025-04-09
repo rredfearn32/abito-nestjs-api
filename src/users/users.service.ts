@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { UsersRepositoryClient } from './repositories/users.repository-client';
 import { User } from '@prisma/client';
 import RegisterRequestDto from '../auth/dtos/RegisterRequestDto';
+import UpdateProfileRequestDto from '../auth/dtos/UpdateProfileRequestDto';
 
 @Injectable()
 export class UsersService {
@@ -10,9 +11,15 @@ export class UsersService {
     private usersRepositoryClient: UsersRepositoryClient,
   ) {}
 
-  async findUser(username: string): Promise<User | undefined> {
+  async findUserByUsername(username: string): Promise<User | undefined> {
     return this.usersRepositoryClient.findUser({
       username,
+    });
+  }
+
+  async findUserById(id: number): Promise<User | undefined> {
+    return this.usersRepositoryClient.findUser({
+      id,
     });
   }
 
@@ -22,5 +29,12 @@ export class UsersService {
 
   deleteUser(id: number) {
     this.usersRepositoryClient.deleteUser(id);
+  }
+
+  updateUser(
+    id: number,
+    updatedProfile: UpdateProfileRequestDto,
+  ): Promise<User> {
+    return this.usersRepositoryClient.updateUser(id, updatedProfile);
   }
 }

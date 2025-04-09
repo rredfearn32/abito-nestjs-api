@@ -22,10 +22,11 @@ let AuthService = class AuthService {
     async register(newUser) {
         newUser.password = await (0, hashing_1.hash)(newUser.password);
         const { id, username } = await this.userService.createUser(newUser);
-        return { id, username };
+        const result = { sub: id, username };
+        return { ...result, access_token: await this.jwtService.signAsync(result) };
     }
     async login(username, password) {
-        const user = await this.userService.findUser(username);
+        const user = await this.userService.findUserByUsername(username);
         if (!(await (0, hashing_1.compare)(password, user?.password))) {
             throw new common_1.UnauthorizedException();
         }
@@ -37,6 +38,11 @@ let AuthService = class AuthService {
     }
     deleteAccount(jwt) {
         this.userService.deleteUser(jwt.sub);
+    }
+    updateProfile(jwt, updatedProfile) {
+        const user = this.userService.findUserById(jwt.sub);
+        const updatedUser = { ...user, ...updatedProfile };
+        return this.userService.updateUser(jwt.sub, updatedUser);
     }
 };
 exports.AuthService = AuthService;

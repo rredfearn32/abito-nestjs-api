@@ -19,9 +19,14 @@ let UsersService = class UsersService {
     constructor(usersRepositoryClient) {
         this.usersRepositoryClient = usersRepositoryClient;
     }
-    async findUser(username) {
+    async findUserByUsername(username) {
         return this.usersRepositoryClient.findUser({
             username,
+        });
+    }
+    async findUserById(id) {
+        return this.usersRepositoryClient.findUser({
+            id,
         });
     }
     async createUser(newUser) {
@@ -29,6 +34,9 @@ let UsersService = class UsersService {
     }
     deleteUser(id) {
         this.usersRepositoryClient.deleteUser(id);
+    }
+    updateUser(id, updatedProfile) {
+        return this.usersRepositoryClient.updateUser(id, updatedProfile);
     }
 };
 exports.UsersService = UsersService;

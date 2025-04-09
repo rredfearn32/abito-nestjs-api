@@ -6,7 +6,7 @@ import { Prisma, User } from '@prisma/client';
 export class UsersRepositoryClient {
   constructor(private prismaService: PrismaService) {}
 
-  async findUser(
+  findUser(
     userWhereUniqueInput: Prisma.UserWhereUniqueInput,
   ): Promise<User | null> {
     return this.prismaService.user.findUnique({
@@ -14,17 +14,27 @@ export class UsersRepositoryClient {
     });
   }
 
-  async createUser(data: Prisma.UserCreateInput): Promise<User> {
+  createUser(data: Prisma.UserCreateInput): Promise<User> {
     return this.prismaService.user.create({
       data,
     });
   }
 
-  async deleteUser(userId: number) {
+  deleteUser(userId: number) {
     return this.prismaService.user.delete({
       where: {
         id: userId,
       },
+    });
+  }
+
+  updateUser(id: number, updatedUser: Prisma.UserUpdateInput): Promise<User> {
+    console.log('HERE>>>', id, updatedUser);
+    return this.prismaService.user.update({
+      where: {
+        id,
+      },
+      data: updatedUser,
     });
   }
 }

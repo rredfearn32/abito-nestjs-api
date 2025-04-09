@@ -5,6 +5,7 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  Patch,
   Post,
   Req,
   UseGuards,
@@ -14,11 +15,17 @@ import LoginRequestDto from './dtos/LoginRequestDto';
 import { AuthGuard } from '../guards/auth.guard';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import RegisterRequestDto from './dtos/RegisterRequestDto';
+import UpdateProfileRequestDto from './dtos/UpdateProfileRequestDto';
+import UpdateProfileResponseDto from './dtos/UpdateProfileResponseDto';
+import { UsersService } from '../users/users.service';
 
 @ApiBearerAuth()
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly userService: UsersService,
+  ) {}
 
   @HttpCode(HttpStatus.CREATED)
   @Post('register')
@@ -42,6 +49,15 @@ export class AuthController {
   @UseGuards(AuthGuard)
   @Get('profile')
   getProfile(@Req() req) {
-    return req.jwt;
+    return this.userService.findUserById(req.jwt.sub);
+  }
+
+  @UseGuards(AuthGuard)
+  @Patch('profile')
+  async updateProfile(
+    @Body() updatedProfile: UpdateProfileRequestDto,
+    @Req() req: any,
+  ): Promise<UpdateProfileResponseDto> {
+    return this.authService.updateProfile(req.jwt, updatedProfile);
   }
 }
