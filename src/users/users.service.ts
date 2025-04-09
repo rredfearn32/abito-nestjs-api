@@ -19,4 +19,8 @@ export class UsersService {
   async createUser(newUser: RegisterRequestDto): Promise<User | undefined> {
     return this.usersRepositoryClient.createUser(newUser);
   }
+
+  deleteUser(id: number) {
+    this.usersRepositoryClient.deleteUser(id);
+  }
 }

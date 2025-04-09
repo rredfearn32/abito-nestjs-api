@@ -5,6 +5,7 @@ import { JwtService } from '@nestjs/jwt';
 import RegisterRequestDto from './dtos/RegisterRequestDto';
 import RegisterResponseDto from './dtos/RegisterResponseDto';
 import { compare, hash } from './helpers/hashing';
+import DeleteAccountRequestDto from './dtos/DeleteAccountRequestDto';
 
 @Injectable()
 export class AuthService {
@@ -31,5 +32,9 @@ export class AuthService {
     };
 
     return { access_token: await this.jwtService.signAsync(payload) };
+  }
+
+  deleteAccount(jwt: DeleteAccountRequestDto) {
+    this.userService.deleteUser(jwt.sub);
   }
 }

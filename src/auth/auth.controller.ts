@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
@@ -32,8 +33,15 @@ export class AuthController {
   }
 
   @UseGuards(AuthGuard)
+  @HttpCode(HttpStatus.OK)
+  @Delete('account')
+  deleteAccount(@Req() req) {
+    this.authService.deleteAccount(req.jwt);
+  }
+
+  @UseGuards(AuthGuard)
   @Get('profile')
   getProfile(@Req() req) {
-    return req.user;
+    return req.jwt;
   }
 }

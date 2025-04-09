@@ -29,8 +29,11 @@ let AuthController = class AuthController {
     login(loginRequest) {
         return this.authService.login(loginRequest.username, loginRequest.password);
     }
+    deleteAccount(req) {
+        this.authService.deleteAccount(req.jwt);
+    }
     getProfile(req) {
-        return req.user;
+        return req.jwt;
     }
 };
 exports.AuthController = AuthController;
@@ -50,6 +53,15 @@ __decorate([
     __metadata("design:paramtypes", [LoginRequestDto_1.default]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "login", null);
+__decorate([
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, common_1.HttpCode)(common_1.HttpStatus.OK),
+    (0, common_1.Delete)('account'),
+    __param(0, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "deleteAccount", null);
 __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Get)('profile'),

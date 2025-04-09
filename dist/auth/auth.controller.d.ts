@@ -6,5 +6,6 @@ export declare class AuthController {
     constructor(authService: AuthService);
     register(newUser: RegisterRequestDto): Promise<import("./dtos/RegisterResponseDto").default>;
     login(loginRequest: LoginRequestDto): Promise<import("./dtos/LoginResponseDto").default>;
+    deleteAccount(req: any): void;
     getProfile(req: any): any;
 }

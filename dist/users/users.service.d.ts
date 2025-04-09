@@ -6,4 +6,5 @@ export declare class UsersService {
     constructor(usersRepositoryClient: UsersRepositoryClient);
     findUser(username: string): Promise<User | undefined>;
     createUser(newUser: RegisterRequestDto): Promise<User | undefined>;
+    deleteUser(id: number): void;
 }

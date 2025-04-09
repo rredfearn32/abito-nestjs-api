@@ -26,6 +26,13 @@ let UsersRepositoryClient = class UsersRepositoryClient {
             data,
         });
     }
+    async deleteUser(userId) {
+        return this.prismaService.user.delete({
+            where: {
+                id: userId,
+            },
+        });
+    }
 };
 exports.UsersRepositoryClient = UsersRepositoryClient;
 exports.UsersRepositoryClient = UsersRepositoryClient = __decorate([

@@ -35,6 +35,9 @@ let AuthService = class AuthService {
         };
         return { access_token: await this.jwtService.signAsync(payload) };
     }
+    deleteAccount(jwt) {
+        this.userService.deleteUser(jwt.sub);
+    }
 };
 exports.AuthService = AuthService;
 exports.AuthService = AuthService = __decorate([

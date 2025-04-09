@@ -27,6 +27,9 @@ let UsersService = class UsersService {
     async createUser(newUser) {
         return this.usersRepositoryClient.createUser(newUser);
     }
+    deleteUser(id) {
+        this.usersRepositoryClient.deleteUser(id);
+    }
 };
 exports.UsersService = UsersService;
 exports.UsersService = UsersService = __decorate([
