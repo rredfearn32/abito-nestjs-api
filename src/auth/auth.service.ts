@@ -4,6 +4,7 @@ import LoginResponseDto from './dtos/LoginResponseDto';
 import { JwtService } from '@nestjs/jwt';
 import RegisterRequestDto from './dtos/RegisterRequestDto';
 import RegisterResponseDto from './dtos/RegisterResponseDto';
+import { compare, hash } from './helpers/hashing';
 
 @Injectable()
 export class AuthService {
@@ -13,13 +14,14 @@ export class AuthService {
   ) {}
 
   async register(newUser: RegisterRequestDto): Promise<RegisterResponseDto> {
+    newUser.password = await hash(newUser.password);
     const { id, username } = await this.userService.createUser(newUser);
     return { id, username };
   }
 
   async login(username: string, password: string): Promise<LoginResponseDto> {
     const user = await this.userService.findUser(username);
-    if (user?.password !== password) {
+    if (!(await compare(password, user?.password))) {
       throw new UnauthorizedException();
     }
 

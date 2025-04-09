@@ -13,18 +13,20 @@ exports.AuthService = void 0;
 const common_1 = require("@nestjs/common");
 const users_service_1 = require("../users/users.service");
 const jwt_1 = require("@nestjs/jwt");
+const hashing_1 = require("./helpers/hashing");
 let AuthService = class AuthService {
     constructor(userService, jwtService) {
         this.userService = userService;
         this.jwtService = jwtService;
     }
     async register(newUser) {
+        newUser.password = await (0, hashing_1.hash)(newUser.password);
         const { id, username } = await this.userService.createUser(newUser);
         return { id, username };
     }
     async login(username, password) {
         const user = await this.userService.findUser(username);
-        if (user?.password !== password) {
+        if (!(await (0, hashing_1.compare)(password, user?.password))) {
             throw new common_1.UnauthorizedException();
         }
         const payload = {
