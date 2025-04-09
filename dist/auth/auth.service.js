@@ -18,8 +18,9 @@ let AuthService = class AuthService {
         this.userService = userService;
         this.jwtService = jwtService;
     }
-    register() {
-        return 'Register';
+    async register(newUser) {
+        const { id, username } = await this.userService.createUser(newUser);
+        return { id, username };
     }
     async login(username, password) {
         const user = await this.userService.findUser(username);
@@ -27,7 +28,7 @@ let AuthService = class AuthService {
             throw new common_1.UnauthorizedException();
         }
         const payload = {
-            sub: user.uid,
+            sub: user.id,
             username: user.username,
         };
         return { access_token: await this.jwtService.signAsync(payload) };
