@@ -1,4 +1,3 @@
 export default class LoginResponseDto {
-    uid: string;
-    username: string;
+    access_token: string;
 }

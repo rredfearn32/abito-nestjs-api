@@ -16,6 +16,8 @@ exports.AuthController = void 0;
 const common_1 = require("@nestjs/common");
 const auth_service_1 = require("./auth.service");
 const LoginRequestDto_1 = require("./dtos/LoginRequestDto");
+const auth_guard_1 = require("../guards/auth.guard");
+const swagger_1 = require("@nestjs/swagger");
 let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
@@ -25,6 +27,9 @@ let AuthController = class AuthController {
     }
     login(loginRequest) {
         return this.authService.login(loginRequest.username, loginRequest.password);
+    }
+    getProfile(req) {
+        return req.user;
     }
 };
 exports.AuthController = AuthController;
@@ -42,7 +47,16 @@ __decorate([
     __metadata("design:paramtypes", [LoginRequestDto_1.default]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "login", null);
+__decorate([
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, common_1.Get)('profile'),
+    __param(0, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "getProfile", null);
 exports.AuthController = AuthController = __decorate([
+    (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [auth_service_1.AuthService])
 ], AuthController);

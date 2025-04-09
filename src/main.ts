@@ -4,6 +4,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { join } from 'path';
 import * as express from 'express';
 import { ValidationPipe } from '@nestjs/common';
+import { AuthModule } from './auth/auth.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -18,10 +19,17 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('Abito API')
     .setDescription('An API for Abito.dev')
+    .addBearerAuth({
+      type: 'http',
+      description:
+        'The Token used to communicate directly with the underlying API',
+    })
     .setVersion('0.1')
     .build();
 
-  const document = SwaggerModule.createDocument(app, config);
+  const document = SwaggerModule.createDocument(app, config, {
+    include: [AuthModule],
+  });
 
   // Use static assets URL
   SwaggerModule.setup('api', app, document);

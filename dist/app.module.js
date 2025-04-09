@@ -10,12 +10,19 @@ exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const auth_module_1 = require("./auth/auth.module");
 const users_module_1 = require("./users/users.module");
+const config_1 = require("@nestjs/config");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [auth_module_1.AuthModule, users_module_1.UsersModule],
+        imports: [
+            auth_module_1.AuthModule,
+            users_module_1.UsersModule,
+            config_1.ConfigModule.forRoot({
+                isGlobal: true,
+            }),
+        ],
         controllers: [],
         providers: [],
     })

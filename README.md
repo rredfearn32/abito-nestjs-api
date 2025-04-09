@@ -1,8 +1,9 @@
 # Description
 
-test
+Also, make env file work: https://docs.nestjs.com/techniques/configuration#custom-env-file-path
 
-Abito helps people to meet their goals and build good habits. It does this by recording streaks of a person either persistently following good habits, or not doing bad habits they want to break.
+Abito helps people to meet their goals and build good habits. It does this by recording streaks of a person either
+persistently following good habits, or not doing bad habits they want to break.
 
 ## What is this repo?
 

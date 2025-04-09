@@ -6,6 +6,7 @@ const swagger_1 = require("@nestjs/swagger");
 const path_1 = require("path");
 const express = require("express");
 const common_1 = require("@nestjs/common");
+const auth_module_1 = require("./auth/auth.module");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     app.useGlobalPipes(new common_1.ValidationPipe());
@@ -13,9 +14,15 @@ async function bootstrap() {
     const config = new swagger_1.DocumentBuilder()
         .setTitle('Abito API')
         .setDescription('An API for Abito.dev')
+        .addBearerAuth({
+        type: 'http',
+        description: 'The Token used to communicate directly with the underlying API',
+    })
         .setVersion('0.1')
         .build();
-    const document = swagger_1.SwaggerModule.createDocument(app, config);
+    const document = swagger_1.SwaggerModule.createDocument(app, config, {
+        include: [auth_module_1.AuthModule],
+    });
     swagger_1.SwaggerModule.setup('api', app, document);
     await app.listen(process.env.PORT ?? 3000);
 }

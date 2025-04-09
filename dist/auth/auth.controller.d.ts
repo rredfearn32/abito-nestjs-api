@@ -5,4 +5,5 @@ export declare class AuthController {
     constructor(authService: AuthService);
     register(): string;
     login(loginRequest: LoginRequestDto): Promise<import("./dtos/LoginResponseDto").default>;
+    getProfile(req: any): any;
 }
