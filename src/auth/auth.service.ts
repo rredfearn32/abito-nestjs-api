@@ -41,11 +41,14 @@ export class AuthService {
     this.userService.deleteUser(jwt.sub);
   }
 
-  updateProfile(
+  async updateProfile(
     jwt: any,
     updatedProfile: UpdateProfileRequestDto,
   ): Promise<UpdateProfileResponseDto> {
     const user = this.userService.findUserById(jwt.sub);
+    if (updatedProfile.password) {
+      updatedProfile.password = await hash(updatedProfile.password);
+    }
     const updatedUser = { ...user, ...updatedProfile };
     return this.userService.updateUser(jwt.sub, updatedUser);
   }

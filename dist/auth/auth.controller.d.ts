@@ -4,6 +4,7 @@ import RegisterRequestDto from './dtos/RegisterRequestDto';
 import UpdateProfileRequestDto from './dtos/UpdateProfileRequestDto';
 import UpdateProfileResponseDto from './dtos/UpdateProfileResponseDto';
 import { UsersService } from '../users/users.service';
+import GetProfileResponseDto from './dtos/GetProfileResponseDto';
 export declare class AuthController {
     private readonly authService;
     private readonly userService;
@@ -11,10 +12,6 @@ export declare class AuthController {
     register(newUser: RegisterRequestDto): Promise<import("./dtos/RegisterResponseDto").default>;
     login(loginRequest: LoginRequestDto): Promise<import("./dtos/LoginResponseDto").default>;
     deleteAccount(req: any): void;
-    getProfile(req: any): Promise<{
-        id: number;
-        username: string;
-        password: string;
-    }>;
+    getProfile(req: any): Promise<GetProfileResponseDto>;
     updateProfile(updatedProfile: UpdateProfileRequestDto, req: any): Promise<UpdateProfileResponseDto>;
 }

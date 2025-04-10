@@ -35,8 +35,10 @@ let AuthController = class AuthController {
     deleteAccount(req) {
         this.authService.deleteAccount(req.jwt);
     }
-    getProfile(req) {
-        return this.userService.findUserById(req.jwt.sub);
+    async getProfile(req) {
+        const record = await this.userService.findUserById(req.jwt.sub);
+        const { password, ...profile } = record;
+        return profile;
     }
     async updateProfile(updatedProfile, req) {
         return this.authService.updateProfile(req.jwt, updatedProfile);
@@ -74,7 +76,7 @@ __decorate([
     __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], AuthController.prototype, "getProfile", null);
 __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),

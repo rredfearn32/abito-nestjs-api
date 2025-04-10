@@ -18,6 +18,7 @@ import RegisterRequestDto from './dtos/RegisterRequestDto';
 import UpdateProfileRequestDto from './dtos/UpdateProfileRequestDto';
 import UpdateProfileResponseDto from './dtos/UpdateProfileResponseDto';
 import { UsersService } from '../users/users.service';
+import GetProfileResponseDto from './dtos/GetProfileResponseDto';
 
 @ApiBearerAuth()
 @Controller('auth')
@@ -48,8 +49,12 @@ export class AuthController {
 
   @UseGuards(AuthGuard)
   @Get('profile')
-  getProfile(@Req() req) {
-    return this.userService.findUserById(req.jwt.sub);
+  async getProfile(@Req() req): Promise<GetProfileResponseDto> {
+    const record = await this.userService.findUserById(req.jwt.sub);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password, ...profile } = record;
+
+    return profile;
   }
 
   @UseGuards(AuthGuard)
