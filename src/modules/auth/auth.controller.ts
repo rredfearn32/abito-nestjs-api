@@ -19,7 +19,7 @@ import RegisterRequestDto from './dtos/RegisterRequestDto';
 import UpdateProfileRequestDto from './dtos/UpdateProfileRequestDto';
 import UpdateProfileResponseDto from './dtos/UpdateProfileResponseDto';
 import GetProfileResponseDto from './dtos/GetProfileResponseDto';
-import { UsersService } from '../../users/users.service';
+import { UsersService } from '../../infrastructure/users/users.service';
 
 @ApiBearerAuth()
 @Controller('auth')

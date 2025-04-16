@@ -10,7 +10,7 @@ exports.UsersModule = void 0;
 const common_1 = require("@nestjs/common");
 const users_service_1 = require("./users.service");
 const users_repository_client_1 = require("./repositories/users.repository-client");
-const prisma_service_1 = require("../prisma.service");
+const prisma_service_1 = require("../prisma/prisma.service");
 let UsersModule = class UsersModule {
 };
 exports.UsersModule = UsersModule;
