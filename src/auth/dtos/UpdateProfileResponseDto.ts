@@ -5,7 +5,4 @@ export default class UpdateProfileResponseDto {
   @ApiProperty()
   @IsEmail()
   username: string;
-
-  @ApiProperty()
-  password: string;
 }

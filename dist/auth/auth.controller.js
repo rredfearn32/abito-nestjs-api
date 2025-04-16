@@ -37,6 +37,9 @@ let AuthController = class AuthController {
     }
     async getProfile(req) {
         const record = await this.userService.findUserById(req.jwt.sub);
+        if (!record) {
+            throw new common_1.NotFoundException();
+        }
         const { password, ...profile } = record;
         return profile;
     }

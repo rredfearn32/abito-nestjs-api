@@ -19,8 +19,4 @@ __decorate([
     (0, class_validator_1.IsEmail)(),
     __metadata("design:type", String)
 ], UpdateProfileResponseDto.prototype, "username", void 0);
-__decorate([
-    (0, swagger_1.ApiProperty)(),
-    __metadata("design:type", String)
-], UpdateProfileResponseDto.prototype, "password", void 0);
 //# sourceMappingURL=UpdateProfileResponseDto.js.map

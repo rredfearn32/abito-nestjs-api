@@ -5,6 +5,7 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  NotFoundException,
   Patch,
   Post,
   Req,
@@ -51,7 +52,11 @@ export class AuthController {
   @Get('profile')
   async getProfile(@Req() req): Promise<GetProfileResponseDto> {
     const record = await this.userService.findUserById(req.jwt.sub);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
+    if (!record) {
+      throw new NotFoundException();
+    }
+
     const { password, ...profile } = record;
 
     return profile;
