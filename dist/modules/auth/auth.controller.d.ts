@@ -3,8 +3,8 @@ import LoginRequestDto from './dtos/LoginRequestDto';
 import RegisterRequestDto from './dtos/RegisterRequestDto';
 import UpdateProfileRequestDto from './dtos/UpdateProfileRequestDto';
 import UpdateProfileResponseDto from './dtos/UpdateProfileResponseDto';
-import { UsersService } from '../users/users.service';
 import GetProfileResponseDto from './dtos/GetProfileResponseDto';
+import { UsersService } from '../../users/users.service';
 export declare class AuthController {
     private readonly authService;
     private readonly userService;

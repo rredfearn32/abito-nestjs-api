@@ -13,13 +13,13 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import LoginRequestDto from './dtos/LoginRequestDto';
-import { AuthGuard } from '../guards/auth.guard';
+import { AuthGuard } from '../../guards/auth.guard';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import RegisterRequestDto from './dtos/RegisterRequestDto';
 import UpdateProfileRequestDto from './dtos/UpdateProfileRequestDto';
 import UpdateProfileResponseDto from './dtos/UpdateProfileResponseDto';
-import { UsersService } from '../users/users.service';
 import GetProfileResponseDto from './dtos/GetProfileResponseDto';
+import { UsersService } from '../../users/users.service';
 
 @ApiBearerAuth()
 @Controller('auth')

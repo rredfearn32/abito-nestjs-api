@@ -6,7 +6,7 @@ const swagger_1 = require("@nestjs/swagger");
 const path_1 = require("path");
 const express = require("express");
 const common_1 = require("@nestjs/common");
-const auth_module_1 = require("./auth/auth.module");
+const auth_module_1 = require("./modules/auth/auth.module");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     app.useGlobalPipes(new common_1.ValidationPipe());
