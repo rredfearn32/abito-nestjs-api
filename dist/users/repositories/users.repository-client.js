@@ -26,15 +26,15 @@ let UsersRepositoryClient = class UsersRepositoryClient {
             data,
         });
     }
-    deleteUser(userId) {
-        return this.prismaService.user.delete({
+    async deleteUser(userId) {
+        console.log(userId);
+        await this.prismaService.user.delete({
             where: {
                 id: userId,
             },
         });
     }
     updateUser(id, updatedUser) {
-        console.log('HERE>>>', id, updatedUser);
         return this.prismaService.user.update({
             where: {
                 id,

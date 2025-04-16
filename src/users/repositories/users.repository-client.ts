@@ -20,8 +20,9 @@ export class UsersRepositoryClient {
     });
   }
 
-  deleteUser(userId: number) {
-    return this.prismaService.user.delete({
+  async deleteUser(userId: number) {
+    console.log(userId);
+    await this.prismaService.user.delete({
       where: {
         id: userId,
       },
@@ -29,7 +30,6 @@ export class UsersRepositoryClient {
   }
 
   updateUser(id: number, updatedUser: Prisma.UserUpdateInput): Promise<User> {
-    console.log('HERE>>>', id, updatedUser);
     return this.prismaService.user.update({
       where: {
         id,
