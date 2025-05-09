@@ -5,6 +5,7 @@ import { join } from 'path';
 import * as express from 'express';
 import { ValidationPipe } from '@nestjs/common';
 import { AuthModule } from './modules/auth/auth.module';
+import { GoalsModule } from './modules/goals/goals.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -28,7 +29,7 @@ async function bootstrap() {
     .build();
 
   const document = SwaggerModule.createDocument(app, config, {
-    include: [AuthModule],
+    include: [AuthModule, GoalsModule],
   });
 
   // Use static assets URL
