@@ -1,3 +1,3 @@
 export interface AllGoalsResponseDto {
-  foo: string;
+  title: string;
 }

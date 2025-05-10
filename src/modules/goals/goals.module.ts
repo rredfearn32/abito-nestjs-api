@@ -4,9 +4,16 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GoalsController } from './goals.controller';
 import { GoalsService } from './goals.service';
+import { GoalsRepositoryClient } from './repositories/goals.repository-client';
+import { PrismaService } from '../../infrastructure/prisma/prisma.service';
 
 @Module({
-  providers: [GoalsService, ConfigService],
+  providers: [
+    GoalsService,
+    GoalsRepositoryClient,
+    PrismaService,
+    ConfigService,
+  ],
   controllers: [GoalsController],
   imports: [
     UsersModule,

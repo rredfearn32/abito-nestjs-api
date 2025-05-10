@@ -8,25 +8,27 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GoalsService = void 0;
+exports.GoalsRepositoryClient = void 0;
 const common_1 = require("@nestjs/common");
-const goals_repository_client_1 = require("./repositories/goals.repository-client");
-let GoalsService = class GoalsService {
-    constructor(goalsRepositoryClient) {
-        this.goalsRepositoryClient = goalsRepositoryClient;
+const prisma_service_1 = require("../../../infrastructure/prisma/prisma.service");
+let GoalsRepositoryClient = class GoalsRepositoryClient {
+    constructor(prismaService) {
+        this.prismaService = prismaService;
     }
     async createGoal(newGoal) {
-        return this.goalsRepositoryClient.createGoal(newGoal);
+        const { title, userId } = newGoal;
+        return this.prismaService.goal.create({
+            data: {
+                title,
+                user: { connect: { id: userId } },
+            },
+        });
     }
 };
-exports.GoalsService = GoalsService;
-exports.GoalsService = GoalsService = __decorate([
+exports.GoalsRepositoryClient = GoalsRepositoryClient;
+exports.GoalsRepositoryClient = GoalsRepositoryClient = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, common_1.Inject)(goals_repository_client_1.GoalsRepositoryClient)),
-    __metadata("design:paramtypes", [goals_repository_client_1.GoalsRepositoryClient])
-], GoalsService);
-//# sourceMappingURL=goals.service.js.map
+    __metadata("design:paramtypes", [prisma_service_1.PrismaService])
+], GoalsRepositoryClient);
+//# sourceMappingURL=goals.repository-client.js.map

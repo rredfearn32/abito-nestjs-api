@@ -17,16 +17,27 @@ const swagger_1 = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
 const auth_guard_1 = require("../../guards/auth.guard");
 const users_service_1 = require("../../infrastructure/users/users.service");
+const goals_service_1 = require("./goals.service");
+const CreateGoalDto_1 = require("./dtos/CreateGoalDto");
 let GoalsController = class GoalsController {
-    constructor(userService) {
+    constructor(userService, goalsService) {
         this.userService = userService;
+        this.goalsService = goalsService;
     }
     async getAllGoalsForUser(req) {
         const record = await this.userService.findUserById(req.jwt.sub);
         if (!record) {
             throw new common_1.NotFoundException();
         }
-        return { foo: 'bar' };
+        return { title: 'bar' };
+    }
+    async createGoal(newGoalDto, req) {
+        const record = await this.userService.findUserById(req.jwt.sub);
+        if (!record) {
+            throw new common_1.NotFoundException();
+        }
+        const newGoal = { ...newGoalDto, userId: req.jwt.sub };
+        return this.goalsService.createGoal(newGoal);
     }
 };
 exports.GoalsController = GoalsController;
@@ -38,9 +49,19 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], GoalsController.prototype, "getAllGoalsForUser", null);
+__decorate([
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, common_1.Post)('/'),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [CreateGoalDto_1.CreateGoalDto, Object]),
+    __metadata("design:returntype", Promise)
+], GoalsController.prototype, "createGoal", null);
 exports.GoalsController = GoalsController = __decorate([
     (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.Controller)('goals'),
-    __metadata("design:paramtypes", [users_service_1.UsersService])
+    __metadata("design:paramtypes", [users_service_1.UsersService,
+        goals_service_1.GoalsService])
 ], GoalsController);
 //# sourceMappingURL=goals.controller.js.map

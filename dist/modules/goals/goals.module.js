@@ -13,12 +13,19 @@ const jwt_1 = require("@nestjs/jwt");
 const config_1 = require("@nestjs/config");
 const goals_controller_1 = require("./goals.controller");
 const goals_service_1 = require("./goals.service");
+const goals_repository_client_1 = require("./repositories/goals.repository-client");
+const prisma_service_1 = require("../../infrastructure/prisma/prisma.service");
 let GoalsModule = class GoalsModule {
 };
 exports.GoalsModule = GoalsModule;
 exports.GoalsModule = GoalsModule = __decorate([
     (0, common_1.Module)({
-        providers: [goals_service_1.GoalsService, config_1.ConfigService],
+        providers: [
+            goals_service_1.GoalsService,
+            goals_repository_client_1.GoalsRepositoryClient,
+            prisma_service_1.PrismaService,
+            config_1.ConfigService,
+        ],
         controllers: [goals_controller_1.GoalsController],
         imports: [
             users_module_1.UsersModule,
