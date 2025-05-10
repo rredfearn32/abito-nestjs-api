@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { GoalsRepositoryClient } from './repositories/goals.repository-client';
 import { NewGoal } from './types/NewGoal';
+import { GetAllGoalsForUserResponseDto } from './dtos/GetAllGoalsForUserResponseDto';
 
 @Injectable()
 export class GoalsService {
@@ -11,5 +12,9 @@ export class GoalsService {
 
   async createGoal(newGoal: NewGoal) {
     return this.goalsRepositoryClient.createGoal(newGoal);
+  }
+
+  async getUsersGoals(userId: number) {
+    return this.goalsRepositoryClient.getUsersGoals(userId);
   }
 }

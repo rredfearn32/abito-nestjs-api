@@ -13,6 +13,7 @@ import { UsersService } from '../../infrastructure/users/users.service';
 import { GoalsService } from './goals.service';
 import { CreateGoalDto } from './dtos/CreateGoalDto';
 import { NewGoal } from './types/NewGoal';
+import { GetAllGoalsForUserResponseDto } from './dtos/GetAllGoalsForUserResponseDto';
 
 @ApiBearerAuth()
 @Controller('goals')
@@ -24,14 +25,20 @@ export class GoalsController {
 
   @UseGuards(AuthGuard)
   @Get('/')
-  async getAllGoalsForUser(@Req() req) {
+  async getAllGoalsForUser(
+    @Req() req,
+  ): Promise<GetAllGoalsForUserResponseDto[]> {
     const record = await this.userService.findUserById(req.jwt.sub);
 
     if (!record) {
       throw new NotFoundException();
     }
 
-    return { title: 'bar' };
+    const goals = await this.goalsService.getUsersGoals(req.jwt.sub);
+
+    const goalsWithoutUserIds = goals.map(({ userId, ...rest }) => rest);
+
+    return goalsWithoutUserIds;
   }
 
   @UseGuards(AuthGuard)

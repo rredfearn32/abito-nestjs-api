@@ -8,4 +8,9 @@ export declare class GoalsRepositoryClient {
         title: string;
         userId: number;
     }>;
+    getUsersGoals(userId: number): Promise<{
+        id: number;
+        title: string;
+        userId: number;
+    }[]>;
 }

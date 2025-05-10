@@ -25,6 +25,13 @@ let GoalsRepositoryClient = class GoalsRepositoryClient {
             },
         });
     }
+    async getUsersGoals(userId) {
+        return this.prismaService.goal.findMany({
+            where: {
+                userId: userId,
+            },
+        });
+    }
 };
 exports.GoalsRepositoryClient = GoalsRepositoryClient;
 exports.GoalsRepositoryClient = GoalsRepositoryClient = __decorate([

@@ -8,4 +8,9 @@ export declare class GoalsService {
         title: string;
         userId: number;
     }>;
+    getUsersGoals(userId: number): Promise<{
+        id: number;
+        title: string;
+        userId: number;
+    }[]>;
 }

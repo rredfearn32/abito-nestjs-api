@@ -15,4 +15,12 @@ export class GoalsRepositoryClient {
       },
     });
   }
+
+  async getUsersGoals(userId: number) {
+    return this.prismaService.goal.findMany({
+      where: {
+        userId: userId,
+      },
+    });
+  }
 }
