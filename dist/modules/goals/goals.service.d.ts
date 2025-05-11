@@ -18,4 +18,9 @@ export declare class GoalsService {
         title: string;
         userId: number;
     }>;
+    deleteGoal(goalId: number, ownerId: number): Promise<{
+        id: number;
+        title: string;
+        userId: number;
+    }>;
 }

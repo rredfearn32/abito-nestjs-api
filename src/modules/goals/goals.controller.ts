@@ -3,6 +3,7 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Delete,
   Get,
   NotFoundException,
   Param,
@@ -77,14 +78,43 @@ export class GoalsController {
   @UseGuards(AuthGuard)
   @Post('/')
   async createGoal(@Body() newGoalDto: CreateGoalDto, @Req() req) {
-    const record = await this.userService.findUserById(req.jwt.sub);
+    const user = await this.userService.findUserById(req.jwt.sub);
 
-    if (!record) {
+    if (!user) {
       throw new NotFoundException();
     }
 
     const newGoal: NewGoal = { ...newGoalDto, userId: req.jwt.sub };
 
     return this.goalsService.createGoal(newGoal);
+  }
+
+  @UseGuards(AuthGuard)
+  @Delete('/:id')
+  async deleteGoal(@Param('id') goalId: string, @Req() req) {
+    const user = await this.userService.findUserById(req.jwt.sub);
+
+    if (!user) {
+      throw new NotFoundException();
+    }
+
+    const goalIdNumber = Number(goalId);
+
+    if (isNaN(goalIdNumber)) {
+      throw new BadRequestException('Invalid goal id');
+    }
+
+    const goal = await this.goalsService.getGoalById(goalIdNumber, req.jwt.sub);
+
+    if (!goal) {
+      throw new NotFoundException();
+    }
+
+    const { userId, ...goalWithoutUserId } = await this.goalsService.deleteGoal(
+      goalIdNumber,
+      req.jwt.sub,
+    );
+
+    return goalWithoutUserId;
   }
 }

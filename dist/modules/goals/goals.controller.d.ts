@@ -14,4 +14,8 @@ export declare class GoalsController {
         title: string;
         userId: number;
     }>;
+    deleteGoal(goalId: string, req: any): Promise<{
+        id: number;
+        title: string;
+    }>;
 }

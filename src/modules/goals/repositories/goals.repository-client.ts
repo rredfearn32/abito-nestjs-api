@@ -32,4 +32,13 @@ export class GoalsRepositoryClient {
       },
     });
   }
+
+  async deleteGoal(goalId: number, ownerId: number) {
+    return this.prismaService.goal.delete({
+      where: {
+        id: goalId,
+        userId: ownerId,
+      },
+    });
+  }
 }

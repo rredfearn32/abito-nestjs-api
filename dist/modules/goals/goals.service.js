@@ -28,6 +28,9 @@ let GoalsService = class GoalsService {
     async getGoalById(goalId, ownerId) {
         return this.goalsRepositoryClient.getGoalById(goalId, ownerId);
     }
+    async deleteGoal(goalId, ownerId) {
+        return this.goalsRepositoryClient.deleteGoal(goalId, ownerId);
+    }
 };
 exports.GoalsService = GoalsService;
 exports.GoalsService = GoalsService = __decorate([

@@ -40,6 +40,14 @@ let GoalsRepositoryClient = class GoalsRepositoryClient {
             },
         });
     }
+    async deleteGoal(goalId, ownerId) {
+        return this.prismaService.goal.delete({
+            where: {
+                id: goalId,
+                userId: ownerId,
+            },
+        });
+    }
 };
 exports.GoalsRepositoryClient = GoalsRepositoryClient;
 exports.GoalsRepositoryClient = GoalsRepositoryClient = __decorate([
