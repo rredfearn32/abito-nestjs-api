@@ -3,6 +3,7 @@ import { GoalsService } from './goals.service';
 import { CreateGoalDto } from './dtos/CreateGoalDto';
 import { GetAllGoalsForUserResponseDto } from './dtos/GetAllGoalsForUserResponseDto';
 import { GetSingleGoalResponseDto } from './dtos/GetSingleGoalResponseDto';
+import { UpdateGoalDto } from './dtos/UpdateGoalDto';
 export declare class GoalsController {
     private readonly userService;
     private readonly goalsService;
@@ -15,6 +16,10 @@ export declare class GoalsController {
         userId: number;
     }>;
     deleteGoal(goalId: string, req: any): Promise<{
+        id: number;
+        title: string;
+    }>;
+    updateGoal(updatedGoal: UpdateGoalDto, goalId: string, req: any): Promise<{
         id: number;
         title: string;
     }>;

@@ -19,6 +19,7 @@ const auth_guard_1 = require("../../guards/auth.guard");
 const users_service_1 = require("../../infrastructure/users/users.service");
 const goals_service_1 = require("./goals.service");
 const CreateGoalDto_1 = require("./dtos/CreateGoalDto");
+const UpdateGoalDto_1 = require("./dtos/UpdateGoalDto");
 let GoalsController = class GoalsController {
     constructor(userService, goalsService) {
         this.userService = userService;
@@ -73,6 +74,22 @@ let GoalsController = class GoalsController {
         const { userId, ...goalWithoutUserId } = await this.goalsService.deleteGoal(goalIdNumber, req.jwt.sub);
         return goalWithoutUserId;
     }
+    async updateGoal(updatedGoal, goalId, req) {
+        const user = await this.userService.findUserById(req.jwt.sub);
+        if (!user) {
+            throw new common_1.NotFoundException();
+        }
+        const goalIdNumber = Number(goalId);
+        if (isNaN(goalIdNumber)) {
+            throw new common_1.BadRequestException('Invalid goal id');
+        }
+        const goal = await this.goalsService.getGoalById(goalIdNumber, req.jwt.sub);
+        if (!goal) {
+            throw new common_1.NotFoundException();
+        }
+        const { userId, ...goalWithoutUserId } = await this.goalsService.updateGoal(goalIdNumber, req.jwt.sub, updatedGoal);
+        return goalWithoutUserId;
+    }
 };
 exports.GoalsController = GoalsController;
 __decorate([
@@ -110,6 +127,16 @@ __decorate([
     __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", Promise)
 ], GoalsController.prototype, "deleteGoal", null);
+__decorate([
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, common_1.Patch)('/:id'),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Param)('id')),
+    __param(2, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [UpdateGoalDto_1.UpdateGoalDto, String, Object]),
+    __metadata("design:returntype", Promise)
+], GoalsController.prototype, "updateGoal", null);
 exports.GoalsController = GoalsController = __decorate([
     (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.Controller)('goals'),

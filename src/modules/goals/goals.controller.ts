@@ -7,6 +7,7 @@ import {
   Get,
   NotFoundException,
   Param,
+  Patch,
   Post,
   Req,
   UseGuards,
@@ -18,7 +19,7 @@ import { CreateGoalDto } from './dtos/CreateGoalDto';
 import { NewGoal } from './types/NewGoal';
 import { GetAllGoalsForUserResponseDto } from './dtos/GetAllGoalsForUserResponseDto';
 import { GetSingleGoalResponseDto } from './dtos/GetSingleGoalResponseDto';
-import { IsNumber } from 'class-validator';
+import { UpdateGoalDto } from './dtos/UpdateGoalDto';
 
 @ApiBearerAuth()
 @Controller('goals')
@@ -113,6 +114,40 @@ export class GoalsController {
     const { userId, ...goalWithoutUserId } = await this.goalsService.deleteGoal(
       goalIdNumber,
       req.jwt.sub,
+    );
+
+    return goalWithoutUserId;
+  }
+
+  @UseGuards(AuthGuard)
+  @Patch('/:id')
+  async updateGoal(
+    @Body() updatedGoal: UpdateGoalDto,
+    @Param('id') goalId: string,
+    @Req() req,
+  ) {
+    const user = await this.userService.findUserById(req.jwt.sub);
+
+    if (!user) {
+      throw new NotFoundException();
+    }
+
+    const goalIdNumber = Number(goalId);
+
+    if (isNaN(goalIdNumber)) {
+      throw new BadRequestException('Invalid goal id');
+    }
+
+    const goal = await this.goalsService.getGoalById(goalIdNumber, req.jwt.sub);
+
+    if (!goal) {
+      throw new NotFoundException();
+    }
+
+    const { userId, ...goalWithoutUserId } = await this.goalsService.updateGoal(
+      goalIdNumber,
+      req.jwt.sub,
+      updatedGoal,
     );
 
     return goalWithoutUserId;

@@ -48,6 +48,15 @@ let GoalsRepositoryClient = class GoalsRepositoryClient {
             },
         });
     }
+    async updateGoal(goalId, ownerId, updateGoal) {
+        return this.prismaService.goal.update({
+            where: {
+                id: goalId,
+                userId: ownerId,
+            },
+            data: updateGoal,
+        });
+    }
 };
 exports.GoalsRepositoryClient = GoalsRepositoryClient;
 exports.GoalsRepositoryClient = GoalsRepositoryClient = __decorate([

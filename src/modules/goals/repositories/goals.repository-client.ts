@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../infrastructure/prisma/prisma.service';
 import { NewGoal } from '../types/NewGoal';
+import { UpdateGoalDto } from '../dtos/UpdateGoalDto';
 
 @Injectable()
 export class GoalsRepositoryClient {
@@ -39,6 +40,16 @@ export class GoalsRepositoryClient {
         id: goalId,
         userId: ownerId,
       },
+    });
+  }
+
+  async updateGoal(goalId: number, ownerId: number, updateGoal: UpdateGoalDto) {
+    return this.prismaService.goal.update({
+      where: {
+        id: goalId,
+        userId: ownerId,
+      },
+      data: updateGoal,
     });
   }
 }
