@@ -17,4 +17,8 @@ export class GoalsService {
   async getUsersGoals(userId: number) {
     return this.goalsRepositoryClient.getUsersGoals(userId);
   }
+
+  async getGoalById(goalId: number, ownerId: number) {
+    return this.goalsRepositoryClient.getGoalById(goalId, ownerId);
+  }
 }

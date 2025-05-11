@@ -23,4 +23,13 @@ export class GoalsRepositoryClient {
       },
     });
   }
+
+  async getGoalById(goalId: number, ownerId: number) {
+    return this.prismaService.goal.findUnique({
+      where: {
+        id: goalId,
+        userId: ownerId,
+      },
+    });
+  }
 }

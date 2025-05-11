@@ -25,6 +25,9 @@ let GoalsService = class GoalsService {
     async getUsersGoals(userId) {
         return this.goalsRepositoryClient.getUsersGoals(userId);
     }
+    async getGoalById(goalId, ownerId) {
+        return this.goalsRepositoryClient.getGoalById(goalId, ownerId);
+    }
 };
 exports.GoalsService = GoalsService;
 exports.GoalsService = GoalsService = __decorate([

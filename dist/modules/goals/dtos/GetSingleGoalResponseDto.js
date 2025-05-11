@@ -9,17 +9,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GetAllGoalsForUserResponseDto = void 0;
+exports.GetSingleGoalResponseDto = void 0;
 const swagger_1 = require("@nestjs/swagger");
-class GetAllGoalsForUserResponseDto {
+class GetSingleGoalResponseDto {
 }
-exports.GetAllGoalsForUserResponseDto = GetAllGoalsForUserResponseDto;
+exports.GetSingleGoalResponseDto = GetSingleGoalResponseDto;
 __decorate([
     (0, swagger_1.ApiProperty)(),
     __metadata("design:type", Number)
-], GetAllGoalsForUserResponseDto.prototype, "id", void 0);
+], GetSingleGoalResponseDto.prototype, "id", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)(),
     __metadata("design:type", String)
-], GetAllGoalsForUserResponseDto.prototype, "title", void 0);
-//# sourceMappingURL=GetAllGoalsForUserRequestDto.js.map
+], GetSingleGoalResponseDto.prototype, "title", void 0);
+//# sourceMappingURL=GetSingleGoalResponseDto.js.map

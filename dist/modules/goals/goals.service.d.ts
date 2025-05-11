@@ -13,4 +13,9 @@ export declare class GoalsService {
         title: string;
         userId: number;
     }[]>;
+    getGoalById(goalId: number, ownerId: number): Promise<{
+        id: number;
+        title: string;
+        userId: number;
+    }>;
 }

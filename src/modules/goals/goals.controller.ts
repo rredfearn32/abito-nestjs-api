@@ -1,9 +1,11 @@
 import { ApiBearerAuth } from '@nestjs/swagger';
 import {
+  BadRequestException,
   Body,
   Controller,
   Get,
   NotFoundException,
+  Param,
   Post,
   Req,
   UseGuards,
@@ -14,6 +16,8 @@ import { GoalsService } from './goals.service';
 import { CreateGoalDto } from './dtos/CreateGoalDto';
 import { NewGoal } from './types/NewGoal';
 import { GetAllGoalsForUserResponseDto } from './dtos/GetAllGoalsForUserResponseDto';
+import { GetSingleGoalResponseDto } from './dtos/GetSingleGoalResponseDto';
+import { IsNumber } from 'class-validator';
 
 @ApiBearerAuth()
 @Controller('goals')
@@ -39,6 +43,35 @@ export class GoalsController {
     const goalsWithoutUserIds = goals.map(({ userId, ...rest }) => rest);
 
     return goalsWithoutUserIds;
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('/:id')
+  async getGoalById(
+    @Param('id') goalId: string,
+    @Req() req,
+  ): Promise<GetSingleGoalResponseDto | undefined> {
+    const user = await this.userService.findUserById(req.jwt.sub);
+
+    if (!user) {
+      throw new NotFoundException();
+    }
+
+    const goalIdNumber = Number(goalId);
+
+    if (isNaN(goalIdNumber)) {
+      throw new BadRequestException('Invalid goal id');
+    }
+
+    const goal = await this.goalsService.getGoalById(goalIdNumber, req.jwt.sub);
+
+    if (!goal) {
+      throw new NotFoundException();
+    }
+
+    const { userId, ...goalWithoutUserId } = goal;
+
+    return goalWithoutUserId;
   }
 
   @UseGuards(AuthGuard)

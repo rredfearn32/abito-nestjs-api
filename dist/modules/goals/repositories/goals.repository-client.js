@@ -32,6 +32,14 @@ let GoalsRepositoryClient = class GoalsRepositoryClient {
             },
         });
     }
+    async getGoalById(goalId, ownerId) {
+        return this.prismaService.goal.findUnique({
+            where: {
+                id: goalId,
+                userId: ownerId,
+            },
+        });
+    }
 };
 exports.GoalsRepositoryClient = GoalsRepositoryClient;
 exports.GoalsRepositoryClient = GoalsRepositoryClient = __decorate([

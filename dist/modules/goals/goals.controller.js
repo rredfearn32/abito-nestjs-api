@@ -33,6 +33,22 @@ let GoalsController = class GoalsController {
         const goalsWithoutUserIds = goals.map(({ userId, ...rest }) => rest);
         return goalsWithoutUserIds;
     }
+    async getGoalById(goalId, req) {
+        const user = await this.userService.findUserById(req.jwt.sub);
+        if (!user) {
+            throw new common_1.NotFoundException();
+        }
+        const goalIdNumber = Number(goalId);
+        if (isNaN(goalIdNumber)) {
+            throw new common_1.BadRequestException('Invalid goal id');
+        }
+        const goal = await this.goalsService.getGoalById(goalIdNumber, req.jwt.sub);
+        if (!goal) {
+            throw new common_1.NotFoundException();
+        }
+        const { userId, ...goalWithoutUserId } = goal;
+        return goalWithoutUserId;
+    }
     async createGoal(newGoalDto, req) {
         const record = await this.userService.findUserById(req.jwt.sub);
         if (!record) {
@@ -51,6 +67,15 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], GoalsController.prototype, "getAllGoalsForUser", null);
+__decorate([
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, common_1.Get)('/:id'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", Promise)
+], GoalsController.prototype, "getGoalById", null);
 __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Post)('/'),
