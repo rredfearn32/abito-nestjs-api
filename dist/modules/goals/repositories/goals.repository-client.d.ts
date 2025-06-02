@@ -15,6 +15,7 @@ export declare class GoalsRepositoryClient {
             type: import("generated/prisma").$Enums.StreakType;
             createdAt: Date;
             updatedAt: Date | null;
+            inProgress: boolean;
             goalId: number;
         }[];
     } & {
@@ -28,6 +29,7 @@ export declare class GoalsRepositoryClient {
             type: import("generated/prisma").$Enums.StreakType;
             createdAt: Date;
             updatedAt: Date | null;
+            inProgress: boolean;
             goalId: number;
         }[];
     } & {
@@ -41,6 +43,7 @@ export declare class GoalsRepositoryClient {
             type: import("generated/prisma").$Enums.StreakType;
             createdAt: Date;
             updatedAt: Date | null;
+            inProgress: boolean;
             goalId: number;
         }[];
     } & {

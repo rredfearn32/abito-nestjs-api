@@ -8,6 +8,8 @@ export declare class StreaksRepositoryClient {
         type: import("generated/prisma").$Enums.StreakType;
         createdAt: Date;
         updatedAt: Date | null;
+        inProgress: boolean;
         goalId: number;
     }>;
+    endStreak(goalId: number): Promise<import("generated/prisma").Prisma.BatchPayload>;
 }

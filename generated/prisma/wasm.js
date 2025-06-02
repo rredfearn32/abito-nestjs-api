@@ -134,6 +134,7 @@ exports.Prisma.StreakScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   type: 'type',
+  inProgress: 'inProgress',
   goalId: 'goalId'
 };
 

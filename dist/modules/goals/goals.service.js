@@ -39,6 +39,9 @@ let GoalsService = class GoalsService {
     async createStreak(goalId, newStreak) {
         return this.streaksRepositoryClient.createStreak(goalId, newStreak);
     }
+    async endStreak(goalId) {
+        return this.streaksRepositoryClient.endStreak(goalId);
+    }
 };
 exports.GoalsService = GoalsService;
 exports.GoalsService = GoalsService = __decorate([

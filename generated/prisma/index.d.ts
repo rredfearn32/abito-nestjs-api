@@ -3334,6 +3334,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     type: $Enums.StreakType | null
+    inProgress: boolean | null
     goalId: number | null
   }
 
@@ -3342,6 +3343,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     type: $Enums.StreakType | null
+    inProgress: boolean | null
     goalId: number | null
   }
 
@@ -3350,6 +3352,7 @@ export namespace Prisma {
     createdAt: number
     updatedAt: number
     type: number
+    inProgress: number
     goalId: number
     _all: number
   }
@@ -3370,6 +3373,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     type?: true
+    inProgress?: true
     goalId?: true
   }
 
@@ -3378,6 +3382,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     type?: true
+    inProgress?: true
     goalId?: true
   }
 
@@ -3386,6 +3391,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     type?: true
+    inProgress?: true
     goalId?: true
     _all?: true
   }
@@ -3481,6 +3487,7 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date | null
     type: $Enums.StreakType
+    inProgress: boolean
     goalId: number
     _count: StreakCountAggregateOutputType | null
     _avg: StreakAvgAggregateOutputType | null
@@ -3508,6 +3515,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     type?: boolean
+    inProgress?: boolean
     goalId?: boolean
     goal?: boolean | GoalDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["streak"]>
@@ -3517,6 +3525,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     type?: boolean
+    inProgress?: boolean
     goalId?: boolean
     goal?: boolean | GoalDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["streak"]>
@@ -3526,6 +3535,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     type?: boolean
+    inProgress?: boolean
     goalId?: boolean
     goal?: boolean | GoalDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["streak"]>
@@ -3535,10 +3545,11 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     type?: boolean
+    inProgress?: boolean
     goalId?: boolean
   }
 
-  export type StreakOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "type" | "goalId", ExtArgs["result"]["streak"]>
+  export type StreakOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "type" | "inProgress" | "goalId", ExtArgs["result"]["streak"]>
   export type StreakInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     goal?: boolean | GoalDefaultArgs<ExtArgs>
   }
@@ -3559,6 +3570,7 @@ export namespace Prisma {
       createdAt: Date
       updatedAt: Date | null
       type: $Enums.StreakType
+      inProgress: boolean
       goalId: number
     }, ExtArgs["result"]["streak"]>
     composites: {}
@@ -3988,6 +4000,7 @@ export namespace Prisma {
     readonly createdAt: FieldRef<"Streak", 'DateTime'>
     readonly updatedAt: FieldRef<"Streak", 'DateTime'>
     readonly type: FieldRef<"Streak", 'StreakType'>
+    readonly inProgress: FieldRef<"Streak", 'Boolean'>
     readonly goalId: FieldRef<"Streak", 'Int'>
   }
     
@@ -4440,6 +4453,7 @@ export namespace Prisma {
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     type: 'type',
+    inProgress: 'inProgress',
     goalId: 'goalId'
   };
 
@@ -4528,6 +4542,13 @@ export namespace Prisma {
    * Reference to a field of type 'StreakType[]'
    */
   export type ListEnumStreakTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StreakType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -4653,6 +4674,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Streak"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Streak"> | Date | string | null
     type?: EnumStreakTypeFilter<"Streak"> | $Enums.StreakType
+    inProgress?: BoolFilter<"Streak"> | boolean
     goalId?: IntFilter<"Streak"> | number
     goal?: XOR<GoalScalarRelationFilter, GoalWhereInput>
   }
@@ -4662,6 +4684,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrderInput | SortOrder
     type?: SortOrder
+    inProgress?: SortOrder
     goalId?: SortOrder
     goal?: GoalOrderByWithRelationInput
   }
@@ -4674,6 +4697,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Streak"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Streak"> | Date | string | null
     type?: EnumStreakTypeFilter<"Streak"> | $Enums.StreakType
+    inProgress?: BoolFilter<"Streak"> | boolean
     goalId?: IntFilter<"Streak"> | number
     goal?: XOR<GoalScalarRelationFilter, GoalWhereInput>
   }, "id">
@@ -4683,6 +4707,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrderInput | SortOrder
     type?: SortOrder
+    inProgress?: SortOrder
     goalId?: SortOrder
     _count?: StreakCountOrderByAggregateInput
     _avg?: StreakAvgOrderByAggregateInput
@@ -4699,6 +4724,7 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Streak"> | Date | string
     updatedAt?: DateTimeNullableWithAggregatesFilter<"Streak"> | Date | string | null
     type?: EnumStreakTypeWithAggregatesFilter<"Streak"> | $Enums.StreakType
+    inProgress?: BoolWithAggregatesFilter<"Streak"> | boolean
     goalId?: IntWithAggregatesFilter<"Streak"> | number
   }
 
@@ -4791,6 +4817,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     type: $Enums.StreakType
+    inProgress?: boolean
     goal: GoalCreateNestedOneWithoutStreakInput
   }
 
@@ -4799,6 +4826,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     type: $Enums.StreakType
+    inProgress?: boolean
     goalId: number
   }
 
@@ -4806,6 +4834,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     type?: EnumStreakTypeFieldUpdateOperationsInput | $Enums.StreakType
+    inProgress?: BoolFieldUpdateOperationsInput | boolean
     goal?: GoalUpdateOneRequiredWithoutStreakNestedInput
   }
 
@@ -4814,6 +4843,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     type?: EnumStreakTypeFieldUpdateOperationsInput | $Enums.StreakType
+    inProgress?: BoolFieldUpdateOperationsInput | boolean
     goalId?: IntFieldUpdateOperationsInput | number
   }
 
@@ -4822,6 +4852,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     type: $Enums.StreakType
+    inProgress?: boolean
     goalId: number
   }
 
@@ -4829,6 +4860,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     type?: EnumStreakTypeFieldUpdateOperationsInput | $Enums.StreakType
+    inProgress?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type StreakUncheckedUpdateManyInput = {
@@ -4836,6 +4868,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     type?: EnumStreakTypeFieldUpdateOperationsInput | $Enums.StreakType
+    inProgress?: BoolFieldUpdateOperationsInput | boolean
     goalId?: IntFieldUpdateOperationsInput | number
   }
 
@@ -5007,6 +5040,11 @@ export namespace Prisma {
     not?: NestedEnumStreakTypeFilter<$PrismaModel> | $Enums.StreakType
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type GoalScalarRelationFilter = {
     is?: GoalWhereInput
     isNot?: GoalWhereInput
@@ -5022,6 +5060,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     type?: SortOrder
+    inProgress?: SortOrder
     goalId?: SortOrder
   }
 
@@ -5035,6 +5074,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     type?: SortOrder
+    inProgress?: SortOrder
     goalId?: SortOrder
   }
 
@@ -5043,6 +5083,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     type?: SortOrder
+    inProgress?: SortOrder
     goalId?: SortOrder
   }
 
@@ -5087,6 +5128,14 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumStreakTypeFilter<$PrismaModel>
     _max?: NestedEnumStreakTypeFilter<$PrismaModel>
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type GoalCreateNestedManyWithoutUserInput = {
@@ -5217,6 +5266,10 @@ export namespace Prisma {
     set?: $Enums.StreakType
   }
 
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
   export type GoalUpdateOneRequiredWithoutStreakNestedInput = {
     create?: XOR<GoalCreateWithoutStreakInput, GoalUncheckedCreateWithoutStreakInput>
     connectOrCreate?: GoalCreateOrConnectWithoutStreakInput
@@ -5323,6 +5376,11 @@ export namespace Prisma {
     not?: NestedEnumStreakTypeFilter<$PrismaModel> | $Enums.StreakType
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -5370,6 +5428,14 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumStreakTypeFilter<$PrismaModel>
     _max?: NestedEnumStreakTypeFilter<$PrismaModel>
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type GoalCreateWithoutUserInput = {
@@ -5438,6 +5504,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     type: $Enums.StreakType
+    inProgress?: boolean
   }
 
   export type StreakUncheckedCreateWithoutGoalInput = {
@@ -5445,6 +5512,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     type: $Enums.StreakType
+    inProgress?: boolean
   }
 
   export type StreakCreateOrConnectWithoutGoalInput = {
@@ -5503,6 +5571,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Streak"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Streak"> | Date | string | null
     type?: EnumStreakTypeFilter<"Streak"> | $Enums.StreakType
+    inProgress?: BoolFilter<"Streak"> | boolean
     goalId?: IntFilter<"Streak"> | number
   }
 
@@ -5570,12 +5639,14 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     type: $Enums.StreakType
+    inProgress?: boolean
   }
 
   export type StreakUpdateWithoutGoalInput = {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     type?: EnumStreakTypeFieldUpdateOperationsInput | $Enums.StreakType
+    inProgress?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type StreakUncheckedUpdateWithoutGoalInput = {
@@ -5583,6 +5654,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     type?: EnumStreakTypeFieldUpdateOperationsInput | $Enums.StreakType
+    inProgress?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type StreakUncheckedUpdateManyWithoutGoalInput = {
@@ -5590,6 +5662,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     type?: EnumStreakTypeFieldUpdateOperationsInput | $Enums.StreakType
+    inProgress?: BoolFieldUpdateOperationsInput | boolean
   }
 
 

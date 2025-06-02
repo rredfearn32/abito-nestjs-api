@@ -36,10 +36,11 @@ enum StreakType {
 }
 
 model Streak {
-  id        Int        @id @default(autoincrement())
-  createdAt DateTime   @default(now())
-  updatedAt DateTime?
-  type      StreakType
-  goalId    Int
-  goal      Goal       @relation(fields: [goalId], references: [id], onDelete: Cascade)
+  id         Int        @id @default(autoincrement())
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime?
+  type       StreakType
+  inProgress Boolean    @default(true)
+  goalId     Int
+  goal       Goal       @relation(fields: [goalId], references: [id], onDelete: Cascade)
 }

@@ -155,14 +155,7 @@ export class GoalsController {
   }
 
   //   TODO:
-  // - ✅ Fetch current streak for goal / goals
-  // - ✅ Fetch all streaks for goal
-  // - ✅ Start new streak on a goal
   // - End existing streak on a goal
-  // - Delete all associated streaks when a goal is deleted
-  //
-  //   Do we need to get streak info independent of a particular goal?
-  // - NO
 
   @UseGuards(AuthGuard)
   @Post('/:id/streak')
@@ -194,5 +187,25 @@ export class GoalsController {
 
   @UseGuards(AuthGuard)
   @Patch('/:id/streak')
-  async endStreak() {}
+  async endStreak(@Param('id') goalId: string, @Req() req) {
+    const user = await this.userService.findUserById(req.jwt.sub);
+
+    if (!user) {
+      throw new NotFoundException();
+    }
+
+    const goalIdNumber = Number(goalId);
+
+    if (isNaN(goalIdNumber)) {
+      throw new BadRequestException('Invalid goal id');
+    }
+
+    const goal = await this.goalsService.getGoalById(goalIdNumber, req.jwt.sub);
+
+    if (!goal) {
+      throw new NotFoundException();
+    }
+
+    return this.goalsService.endStreak(goalIdNumber);
+  }
 }

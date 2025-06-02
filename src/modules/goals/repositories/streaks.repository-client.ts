@@ -15,4 +15,17 @@ export class StreaksRepositoryClient {
       },
     });
   }
+
+  async endStreak(goalId: number) {
+    return this.prismaService.streak.updateMany({
+      where: {
+        goalId: goalId,
+        inProgress: true,
+      },
+      data: {
+        inProgress: false,
+        updatedAt: new Date().toISOString(),
+      },
+    });
+  }
 }

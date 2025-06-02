@@ -41,4 +41,8 @@ export class GoalsService {
   async createStreak(goalId: number, newStreak: NewStreakDto) {
     return this.streaksRepositoryClient.createStreak(goalId, newStreak);
   }
+
+  async endStreak(goalId: number) {
+    return this.streaksRepositoryClient.endStreak(goalId);
+  }
 }

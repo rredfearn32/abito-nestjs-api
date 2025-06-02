@@ -22,6 +22,7 @@ export declare class GoalsController {
             type: import("generated/prisma").$Enums.StreakType;
             createdAt: Date;
             updatedAt: Date | null;
+            inProgress: boolean;
             goalId: number;
         }[];
         id: number;
@@ -36,7 +37,8 @@ export declare class GoalsController {
         type: import("generated/prisma").$Enums.StreakType;
         createdAt: Date;
         updatedAt: Date | null;
+        inProgress: boolean;
         goalId: number;
     }>;
-    endStreak(): Promise<void>;
+    endStreak(goalId: string, req: any): Promise<import("generated/prisma").Prisma.BatchPayload>;
 }
