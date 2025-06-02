@@ -15,9 +15,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.GoalsService = void 0;
 const common_1 = require("@nestjs/common");
 const goals_repository_client_1 = require("./repositories/goals.repository-client");
+const streaks_repository_client_1 = require("./repositories/streaks.repository-client");
 let GoalsService = class GoalsService {
-    constructor(goalsRepositoryClient) {
+    constructor(goalsRepositoryClient, streaksRepositoryClient) {
         this.goalsRepositoryClient = goalsRepositoryClient;
+        this.streaksRepositoryClient = streaksRepositoryClient;
     }
     async createGoal(newGoal) {
         return this.goalsRepositoryClient.createGoal(newGoal);
@@ -34,11 +36,16 @@ let GoalsService = class GoalsService {
     async updateGoal(goalId, ownerId, updatedGoal) {
         return this.goalsRepositoryClient.updateGoal(goalId, ownerId, updatedGoal);
     }
+    async createStreak(goalId, newStreak) {
+        return this.streaksRepositoryClient.createStreak(goalId, newStreak);
+    }
 };
 exports.GoalsService = GoalsService;
 exports.GoalsService = GoalsService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, common_1.Inject)(goals_repository_client_1.GoalsRepositoryClient)),
-    __metadata("design:paramtypes", [goals_repository_client_1.GoalsRepositoryClient])
+    __param(1, (0, common_1.Inject)(streaks_repository_client_1.StreaksRepositoryClient)),
+    __metadata("design:paramtypes", [goals_repository_client_1.GoalsRepositoryClient,
+        streaks_repository_client_1.StreaksRepositoryClient])
 ], GoalsService);
 //# sourceMappingURL=goals.service.js.map

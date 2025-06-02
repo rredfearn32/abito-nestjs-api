@@ -23,8 +23,23 @@ model User {
 }
 
 model Goal {
-  id     Int    @id @default(autoincrement())
+  id     Int      @id @default(autoincrement())
   title  String
   userId Int
-  user   User   @relation(fields: [userId], references: [id])
+  user   User     @relation(fields: [userId], references: [id])
+  Streak Streak[]
+}
+
+enum StreakType {
+  START
+  STOP
+}
+
+model Streak {
+  id        Int        @id @default(autoincrement())
+  createdAt DateTime   @default(now())
+  updatedAt DateTime?
+  type      StreakType
+  goalId    Int
+  goal      Goal       @relation(fields: [goalId], references: [id])
 }

@@ -9,17 +9,41 @@ export declare class GoalsRepositoryClient {
         title: string;
         userId: number;
     }>;
-    getUsersGoals(userId: number): Promise<{
+    getUsersGoals(userId: number): Promise<({
+        Streak: {
+            id: number;
+            type: import("generated/prisma").$Enums.StreakType;
+            createdAt: Date;
+            updatedAt: Date;
+            goalId: number;
+        }[];
+    } & {
         id: number;
         title: string;
         userId: number;
-    }[]>;
+    })[]>;
     getGoalById(goalId: number, ownerId: number): Promise<{
+        Streak: {
+            id: number;
+            type: import("generated/prisma").$Enums.StreakType;
+            createdAt: Date;
+            updatedAt: Date;
+            goalId: number;
+        }[];
+    } & {
         id: number;
         title: string;
         userId: number;
     }>;
     deleteGoal(goalId: number, ownerId: number): Promise<{
+        Streak: {
+            id: number;
+            type: import("generated/prisma").$Enums.StreakType;
+            createdAt: Date;
+            updatedAt: Date;
+            goalId: number;
+        }[];
+    } & {
         id: number;
         title: string;
         userId: number;

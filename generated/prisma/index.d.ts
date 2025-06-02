@@ -23,6 +23,28 @@ export type User = $Result.DefaultSelection<Prisma.$UserPayload>
  * 
  */
 export type Goal = $Result.DefaultSelection<Prisma.$GoalPayload>
+/**
+ * Model Streak
+ * 
+ */
+export type Streak = $Result.DefaultSelection<Prisma.$StreakPayload>
+
+/**
+ * Enums
+ */
+export namespace $Enums {
+  export const StreakType: {
+  START: 'START',
+  STOP: 'STOP'
+};
+
+export type StreakType = (typeof StreakType)[keyof typeof StreakType]
+
+}
+
+export type StreakType = $Enums.StreakType
+
+export const StreakType: typeof $Enums.StreakType
 
 /**
  * ##  Prisma Client ʲˢ
@@ -168,6 +190,16 @@ export class PrismaClient<
     * ```
     */
   get goal(): Prisma.GoalDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.streak`: Exposes CRUD operations for the **Streak** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Streaks
+    * const streaks = await prisma.streak.findMany()
+    * ```
+    */
+  get streak(): Prisma.StreakDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -609,7 +641,8 @@ export namespace Prisma {
 
   export const ModelName: {
     User: 'User',
-    Goal: 'Goal'
+    Goal: 'Goal',
+    Streak: 'Streak'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -628,7 +661,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "goal"
+      modelProps: "user" | "goal" | "streak"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -780,6 +813,80 @@ export namespace Prisma {
           }
         }
       }
+      Streak: {
+        payload: Prisma.$StreakPayload<ExtArgs>
+        fields: Prisma.StreakFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.StreakFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StreakPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.StreakFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StreakPayload>
+          }
+          findFirst: {
+            args: Prisma.StreakFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StreakPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.StreakFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StreakPayload>
+          }
+          findMany: {
+            args: Prisma.StreakFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StreakPayload>[]
+          }
+          create: {
+            args: Prisma.StreakCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StreakPayload>
+          }
+          createMany: {
+            args: Prisma.StreakCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.StreakCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StreakPayload>[]
+          }
+          delete: {
+            args: Prisma.StreakDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StreakPayload>
+          }
+          update: {
+            args: Prisma.StreakUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StreakPayload>
+          }
+          deleteMany: {
+            args: Prisma.StreakDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.StreakUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.StreakUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StreakPayload>[]
+          }
+          upsert: {
+            args: Prisma.StreakUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StreakPayload>
+          }
+          aggregate: {
+            args: Prisma.StreakAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateStreak>
+          }
+          groupBy: {
+            args: Prisma.StreakGroupByArgs<ExtArgs>
+            result: $Utils.Optional<StreakGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.StreakCountArgs<ExtArgs>
+            result: $Utils.Optional<StreakCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -866,6 +973,7 @@ export namespace Prisma {
   export type GlobalOmitConfig = {
     user?: UserOmit
     goal?: GoalOmit
+    streak?: StreakOmit
   }
 
   /* Types for Logging */
@@ -983,6 +1091,37 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountGoalsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: GoalWhereInput
+  }
+
+
+  /**
+   * Count Type GoalCountOutputType
+   */
+
+  export type GoalCountOutputType = {
+    Streak: number
+  }
+
+  export type GoalCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Streak?: boolean | GoalCountOutputTypeCountStreakArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * GoalCountOutputType without action
+   */
+  export type GoalCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GoalCountOutputType
+     */
+    select?: GoalCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * GoalCountOutputType without action
+   */
+  export type GoalCountOutputTypeCountStreakArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StreakWhereInput
   }
 
 
@@ -2255,6 +2394,8 @@ export namespace Prisma {
     title?: boolean
     userId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
+    Streak?: boolean | Goal$StreakArgs<ExtArgs>
+    _count?: boolean | GoalCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["goal"]>
 
   export type GoalSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -2280,6 +2421,8 @@ export namespace Prisma {
   export type GoalOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "userId", ExtArgs["result"]["goal"]>
   export type GoalInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
+    Streak?: boolean | Goal$StreakArgs<ExtArgs>
+    _count?: boolean | GoalCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type GoalIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -2292,6 +2435,7 @@ export namespace Prisma {
     name: "Goal"
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
+      Streak: Prisma.$StreakPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -2692,6 +2836,7 @@ export namespace Prisma {
   export interface Prisma__GoalClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    Streak<T extends Goal$StreakArgs<ExtArgs> = {}>(args?: Subset<T, Goal$StreakArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StreakPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3120,6 +3265,30 @@ export namespace Prisma {
   }
 
   /**
+   * Goal.Streak
+   */
+  export type Goal$StreakArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Streak
+     */
+    select?: StreakSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Streak
+     */
+    omit?: StreakOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StreakInclude<ExtArgs> | null
+    where?: StreakWhereInput
+    orderBy?: StreakOrderByWithRelationInput | StreakOrderByWithRelationInput[]
+    cursor?: StreakWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: StreakScalarFieldEnum | StreakScalarFieldEnum[]
+  }
+
+  /**
    * Goal without action
    */
   export type GoalDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3135,6 +3304,1102 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: GoalInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Streak
+   */
+
+  export type AggregateStreak = {
+    _count: StreakCountAggregateOutputType | null
+    _avg: StreakAvgAggregateOutputType | null
+    _sum: StreakSumAggregateOutputType | null
+    _min: StreakMinAggregateOutputType | null
+    _max: StreakMaxAggregateOutputType | null
+  }
+
+  export type StreakAvgAggregateOutputType = {
+    id: number | null
+    goalId: number | null
+  }
+
+  export type StreakSumAggregateOutputType = {
+    id: number | null
+    goalId: number | null
+  }
+
+  export type StreakMinAggregateOutputType = {
+    id: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    type: $Enums.StreakType | null
+    goalId: number | null
+  }
+
+  export type StreakMaxAggregateOutputType = {
+    id: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    type: $Enums.StreakType | null
+    goalId: number | null
+  }
+
+  export type StreakCountAggregateOutputType = {
+    id: number
+    createdAt: number
+    updatedAt: number
+    type: number
+    goalId: number
+    _all: number
+  }
+
+
+  export type StreakAvgAggregateInputType = {
+    id?: true
+    goalId?: true
+  }
+
+  export type StreakSumAggregateInputType = {
+    id?: true
+    goalId?: true
+  }
+
+  export type StreakMinAggregateInputType = {
+    id?: true
+    createdAt?: true
+    updatedAt?: true
+    type?: true
+    goalId?: true
+  }
+
+  export type StreakMaxAggregateInputType = {
+    id?: true
+    createdAt?: true
+    updatedAt?: true
+    type?: true
+    goalId?: true
+  }
+
+  export type StreakCountAggregateInputType = {
+    id?: true
+    createdAt?: true
+    updatedAt?: true
+    type?: true
+    goalId?: true
+    _all?: true
+  }
+
+  export type StreakAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Streak to aggregate.
+     */
+    where?: StreakWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Streaks to fetch.
+     */
+    orderBy?: StreakOrderByWithRelationInput | StreakOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: StreakWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Streaks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Streaks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Streaks
+    **/
+    _count?: true | StreakCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: StreakAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: StreakSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: StreakMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: StreakMaxAggregateInputType
+  }
+
+  export type GetStreakAggregateType<T extends StreakAggregateArgs> = {
+        [P in keyof T & keyof AggregateStreak]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateStreak[P]>
+      : GetScalarType<T[P], AggregateStreak[P]>
+  }
+
+
+
+
+  export type StreakGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StreakWhereInput
+    orderBy?: StreakOrderByWithAggregationInput | StreakOrderByWithAggregationInput[]
+    by: StreakScalarFieldEnum[] | StreakScalarFieldEnum
+    having?: StreakScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: StreakCountAggregateInputType | true
+    _avg?: StreakAvgAggregateInputType
+    _sum?: StreakSumAggregateInputType
+    _min?: StreakMinAggregateInputType
+    _max?: StreakMaxAggregateInputType
+  }
+
+  export type StreakGroupByOutputType = {
+    id: number
+    createdAt: Date
+    updatedAt: Date | null
+    type: $Enums.StreakType
+    goalId: number
+    _count: StreakCountAggregateOutputType | null
+    _avg: StreakAvgAggregateOutputType | null
+    _sum: StreakSumAggregateOutputType | null
+    _min: StreakMinAggregateOutputType | null
+    _max: StreakMaxAggregateOutputType | null
+  }
+
+  type GetStreakGroupByPayload<T extends StreakGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<StreakGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof StreakGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], StreakGroupByOutputType[P]>
+            : GetScalarType<T[P], StreakGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type StreakSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    type?: boolean
+    goalId?: boolean
+    goal?: boolean | GoalDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["streak"]>
+
+  export type StreakSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    type?: boolean
+    goalId?: boolean
+    goal?: boolean | GoalDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["streak"]>
+
+  export type StreakSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    type?: boolean
+    goalId?: boolean
+    goal?: boolean | GoalDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["streak"]>
+
+  export type StreakSelectScalar = {
+    id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    type?: boolean
+    goalId?: boolean
+  }
+
+  export type StreakOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "type" | "goalId", ExtArgs["result"]["streak"]>
+  export type StreakInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    goal?: boolean | GoalDefaultArgs<ExtArgs>
+  }
+  export type StreakIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    goal?: boolean | GoalDefaultArgs<ExtArgs>
+  }
+  export type StreakIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    goal?: boolean | GoalDefaultArgs<ExtArgs>
+  }
+
+  export type $StreakPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Streak"
+    objects: {
+      goal: Prisma.$GoalPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      createdAt: Date
+      updatedAt: Date | null
+      type: $Enums.StreakType
+      goalId: number
+    }, ExtArgs["result"]["streak"]>
+    composites: {}
+  }
+
+  type StreakGetPayload<S extends boolean | null | undefined | StreakDefaultArgs> = $Result.GetResult<Prisma.$StreakPayload, S>
+
+  type StreakCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<StreakFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: StreakCountAggregateInputType | true
+    }
+
+  export interface StreakDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Streak'], meta: { name: 'Streak' } }
+    /**
+     * Find zero or one Streak that matches the filter.
+     * @param {StreakFindUniqueArgs} args - Arguments to find a Streak
+     * @example
+     * // Get one Streak
+     * const streak = await prisma.streak.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends StreakFindUniqueArgs>(args: SelectSubset<T, StreakFindUniqueArgs<ExtArgs>>): Prisma__StreakClient<$Result.GetResult<Prisma.$StreakPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Streak that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {StreakFindUniqueOrThrowArgs} args - Arguments to find a Streak
+     * @example
+     * // Get one Streak
+     * const streak = await prisma.streak.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends StreakFindUniqueOrThrowArgs>(args: SelectSubset<T, StreakFindUniqueOrThrowArgs<ExtArgs>>): Prisma__StreakClient<$Result.GetResult<Prisma.$StreakPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Streak that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StreakFindFirstArgs} args - Arguments to find a Streak
+     * @example
+     * // Get one Streak
+     * const streak = await prisma.streak.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends StreakFindFirstArgs>(args?: SelectSubset<T, StreakFindFirstArgs<ExtArgs>>): Prisma__StreakClient<$Result.GetResult<Prisma.$StreakPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Streak that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StreakFindFirstOrThrowArgs} args - Arguments to find a Streak
+     * @example
+     * // Get one Streak
+     * const streak = await prisma.streak.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends StreakFindFirstOrThrowArgs>(args?: SelectSubset<T, StreakFindFirstOrThrowArgs<ExtArgs>>): Prisma__StreakClient<$Result.GetResult<Prisma.$StreakPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Streaks that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StreakFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Streaks
+     * const streaks = await prisma.streak.findMany()
+     * 
+     * // Get first 10 Streaks
+     * const streaks = await prisma.streak.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const streakWithIdOnly = await prisma.streak.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends StreakFindManyArgs>(args?: SelectSubset<T, StreakFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StreakPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Streak.
+     * @param {StreakCreateArgs} args - Arguments to create a Streak.
+     * @example
+     * // Create one Streak
+     * const Streak = await prisma.streak.create({
+     *   data: {
+     *     // ... data to create a Streak
+     *   }
+     * })
+     * 
+     */
+    create<T extends StreakCreateArgs>(args: SelectSubset<T, StreakCreateArgs<ExtArgs>>): Prisma__StreakClient<$Result.GetResult<Prisma.$StreakPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Streaks.
+     * @param {StreakCreateManyArgs} args - Arguments to create many Streaks.
+     * @example
+     * // Create many Streaks
+     * const streak = await prisma.streak.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends StreakCreateManyArgs>(args?: SelectSubset<T, StreakCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Streaks and returns the data saved in the database.
+     * @param {StreakCreateManyAndReturnArgs} args - Arguments to create many Streaks.
+     * @example
+     * // Create many Streaks
+     * const streak = await prisma.streak.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Streaks and only return the `id`
+     * const streakWithIdOnly = await prisma.streak.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends StreakCreateManyAndReturnArgs>(args?: SelectSubset<T, StreakCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StreakPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Streak.
+     * @param {StreakDeleteArgs} args - Arguments to delete one Streak.
+     * @example
+     * // Delete one Streak
+     * const Streak = await prisma.streak.delete({
+     *   where: {
+     *     // ... filter to delete one Streak
+     *   }
+     * })
+     * 
+     */
+    delete<T extends StreakDeleteArgs>(args: SelectSubset<T, StreakDeleteArgs<ExtArgs>>): Prisma__StreakClient<$Result.GetResult<Prisma.$StreakPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Streak.
+     * @param {StreakUpdateArgs} args - Arguments to update one Streak.
+     * @example
+     * // Update one Streak
+     * const streak = await prisma.streak.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends StreakUpdateArgs>(args: SelectSubset<T, StreakUpdateArgs<ExtArgs>>): Prisma__StreakClient<$Result.GetResult<Prisma.$StreakPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Streaks.
+     * @param {StreakDeleteManyArgs} args - Arguments to filter Streaks to delete.
+     * @example
+     * // Delete a few Streaks
+     * const { count } = await prisma.streak.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends StreakDeleteManyArgs>(args?: SelectSubset<T, StreakDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Streaks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StreakUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Streaks
+     * const streak = await prisma.streak.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends StreakUpdateManyArgs>(args: SelectSubset<T, StreakUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Streaks and returns the data updated in the database.
+     * @param {StreakUpdateManyAndReturnArgs} args - Arguments to update many Streaks.
+     * @example
+     * // Update many Streaks
+     * const streak = await prisma.streak.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Streaks and only return the `id`
+     * const streakWithIdOnly = await prisma.streak.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends StreakUpdateManyAndReturnArgs>(args: SelectSubset<T, StreakUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StreakPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Streak.
+     * @param {StreakUpsertArgs} args - Arguments to update or create a Streak.
+     * @example
+     * // Update or create a Streak
+     * const streak = await prisma.streak.upsert({
+     *   create: {
+     *     // ... data to create a Streak
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Streak we want to update
+     *   }
+     * })
+     */
+    upsert<T extends StreakUpsertArgs>(args: SelectSubset<T, StreakUpsertArgs<ExtArgs>>): Prisma__StreakClient<$Result.GetResult<Prisma.$StreakPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Streaks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StreakCountArgs} args - Arguments to filter Streaks to count.
+     * @example
+     * // Count the number of Streaks
+     * const count = await prisma.streak.count({
+     *   where: {
+     *     // ... the filter for the Streaks we want to count
+     *   }
+     * })
+    **/
+    count<T extends StreakCountArgs>(
+      args?: Subset<T, StreakCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], StreakCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Streak.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StreakAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends StreakAggregateArgs>(args: Subset<T, StreakAggregateArgs>): Prisma.PrismaPromise<GetStreakAggregateType<T>>
+
+    /**
+     * Group by Streak.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StreakGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends StreakGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: StreakGroupByArgs['orderBy'] }
+        : { orderBy?: StreakGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, StreakGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetStreakGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Streak model
+   */
+  readonly fields: StreakFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Streak.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__StreakClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    goal<T extends GoalDefaultArgs<ExtArgs> = {}>(args?: Subset<T, GoalDefaultArgs<ExtArgs>>): Prisma__GoalClient<$Result.GetResult<Prisma.$GoalPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Streak model
+   */
+  interface StreakFieldRefs {
+    readonly id: FieldRef<"Streak", 'Int'>
+    readonly createdAt: FieldRef<"Streak", 'DateTime'>
+    readonly updatedAt: FieldRef<"Streak", 'DateTime'>
+    readonly type: FieldRef<"Streak", 'StreakType'>
+    readonly goalId: FieldRef<"Streak", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Streak findUnique
+   */
+  export type StreakFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Streak
+     */
+    select?: StreakSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Streak
+     */
+    omit?: StreakOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StreakInclude<ExtArgs> | null
+    /**
+     * Filter, which Streak to fetch.
+     */
+    where: StreakWhereUniqueInput
+  }
+
+  /**
+   * Streak findUniqueOrThrow
+   */
+  export type StreakFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Streak
+     */
+    select?: StreakSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Streak
+     */
+    omit?: StreakOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StreakInclude<ExtArgs> | null
+    /**
+     * Filter, which Streak to fetch.
+     */
+    where: StreakWhereUniqueInput
+  }
+
+  /**
+   * Streak findFirst
+   */
+  export type StreakFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Streak
+     */
+    select?: StreakSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Streak
+     */
+    omit?: StreakOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StreakInclude<ExtArgs> | null
+    /**
+     * Filter, which Streak to fetch.
+     */
+    where?: StreakWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Streaks to fetch.
+     */
+    orderBy?: StreakOrderByWithRelationInput | StreakOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Streaks.
+     */
+    cursor?: StreakWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Streaks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Streaks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Streaks.
+     */
+    distinct?: StreakScalarFieldEnum | StreakScalarFieldEnum[]
+  }
+
+  /**
+   * Streak findFirstOrThrow
+   */
+  export type StreakFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Streak
+     */
+    select?: StreakSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Streak
+     */
+    omit?: StreakOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StreakInclude<ExtArgs> | null
+    /**
+     * Filter, which Streak to fetch.
+     */
+    where?: StreakWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Streaks to fetch.
+     */
+    orderBy?: StreakOrderByWithRelationInput | StreakOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Streaks.
+     */
+    cursor?: StreakWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Streaks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Streaks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Streaks.
+     */
+    distinct?: StreakScalarFieldEnum | StreakScalarFieldEnum[]
+  }
+
+  /**
+   * Streak findMany
+   */
+  export type StreakFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Streak
+     */
+    select?: StreakSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Streak
+     */
+    omit?: StreakOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StreakInclude<ExtArgs> | null
+    /**
+     * Filter, which Streaks to fetch.
+     */
+    where?: StreakWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Streaks to fetch.
+     */
+    orderBy?: StreakOrderByWithRelationInput | StreakOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Streaks.
+     */
+    cursor?: StreakWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Streaks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Streaks.
+     */
+    skip?: number
+    distinct?: StreakScalarFieldEnum | StreakScalarFieldEnum[]
+  }
+
+  /**
+   * Streak create
+   */
+  export type StreakCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Streak
+     */
+    select?: StreakSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Streak
+     */
+    omit?: StreakOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StreakInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Streak.
+     */
+    data: XOR<StreakCreateInput, StreakUncheckedCreateInput>
+  }
+
+  /**
+   * Streak createMany
+   */
+  export type StreakCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Streaks.
+     */
+    data: StreakCreateManyInput | StreakCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Streak createManyAndReturn
+   */
+  export type StreakCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Streak
+     */
+    select?: StreakSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Streak
+     */
+    omit?: StreakOmit<ExtArgs> | null
+    /**
+     * The data used to create many Streaks.
+     */
+    data: StreakCreateManyInput | StreakCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StreakIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Streak update
+   */
+  export type StreakUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Streak
+     */
+    select?: StreakSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Streak
+     */
+    omit?: StreakOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StreakInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Streak.
+     */
+    data: XOR<StreakUpdateInput, StreakUncheckedUpdateInput>
+    /**
+     * Choose, which Streak to update.
+     */
+    where: StreakWhereUniqueInput
+  }
+
+  /**
+   * Streak updateMany
+   */
+  export type StreakUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Streaks.
+     */
+    data: XOR<StreakUpdateManyMutationInput, StreakUncheckedUpdateManyInput>
+    /**
+     * Filter which Streaks to update
+     */
+    where?: StreakWhereInput
+    /**
+     * Limit how many Streaks to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Streak updateManyAndReturn
+   */
+  export type StreakUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Streak
+     */
+    select?: StreakSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Streak
+     */
+    omit?: StreakOmit<ExtArgs> | null
+    /**
+     * The data used to update Streaks.
+     */
+    data: XOR<StreakUpdateManyMutationInput, StreakUncheckedUpdateManyInput>
+    /**
+     * Filter which Streaks to update
+     */
+    where?: StreakWhereInput
+    /**
+     * Limit how many Streaks to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StreakIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Streak upsert
+   */
+  export type StreakUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Streak
+     */
+    select?: StreakSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Streak
+     */
+    omit?: StreakOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StreakInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Streak to update in case it exists.
+     */
+    where: StreakWhereUniqueInput
+    /**
+     * In case the Streak found by the `where` argument doesn't exist, create a new Streak with this data.
+     */
+    create: XOR<StreakCreateInput, StreakUncheckedCreateInput>
+    /**
+     * In case the Streak was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<StreakUpdateInput, StreakUncheckedUpdateInput>
+  }
+
+  /**
+   * Streak delete
+   */
+  export type StreakDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Streak
+     */
+    select?: StreakSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Streak
+     */
+    omit?: StreakOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StreakInclude<ExtArgs> | null
+    /**
+     * Filter which Streak to delete.
+     */
+    where: StreakWhereUniqueInput
+  }
+
+  /**
+   * Streak deleteMany
+   */
+  export type StreakDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Streaks to delete
+     */
+    where?: StreakWhereInput
+    /**
+     * Limit how many Streaks to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Streak without action
+   */
+  export type StreakDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Streak
+     */
+    select?: StreakSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Streak
+     */
+    omit?: StreakOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StreakInclude<ExtArgs> | null
   }
 
 
@@ -3170,6 +4435,17 @@ export namespace Prisma {
   export type GoalScalarFieldEnum = (typeof GoalScalarFieldEnum)[keyof typeof GoalScalarFieldEnum]
 
 
+  export const StreakScalarFieldEnum: {
+    id: 'id',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    type: 'type',
+    goalId: 'goalId'
+  };
+
+  export type StreakScalarFieldEnum = (typeof StreakScalarFieldEnum)[keyof typeof StreakScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -3184,6 +4460,14 @@ export namespace Prisma {
   };
 
   export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+  export const NullsOrder: {
+    first: 'first',
+    last: 'last'
+  };
+
+  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
   /**
@@ -3216,6 +4500,34 @@ export namespace Prisma {
    * Reference to a field of type 'String[]'
    */
   export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'DateTime'
+   */
+  export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
+    
+
+
+  /**
+   * Reference to a field of type 'DateTime[]'
+   */
+  export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'StreakType'
+   */
+  export type EnumStreakTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StreakType'>
+    
+
+
+  /**
+   * Reference to a field of type 'StreakType[]'
+   */
+  export type ListEnumStreakTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StreakType[]'>
     
 
 
@@ -3291,6 +4603,7 @@ export namespace Prisma {
     title?: StringFilter<"Goal"> | string
     userId?: IntFilter<"Goal"> | number
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    Streak?: StreakListRelationFilter
   }
 
   export type GoalOrderByWithRelationInput = {
@@ -3298,6 +4611,7 @@ export namespace Prisma {
     title?: SortOrder
     userId?: SortOrder
     user?: UserOrderByWithRelationInput
+    Streak?: StreakOrderByRelationAggregateInput
   }
 
   export type GoalWhereUniqueInput = Prisma.AtLeast<{
@@ -3308,6 +4622,7 @@ export namespace Prisma {
     title?: StringFilter<"Goal"> | string
     userId?: IntFilter<"Goal"> | number
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    Streak?: StreakListRelationFilter
   }, "id">
 
   export type GoalOrderByWithAggregationInput = {
@@ -3328,6 +4643,63 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"Goal"> | number
     title?: StringWithAggregatesFilter<"Goal"> | string
     userId?: IntWithAggregatesFilter<"Goal"> | number
+  }
+
+  export type StreakWhereInput = {
+    AND?: StreakWhereInput | StreakWhereInput[]
+    OR?: StreakWhereInput[]
+    NOT?: StreakWhereInput | StreakWhereInput[]
+    id?: IntFilter<"Streak"> | number
+    createdAt?: DateTimeFilter<"Streak"> | Date | string
+    updatedAt?: DateTimeNullableFilter<"Streak"> | Date | string | null
+    type?: EnumStreakTypeFilter<"Streak"> | $Enums.StreakType
+    goalId?: IntFilter<"Streak"> | number
+    goal?: XOR<GoalScalarRelationFilter, GoalWhereInput>
+  }
+
+  export type StreakOrderByWithRelationInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrderInput | SortOrder
+    type?: SortOrder
+    goalId?: SortOrder
+    goal?: GoalOrderByWithRelationInput
+  }
+
+  export type StreakWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: StreakWhereInput | StreakWhereInput[]
+    OR?: StreakWhereInput[]
+    NOT?: StreakWhereInput | StreakWhereInput[]
+    createdAt?: DateTimeFilter<"Streak"> | Date | string
+    updatedAt?: DateTimeNullableFilter<"Streak"> | Date | string | null
+    type?: EnumStreakTypeFilter<"Streak"> | $Enums.StreakType
+    goalId?: IntFilter<"Streak"> | number
+    goal?: XOR<GoalScalarRelationFilter, GoalWhereInput>
+  }, "id">
+
+  export type StreakOrderByWithAggregationInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrderInput | SortOrder
+    type?: SortOrder
+    goalId?: SortOrder
+    _count?: StreakCountOrderByAggregateInput
+    _avg?: StreakAvgOrderByAggregateInput
+    _max?: StreakMaxOrderByAggregateInput
+    _min?: StreakMinOrderByAggregateInput
+    _sum?: StreakSumOrderByAggregateInput
+  }
+
+  export type StreakScalarWhereWithAggregatesInput = {
+    AND?: StreakScalarWhereWithAggregatesInput | StreakScalarWhereWithAggregatesInput[]
+    OR?: StreakScalarWhereWithAggregatesInput[]
+    NOT?: StreakScalarWhereWithAggregatesInput | StreakScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Streak"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"Streak"> | Date | string
+    updatedAt?: DateTimeNullableWithAggregatesFilter<"Streak"> | Date | string | null
+    type?: EnumStreakTypeWithAggregatesFilter<"Streak"> | $Enums.StreakType
+    goalId?: IntWithAggregatesFilter<"Streak"> | number
   }
 
   export type UserCreateInput = {
@@ -3376,23 +4748,27 @@ export namespace Prisma {
   export type GoalCreateInput = {
     title: string
     user: UserCreateNestedOneWithoutGoalsInput
+    Streak?: StreakCreateNestedManyWithoutGoalInput
   }
 
   export type GoalUncheckedCreateInput = {
     id?: number
     title: string
     userId: number
+    Streak?: StreakUncheckedCreateNestedManyWithoutGoalInput
   }
 
   export type GoalUpdateInput = {
     title?: StringFieldUpdateOperationsInput | string
     user?: UserUpdateOneRequiredWithoutGoalsNestedInput
+    Streak?: StreakUpdateManyWithoutGoalNestedInput
   }
 
   export type GoalUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     userId?: IntFieldUpdateOperationsInput | number
+    Streak?: StreakUncheckedUpdateManyWithoutGoalNestedInput
   }
 
   export type GoalCreateManyInput = {
@@ -3409,6 +4785,58 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     userId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type StreakCreateInput = {
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    type: $Enums.StreakType
+    goal: GoalCreateNestedOneWithoutStreakInput
+  }
+
+  export type StreakUncheckedCreateInput = {
+    id?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    type: $Enums.StreakType
+    goalId: number
+  }
+
+  export type StreakUpdateInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    type?: EnumStreakTypeFieldUpdateOperationsInput | $Enums.StreakType
+    goal?: GoalUpdateOneRequiredWithoutStreakNestedInput
+  }
+
+  export type StreakUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    type?: EnumStreakTypeFieldUpdateOperationsInput | $Enums.StreakType
+    goalId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type StreakCreateManyInput = {
+    id?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    type: $Enums.StreakType
+    goalId: number
+  }
+
+  export type StreakUpdateManyMutationInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    type?: EnumStreakTypeFieldUpdateOperationsInput | $Enums.StreakType
+  }
+
+  export type StreakUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    type?: EnumStreakTypeFieldUpdateOperationsInput | $Enums.StreakType
+    goalId?: IntFieldUpdateOperationsInput | number
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -3512,6 +4940,16 @@ export namespace Prisma {
     isNot?: UserWhereInput
   }
 
+  export type StreakListRelationFilter = {
+    every?: StreakWhereInput
+    some?: StreakWhereInput
+    none?: StreakWhereInput
+  }
+
+  export type StreakOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type GoalCountOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
@@ -3538,6 +4976,117 @@ export namespace Prisma {
   export type GoalSumOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+  }
+
+  export type DateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type EnumStreakTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.StreakType | EnumStreakTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.StreakType[] | ListEnumStreakTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StreakType[] | ListEnumStreakTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumStreakTypeFilter<$PrismaModel> | $Enums.StreakType
+  }
+
+  export type GoalScalarRelationFilter = {
+    is?: GoalWhereInput
+    isNot?: GoalWhereInput
+  }
+
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
+  export type StreakCountOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    type?: SortOrder
+    goalId?: SortOrder
+  }
+
+  export type StreakAvgOrderByAggregateInput = {
+    id?: SortOrder
+    goalId?: SortOrder
+  }
+
+  export type StreakMaxOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    type?: SortOrder
+    goalId?: SortOrder
+  }
+
+  export type StreakMinOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    type?: SortOrder
+    goalId?: SortOrder
+  }
+
+  export type StreakSumOrderByAggregateInput = {
+    id?: SortOrder
+    goalId?: SortOrder
+  }
+
+  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type EnumStreakTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.StreakType | EnumStreakTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.StreakType[] | ListEnumStreakTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StreakType[] | ListEnumStreakTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumStreakTypeWithAggregatesFilter<$PrismaModel> | $Enums.StreakType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumStreakTypeFilter<$PrismaModel>
+    _max?: NestedEnumStreakTypeFilter<$PrismaModel>
   }
 
   export type GoalCreateNestedManyWithoutUserInput = {
@@ -3600,12 +5149,80 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type StreakCreateNestedManyWithoutGoalInput = {
+    create?: XOR<StreakCreateWithoutGoalInput, StreakUncheckedCreateWithoutGoalInput> | StreakCreateWithoutGoalInput[] | StreakUncheckedCreateWithoutGoalInput[]
+    connectOrCreate?: StreakCreateOrConnectWithoutGoalInput | StreakCreateOrConnectWithoutGoalInput[]
+    createMany?: StreakCreateManyGoalInputEnvelope
+    connect?: StreakWhereUniqueInput | StreakWhereUniqueInput[]
+  }
+
+  export type StreakUncheckedCreateNestedManyWithoutGoalInput = {
+    create?: XOR<StreakCreateWithoutGoalInput, StreakUncheckedCreateWithoutGoalInput> | StreakCreateWithoutGoalInput[] | StreakUncheckedCreateWithoutGoalInput[]
+    connectOrCreate?: StreakCreateOrConnectWithoutGoalInput | StreakCreateOrConnectWithoutGoalInput[]
+    createMany?: StreakCreateManyGoalInputEnvelope
+    connect?: StreakWhereUniqueInput | StreakWhereUniqueInput[]
+  }
+
   export type UserUpdateOneRequiredWithoutGoalsNestedInput = {
     create?: XOR<UserCreateWithoutGoalsInput, UserUncheckedCreateWithoutGoalsInput>
     connectOrCreate?: UserCreateOrConnectWithoutGoalsInput
     upsert?: UserUpsertWithoutGoalsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutGoalsInput, UserUpdateWithoutGoalsInput>, UserUncheckedUpdateWithoutGoalsInput>
+  }
+
+  export type StreakUpdateManyWithoutGoalNestedInput = {
+    create?: XOR<StreakCreateWithoutGoalInput, StreakUncheckedCreateWithoutGoalInput> | StreakCreateWithoutGoalInput[] | StreakUncheckedCreateWithoutGoalInput[]
+    connectOrCreate?: StreakCreateOrConnectWithoutGoalInput | StreakCreateOrConnectWithoutGoalInput[]
+    upsert?: StreakUpsertWithWhereUniqueWithoutGoalInput | StreakUpsertWithWhereUniqueWithoutGoalInput[]
+    createMany?: StreakCreateManyGoalInputEnvelope
+    set?: StreakWhereUniqueInput | StreakWhereUniqueInput[]
+    disconnect?: StreakWhereUniqueInput | StreakWhereUniqueInput[]
+    delete?: StreakWhereUniqueInput | StreakWhereUniqueInput[]
+    connect?: StreakWhereUniqueInput | StreakWhereUniqueInput[]
+    update?: StreakUpdateWithWhereUniqueWithoutGoalInput | StreakUpdateWithWhereUniqueWithoutGoalInput[]
+    updateMany?: StreakUpdateManyWithWhereWithoutGoalInput | StreakUpdateManyWithWhereWithoutGoalInput[]
+    deleteMany?: StreakScalarWhereInput | StreakScalarWhereInput[]
+  }
+
+  export type StreakUncheckedUpdateManyWithoutGoalNestedInput = {
+    create?: XOR<StreakCreateWithoutGoalInput, StreakUncheckedCreateWithoutGoalInput> | StreakCreateWithoutGoalInput[] | StreakUncheckedCreateWithoutGoalInput[]
+    connectOrCreate?: StreakCreateOrConnectWithoutGoalInput | StreakCreateOrConnectWithoutGoalInput[]
+    upsert?: StreakUpsertWithWhereUniqueWithoutGoalInput | StreakUpsertWithWhereUniqueWithoutGoalInput[]
+    createMany?: StreakCreateManyGoalInputEnvelope
+    set?: StreakWhereUniqueInput | StreakWhereUniqueInput[]
+    disconnect?: StreakWhereUniqueInput | StreakWhereUniqueInput[]
+    delete?: StreakWhereUniqueInput | StreakWhereUniqueInput[]
+    connect?: StreakWhereUniqueInput | StreakWhereUniqueInput[]
+    update?: StreakUpdateWithWhereUniqueWithoutGoalInput | StreakUpdateWithWhereUniqueWithoutGoalInput[]
+    updateMany?: StreakUpdateManyWithWhereWithoutGoalInput | StreakUpdateManyWithWhereWithoutGoalInput[]
+    deleteMany?: StreakScalarWhereInput | StreakScalarWhereInput[]
+  }
+
+  export type GoalCreateNestedOneWithoutStreakInput = {
+    create?: XOR<GoalCreateWithoutStreakInput, GoalUncheckedCreateWithoutStreakInput>
+    connectOrCreate?: GoalCreateOrConnectWithoutStreakInput
+    connect?: GoalWhereUniqueInput
+  }
+
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
+  export type EnumStreakTypeFieldUpdateOperationsInput = {
+    set?: $Enums.StreakType
+  }
+
+  export type GoalUpdateOneRequiredWithoutStreakNestedInput = {
+    create?: XOR<GoalCreateWithoutStreakInput, GoalUncheckedCreateWithoutStreakInput>
+    connectOrCreate?: GoalCreateOrConnectWithoutStreakInput
+    upsert?: GoalUpsertWithoutStreakInput
+    connect?: GoalWhereUniqueInput
+    update?: XOR<XOR<GoalUpdateToOneWithWhereWithoutStreakInput, GoalUpdateWithoutStreakInput>, GoalUncheckedUpdateWithoutStreakInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -3677,13 +5294,93 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
+  export type NestedDateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedEnumStreakTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.StreakType | EnumStreakTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.StreakType[] | ListEnumStreakTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StreakType[] | ListEnumStreakTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumStreakTypeFilter<$PrismaModel> | $Enums.StreakType
+  }
+
+  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedEnumStreakTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.StreakType | EnumStreakTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.StreakType[] | ListEnumStreakTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StreakType[] | ListEnumStreakTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumStreakTypeWithAggregatesFilter<$PrismaModel> | $Enums.StreakType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumStreakTypeFilter<$PrismaModel>
+    _max?: NestedEnumStreakTypeFilter<$PrismaModel>
+  }
+
   export type GoalCreateWithoutUserInput = {
     title: string
+    Streak?: StreakCreateNestedManyWithoutGoalInput
   }
 
   export type GoalUncheckedCreateWithoutUserInput = {
     id?: number
     title: string
+    Streak?: StreakUncheckedCreateNestedManyWithoutGoalInput
   }
 
   export type GoalCreateOrConnectWithoutUserInput = {
@@ -3737,6 +5434,29 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutGoalsInput, UserUncheckedCreateWithoutGoalsInput>
   }
 
+  export type StreakCreateWithoutGoalInput = {
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    type: $Enums.StreakType
+  }
+
+  export type StreakUncheckedCreateWithoutGoalInput = {
+    id?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    type: $Enums.StreakType
+  }
+
+  export type StreakCreateOrConnectWithoutGoalInput = {
+    where: StreakWhereUniqueInput
+    create: XOR<StreakCreateWithoutGoalInput, StreakUncheckedCreateWithoutGoalInput>
+  }
+
+  export type StreakCreateManyGoalInputEnvelope = {
+    data: StreakCreateManyGoalInput | StreakCreateManyGoalInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutGoalsInput = {
     update: XOR<UserUpdateWithoutGoalsInput, UserUncheckedUpdateWithoutGoalsInput>
     create: XOR<UserCreateWithoutGoalsInput, UserUncheckedCreateWithoutGoalsInput>
@@ -3759,6 +5479,71 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
   }
 
+  export type StreakUpsertWithWhereUniqueWithoutGoalInput = {
+    where: StreakWhereUniqueInput
+    update: XOR<StreakUpdateWithoutGoalInput, StreakUncheckedUpdateWithoutGoalInput>
+    create: XOR<StreakCreateWithoutGoalInput, StreakUncheckedCreateWithoutGoalInput>
+  }
+
+  export type StreakUpdateWithWhereUniqueWithoutGoalInput = {
+    where: StreakWhereUniqueInput
+    data: XOR<StreakUpdateWithoutGoalInput, StreakUncheckedUpdateWithoutGoalInput>
+  }
+
+  export type StreakUpdateManyWithWhereWithoutGoalInput = {
+    where: StreakScalarWhereInput
+    data: XOR<StreakUpdateManyMutationInput, StreakUncheckedUpdateManyWithoutGoalInput>
+  }
+
+  export type StreakScalarWhereInput = {
+    AND?: StreakScalarWhereInput | StreakScalarWhereInput[]
+    OR?: StreakScalarWhereInput[]
+    NOT?: StreakScalarWhereInput | StreakScalarWhereInput[]
+    id?: IntFilter<"Streak"> | number
+    createdAt?: DateTimeFilter<"Streak"> | Date | string
+    updatedAt?: DateTimeNullableFilter<"Streak"> | Date | string | null
+    type?: EnumStreakTypeFilter<"Streak"> | $Enums.StreakType
+    goalId?: IntFilter<"Streak"> | number
+  }
+
+  export type GoalCreateWithoutStreakInput = {
+    title: string
+    user: UserCreateNestedOneWithoutGoalsInput
+  }
+
+  export type GoalUncheckedCreateWithoutStreakInput = {
+    id?: number
+    title: string
+    userId: number
+  }
+
+  export type GoalCreateOrConnectWithoutStreakInput = {
+    where: GoalWhereUniqueInput
+    create: XOR<GoalCreateWithoutStreakInput, GoalUncheckedCreateWithoutStreakInput>
+  }
+
+  export type GoalUpsertWithoutStreakInput = {
+    update: XOR<GoalUpdateWithoutStreakInput, GoalUncheckedUpdateWithoutStreakInput>
+    create: XOR<GoalCreateWithoutStreakInput, GoalUncheckedCreateWithoutStreakInput>
+    where?: GoalWhereInput
+  }
+
+  export type GoalUpdateToOneWithWhereWithoutStreakInput = {
+    where?: GoalWhereInput
+    data: XOR<GoalUpdateWithoutStreakInput, GoalUncheckedUpdateWithoutStreakInput>
+  }
+
+  export type GoalUpdateWithoutStreakInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    user?: UserUpdateOneRequiredWithoutGoalsNestedInput
+  }
+
+  export type GoalUncheckedUpdateWithoutStreakInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    userId?: IntFieldUpdateOperationsInput | number
+  }
+
   export type GoalCreateManyUserInput = {
     id?: number
     title: string
@@ -3766,16 +5551,45 @@ export namespace Prisma {
 
   export type GoalUpdateWithoutUserInput = {
     title?: StringFieldUpdateOperationsInput | string
+    Streak?: StreakUpdateManyWithoutGoalNestedInput
   }
 
   export type GoalUncheckedUpdateWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
+    Streak?: StreakUncheckedUpdateManyWithoutGoalNestedInput
   }
 
   export type GoalUncheckedUpdateManyWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type StreakCreateManyGoalInput = {
+    id?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    type: $Enums.StreakType
+  }
+
+  export type StreakUpdateWithoutGoalInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    type?: EnumStreakTypeFieldUpdateOperationsInput | $Enums.StreakType
+  }
+
+  export type StreakUncheckedUpdateWithoutGoalInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    type?: EnumStreakTypeFieldUpdateOperationsInput | $Enums.StreakType
+  }
+
+  export type StreakUncheckedUpdateManyWithoutGoalInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    type?: EnumStreakTypeFieldUpdateOperationsInput | $Enums.StreakType
   }
 
 

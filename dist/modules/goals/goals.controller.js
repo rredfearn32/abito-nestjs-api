@@ -20,6 +20,7 @@ const users_service_1 = require("../../infrastructure/users/users.service");
 const goals_service_1 = require("./goals.service");
 const CreateGoalDto_1 = require("./dtos/CreateGoalDto");
 const UpdateGoalDto_1 = require("./dtos/UpdateGoalDto");
+const NewStreakDto_1 = require("./dtos/NewStreakDto");
 let GoalsController = class GoalsController {
     constructor(userService, goalsService) {
         this.userService = userService;
@@ -90,6 +91,22 @@ let GoalsController = class GoalsController {
         const { userId, ...goalWithoutUserId } = await this.goalsService.updateGoal(goalIdNumber, req.jwt.sub, updatedGoal);
         return goalWithoutUserId;
     }
+    async createStreak(goalId, req, newStreak) {
+        const user = await this.userService.findUserById(req.jwt.sub);
+        if (!user) {
+            throw new common_1.NotFoundException();
+        }
+        const goalIdNumber = Number(goalId);
+        if (isNaN(goalIdNumber)) {
+            throw new common_1.BadRequestException('Invalid goal id');
+        }
+        const goal = await this.goalsService.getGoalById(goalIdNumber, req.jwt.sub);
+        if (!goal) {
+            throw new common_1.NotFoundException();
+        }
+        return this.goalsService.createStreak(goalIdNumber, newStreak);
+    }
+    async endStreak() { }
 };
 exports.GoalsController = GoalsController;
 __decorate([
@@ -137,6 +154,23 @@ __decorate([
     __metadata("design:paramtypes", [UpdateGoalDto_1.UpdateGoalDto, String, Object]),
     __metadata("design:returntype", Promise)
 ], GoalsController.prototype, "updateGoal", null);
+__decorate([
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, common_1.Post)('/:id/streak'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Req)()),
+    __param(2, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object, NewStreakDto_1.NewStreakDto]),
+    __metadata("design:returntype", Promise)
+], GoalsController.prototype, "createStreak", null);
+__decorate([
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, common_1.Patch)('/:id/streak'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], GoalsController.prototype, "endStreak", null);
 exports.GoalsController = GoalsController = __decorate([
     (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.Controller)('goals'),

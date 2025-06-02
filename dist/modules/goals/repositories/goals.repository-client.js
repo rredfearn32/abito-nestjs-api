@@ -30,6 +30,9 @@ let GoalsRepositoryClient = class GoalsRepositoryClient {
             where: {
                 userId: userId,
             },
+            include: {
+                Streak: true,
+            },
         });
     }
     async getGoalById(goalId, ownerId) {
@@ -38,6 +41,9 @@ let GoalsRepositoryClient = class GoalsRepositoryClient {
                 id: goalId,
                 userId: ownerId,
             },
+            include: {
+                Streak: true,
+            },
         });
     }
     async deleteGoal(goalId, ownerId) {
@@ -45,6 +51,9 @@ let GoalsRepositoryClient = class GoalsRepositoryClient {
             where: {
                 id: goalId,
                 userId: ownerId,
+            },
+            include: {
+                Streak: true,
             },
         });
     }

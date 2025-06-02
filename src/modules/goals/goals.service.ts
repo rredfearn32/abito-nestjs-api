@@ -2,12 +2,16 @@ import { Inject, Injectable } from '@nestjs/common';
 import { GoalsRepositoryClient } from './repositories/goals.repository-client';
 import { NewGoal } from './types/NewGoal';
 import { UpdateGoalDto } from './dtos/UpdateGoalDto';
+import { StreaksRepositoryClient } from './repositories/streaks.repository-client';
+import { NewStreakDto } from './dtos/NewStreakDto';
 
 @Injectable()
 export class GoalsService {
   constructor(
     @Inject(GoalsRepositoryClient)
     private goalsRepositoryClient: GoalsRepositoryClient,
+    @Inject(StreaksRepositoryClient)
+    private streaksRepositoryClient: StreaksRepositoryClient,
   ) {}
 
   async createGoal(newGoal: NewGoal) {
@@ -32,5 +36,9 @@ export class GoalsService {
     updatedGoal: UpdateGoalDto,
   ) {
     return this.goalsRepositoryClient.updateGoal(goalId, ownerId, updatedGoal);
+  }
+
+  async createStreak(goalId: number, newStreak: NewStreakDto) {
+    return this.streaksRepositoryClient.createStreak(goalId, newStreak);
   }
 }

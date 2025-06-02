@@ -4,6 +4,7 @@ import { CreateGoalDto } from './dtos/CreateGoalDto';
 import { GetAllGoalsForUserResponseDto } from './dtos/GetAllGoalsForUserResponseDto';
 import { GetSingleGoalResponseDto } from './dtos/GetSingleGoalResponseDto';
 import { UpdateGoalDto } from './dtos/UpdateGoalDto';
+import { NewStreakDto } from './dtos/NewStreakDto';
 export declare class GoalsController {
     private readonly userService;
     private readonly goalsService;
@@ -16,6 +17,13 @@ export declare class GoalsController {
         userId: number;
     }>;
     deleteGoal(goalId: string, req: any): Promise<{
+        Streak: {
+            id: number;
+            type: import("generated/prisma").$Enums.StreakType;
+            createdAt: Date;
+            updatedAt: Date;
+            goalId: number;
+        }[];
         id: number;
         title: string;
     }>;
@@ -23,4 +31,12 @@ export declare class GoalsController {
         id: number;
         title: string;
     }>;
+    createStreak(goalId: string, req: any, newStreak: NewStreakDto): Promise<{
+        id: number;
+        type: import("generated/prisma").$Enums.StreakType;
+        createdAt: Date;
+        updatedAt: Date;
+        goalId: number;
+    }>;
+    endStreak(): Promise<void>;
 }

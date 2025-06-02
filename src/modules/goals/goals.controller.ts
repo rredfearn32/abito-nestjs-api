@@ -20,6 +20,7 @@ import { NewGoal } from './types/NewGoal';
 import { GetAllGoalsForUserResponseDto } from './dtos/GetAllGoalsForUserResponseDto';
 import { GetSingleGoalResponseDto } from './dtos/GetSingleGoalResponseDto';
 import { UpdateGoalDto } from './dtos/UpdateGoalDto';
+import { NewStreakDto } from './dtos/NewStreakDto';
 
 @ApiBearerAuth()
 @Controller('goals')
@@ -152,4 +153,46 @@ export class GoalsController {
 
     return goalWithoutUserId;
   }
+
+  //   TODO:
+  // - Fetch current streak for goal / goals
+  // - Fetch all streaks for goal
+  // - Start new streak on a goal
+  // - End existing streak on a goal
+  // - Delete all associated streaks when a goal is deleted
+  //
+  //   Do we need to get streak info independent of a particular goal?
+  // - NO
+
+  @UseGuards(AuthGuard)
+  @Post('/:id/streak')
+  async createStreak(
+    @Param('id') goalId: string,
+    @Req() req,
+    @Body() newStreak: NewStreakDto,
+  ) {
+    const user = await this.userService.findUserById(req.jwt.sub);
+
+    if (!user) {
+      throw new NotFoundException();
+    }
+
+    const goalIdNumber = Number(goalId);
+
+    if (isNaN(goalIdNumber)) {
+      throw new BadRequestException('Invalid goal id');
+    }
+
+    const goal = await this.goalsService.getGoalById(goalIdNumber, req.jwt.sub);
+
+    if (!goal) {
+      throw new NotFoundException();
+    }
+
+    return this.goalsService.createStreak(goalIdNumber, newStreak);
+  }
+
+  @UseGuards(AuthGuard)
+  @Patch('/:id/streak')
+  async endStreak() {}
 }

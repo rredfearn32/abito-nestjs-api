@@ -6,11 +6,13 @@ import { GoalsController } from './goals.controller';
 import { GoalsService } from './goals.service';
 import { GoalsRepositoryClient } from './repositories/goals.repository-client';
 import { PrismaService } from '../../infrastructure/prisma/prisma.service';
+import { StreaksRepositoryClient } from './repositories/streaks.repository-client';
 
 @Module({
   providers: [
     GoalsService,
     GoalsRepositoryClient,
+    StreaksRepositoryClient,
     PrismaService,
     ConfigService,
   ],

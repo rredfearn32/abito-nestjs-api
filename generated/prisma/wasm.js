@@ -129,6 +129,14 @@ exports.Prisma.GoalScalarFieldEnum = {
   userId: 'userId'
 };
 
+exports.Prisma.StreakScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  type: 'type',
+  goalId: 'goalId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -139,10 +147,19 @@ exports.Prisma.QueryMode = {
   insensitive: 'insensitive'
 };
 
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
+exports.StreakType = exports.$Enums.StreakType = {
+  START: 'START',
+  STOP: 'STOP'
+};
 
 exports.Prisma.ModelName = {
   User: 'User',
-  Goal: 'Goal'
+  Goal: 'Goal',
+  Streak: 'Streak'
 };
 
 /**

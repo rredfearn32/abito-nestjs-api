@@ -22,6 +22,9 @@ export class GoalsRepositoryClient {
       where: {
         userId: userId,
       },
+      include: {
+        Streak: true,
+      },
     });
   }
 
@@ -31,6 +34,9 @@ export class GoalsRepositoryClient {
         id: goalId,
         userId: ownerId,
       },
+      include: {
+        Streak: true,
+      },
     });
   }
 
@@ -39,6 +45,9 @@ export class GoalsRepositoryClient {
       where: {
         id: goalId,
         userId: ownerId,
+      },
+      include: {
+        Streak: true,
       },
     });
   }
