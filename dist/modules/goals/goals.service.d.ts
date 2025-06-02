@@ -17,7 +17,7 @@ export declare class GoalsService {
             id: number;
             type: import("generated/prisma").$Enums.StreakType;
             createdAt: Date;
-            updatedAt: Date;
+            updatedAt: Date | null;
             goalId: number;
         }[];
     } & {
@@ -30,7 +30,7 @@ export declare class GoalsService {
             id: number;
             type: import("generated/prisma").$Enums.StreakType;
             createdAt: Date;
-            updatedAt: Date;
+            updatedAt: Date | null;
             goalId: number;
         }[];
     } & {
@@ -43,7 +43,7 @@ export declare class GoalsService {
             id: number;
             type: import("generated/prisma").$Enums.StreakType;
             createdAt: Date;
-            updatedAt: Date;
+            updatedAt: Date | null;
             goalId: number;
         }[];
     } & {
@@ -60,7 +60,7 @@ export declare class GoalsService {
         id: number;
         type: import("generated/prisma").$Enums.StreakType;
         createdAt: Date;
-        updatedAt: Date;
+        updatedAt: Date | null;
         goalId: number;
     }>;
 }

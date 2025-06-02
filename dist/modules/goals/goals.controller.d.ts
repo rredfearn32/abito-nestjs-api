@@ -21,7 +21,7 @@ export declare class GoalsController {
             id: number;
             type: import("generated/prisma").$Enums.StreakType;
             createdAt: Date;
-            updatedAt: Date;
+            updatedAt: Date | null;
             goalId: number;
         }[];
         id: number;
@@ -35,7 +35,7 @@ export declare class GoalsController {
         id: number;
         type: import("generated/prisma").$Enums.StreakType;
         createdAt: Date;
-        updatedAt: Date;
+        updatedAt: Date | null;
         goalId: number;
     }>;
     endStreak(): Promise<void>;

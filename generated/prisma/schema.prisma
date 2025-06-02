@@ -26,7 +26,7 @@ model Goal {
   id     Int      @id @default(autoincrement())
   title  String
   userId Int
-  user   User     @relation(fields: [userId], references: [id])
+  user   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   Streak Streak[]
 }
 
@@ -41,5 +41,5 @@ model Streak {
   updatedAt DateTime?
   type      StreakType
   goalId    Int
-  goal      Goal       @relation(fields: [goalId], references: [id])
+  goal      Goal       @relation(fields: [goalId], references: [id], onDelete: Cascade)
 }

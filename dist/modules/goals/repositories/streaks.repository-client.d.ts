@@ -7,7 +7,7 @@ export declare class StreaksRepositoryClient {
         id: number;
         type: import("generated/prisma").$Enums.StreakType;
         createdAt: Date;
-        updatedAt: Date;
+        updatedAt: Date | null;
         goalId: number;
     }>;
 }

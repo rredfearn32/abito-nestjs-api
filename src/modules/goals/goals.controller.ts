@@ -155,9 +155,9 @@ export class GoalsController {
   }
 
   //   TODO:
-  // - Fetch current streak for goal / goals
-  // - Fetch all streaks for goal
-  // - Start new streak on a goal
+  // - ✅ Fetch current streak for goal / goals
+  // - ✅ Fetch all streaks for goal
+  // - ✅ Start new streak on a goal
   // - End existing streak on a goal
   // - Delete all associated streaks when a goal is deleted
   //
