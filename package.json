@@ -16,6 +16,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "prisma:migrate": "npx prisma migrate dev --name",
+    "prisma:deploy": "npx prisma migrate deploy && echo 'Remember to change DB URL in .env file if you are targeting remote DBs'",
     "prisma:generate": "npx prisma generate",
     "prisma:studio": "npx prisma studio",
     "docker:up": "docker-compose up -d",
