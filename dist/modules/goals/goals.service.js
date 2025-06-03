@@ -39,8 +39,11 @@ let GoalsService = class GoalsService {
     async createStreak(goalId, newStreak) {
         return this.streaksRepositoryClient.createStreak(goalId, newStreak);
     }
-    async endStreak(goalId) {
-        return this.streaksRepositoryClient.endStreak(goalId);
+    async updateStreak(streakId, goalId) {
+        return this.streaksRepositoryClient.updateStreak(streakId, goalId);
+    }
+    async endStreak(streakId, goalId) {
+        return this.streaksRepositoryClient.endStreak(streakId, goalId);
     }
 };
 exports.GoalsService = GoalsService;

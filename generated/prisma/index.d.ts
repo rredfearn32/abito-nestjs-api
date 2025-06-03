@@ -1099,11 +1099,11 @@ export namespace Prisma {
    */
 
   export type GoalCountOutputType = {
-    Streak: number
+    streaks: number
   }
 
   export type GoalCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    Streak?: boolean | GoalCountOutputTypeCountStreakArgs
+    streaks?: boolean | GoalCountOutputTypeCountStreaksArgs
   }
 
   // Custom InputTypes
@@ -1120,7 +1120,7 @@ export namespace Prisma {
   /**
    * GoalCountOutputType without action
    */
-  export type GoalCountOutputTypeCountStreakArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type GoalCountOutputTypeCountStreaksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: StreakWhereInput
   }
 
@@ -2394,7 +2394,7 @@ export namespace Prisma {
     title?: boolean
     userId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
-    Streak?: boolean | Goal$StreakArgs<ExtArgs>
+    streaks?: boolean | Goal$streaksArgs<ExtArgs>
     _count?: boolean | GoalCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["goal"]>
 
@@ -2421,7 +2421,7 @@ export namespace Prisma {
   export type GoalOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "userId", ExtArgs["result"]["goal"]>
   export type GoalInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
-    Streak?: boolean | Goal$StreakArgs<ExtArgs>
+    streaks?: boolean | Goal$streaksArgs<ExtArgs>
     _count?: boolean | GoalCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type GoalIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2435,7 +2435,7 @@ export namespace Prisma {
     name: "Goal"
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
-      Streak: Prisma.$StreakPayload<ExtArgs>[]
+      streaks: Prisma.$StreakPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -2836,7 +2836,7 @@ export namespace Prisma {
   export interface Prisma__GoalClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    Streak<T extends Goal$StreakArgs<ExtArgs> = {}>(args?: Subset<T, Goal$StreakArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StreakPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    streaks<T extends Goal$streaksArgs<ExtArgs> = {}>(args?: Subset<T, Goal$streaksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StreakPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3265,9 +3265,9 @@ export namespace Prisma {
   }
 
   /**
-   * Goal.Streak
+   * Goal.streaks
    */
-  export type Goal$StreakArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Goal$streaksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Streak
      */
@@ -4624,7 +4624,7 @@ export namespace Prisma {
     title?: StringFilter<"Goal"> | string
     userId?: IntFilter<"Goal"> | number
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    Streak?: StreakListRelationFilter
+    streaks?: StreakListRelationFilter
   }
 
   export type GoalOrderByWithRelationInput = {
@@ -4632,7 +4632,7 @@ export namespace Prisma {
     title?: SortOrder
     userId?: SortOrder
     user?: UserOrderByWithRelationInput
-    Streak?: StreakOrderByRelationAggregateInput
+    streaks?: StreakOrderByRelationAggregateInput
   }
 
   export type GoalWhereUniqueInput = Prisma.AtLeast<{
@@ -4643,7 +4643,7 @@ export namespace Prisma {
     title?: StringFilter<"Goal"> | string
     userId?: IntFilter<"Goal"> | number
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    Streak?: StreakListRelationFilter
+    streaks?: StreakListRelationFilter
   }, "id">
 
   export type GoalOrderByWithAggregationInput = {
@@ -4774,27 +4774,27 @@ export namespace Prisma {
   export type GoalCreateInput = {
     title: string
     user: UserCreateNestedOneWithoutGoalsInput
-    Streak?: StreakCreateNestedManyWithoutGoalInput
+    streaks?: StreakCreateNestedManyWithoutGoalInput
   }
 
   export type GoalUncheckedCreateInput = {
     id?: number
     title: string
     userId: number
-    Streak?: StreakUncheckedCreateNestedManyWithoutGoalInput
+    streaks?: StreakUncheckedCreateNestedManyWithoutGoalInput
   }
 
   export type GoalUpdateInput = {
     title?: StringFieldUpdateOperationsInput | string
     user?: UserUpdateOneRequiredWithoutGoalsNestedInput
-    Streak?: StreakUpdateManyWithoutGoalNestedInput
+    streaks?: StreakUpdateManyWithoutGoalNestedInput
   }
 
   export type GoalUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     userId?: IntFieldUpdateOperationsInput | number
-    Streak?: StreakUncheckedUpdateManyWithoutGoalNestedInput
+    streaks?: StreakUncheckedUpdateManyWithoutGoalNestedInput
   }
 
   export type GoalCreateManyInput = {
@@ -4818,7 +4818,7 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     type: $Enums.StreakType
     inProgress?: boolean
-    goal: GoalCreateNestedOneWithoutStreakInput
+    goal: GoalCreateNestedOneWithoutStreaksInput
   }
 
   export type StreakUncheckedCreateInput = {
@@ -4835,7 +4835,7 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     type?: EnumStreakTypeFieldUpdateOperationsInput | $Enums.StreakType
     inProgress?: BoolFieldUpdateOperationsInput | boolean
-    goal?: GoalUpdateOneRequiredWithoutStreakNestedInput
+    goal?: GoalUpdateOneRequiredWithoutStreaksNestedInput
   }
 
   export type StreakUncheckedUpdateInput = {
@@ -5248,9 +5248,9 @@ export namespace Prisma {
     deleteMany?: StreakScalarWhereInput | StreakScalarWhereInput[]
   }
 
-  export type GoalCreateNestedOneWithoutStreakInput = {
-    create?: XOR<GoalCreateWithoutStreakInput, GoalUncheckedCreateWithoutStreakInput>
-    connectOrCreate?: GoalCreateOrConnectWithoutStreakInput
+  export type GoalCreateNestedOneWithoutStreaksInput = {
+    create?: XOR<GoalCreateWithoutStreaksInput, GoalUncheckedCreateWithoutStreaksInput>
+    connectOrCreate?: GoalCreateOrConnectWithoutStreaksInput
     connect?: GoalWhereUniqueInput
   }
 
@@ -5270,12 +5270,12 @@ export namespace Prisma {
     set?: boolean
   }
 
-  export type GoalUpdateOneRequiredWithoutStreakNestedInput = {
-    create?: XOR<GoalCreateWithoutStreakInput, GoalUncheckedCreateWithoutStreakInput>
-    connectOrCreate?: GoalCreateOrConnectWithoutStreakInput
-    upsert?: GoalUpsertWithoutStreakInput
+  export type GoalUpdateOneRequiredWithoutStreaksNestedInput = {
+    create?: XOR<GoalCreateWithoutStreaksInput, GoalUncheckedCreateWithoutStreaksInput>
+    connectOrCreate?: GoalCreateOrConnectWithoutStreaksInput
+    upsert?: GoalUpsertWithoutStreaksInput
     connect?: GoalWhereUniqueInput
-    update?: XOR<XOR<GoalUpdateToOneWithWhereWithoutStreakInput, GoalUpdateWithoutStreakInput>, GoalUncheckedUpdateWithoutStreakInput>
+    update?: XOR<XOR<GoalUpdateToOneWithWhereWithoutStreaksInput, GoalUpdateWithoutStreaksInput>, GoalUncheckedUpdateWithoutStreaksInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -5440,13 +5440,13 @@ export namespace Prisma {
 
   export type GoalCreateWithoutUserInput = {
     title: string
-    Streak?: StreakCreateNestedManyWithoutGoalInput
+    streaks?: StreakCreateNestedManyWithoutGoalInput
   }
 
   export type GoalUncheckedCreateWithoutUserInput = {
     id?: number
     title: string
-    Streak?: StreakUncheckedCreateNestedManyWithoutGoalInput
+    streaks?: StreakUncheckedCreateNestedManyWithoutGoalInput
   }
 
   export type GoalCreateOrConnectWithoutUserInput = {
@@ -5575,39 +5575,39 @@ export namespace Prisma {
     goalId?: IntFilter<"Streak"> | number
   }
 
-  export type GoalCreateWithoutStreakInput = {
+  export type GoalCreateWithoutStreaksInput = {
     title: string
     user: UserCreateNestedOneWithoutGoalsInput
   }
 
-  export type GoalUncheckedCreateWithoutStreakInput = {
+  export type GoalUncheckedCreateWithoutStreaksInput = {
     id?: number
     title: string
     userId: number
   }
 
-  export type GoalCreateOrConnectWithoutStreakInput = {
+  export type GoalCreateOrConnectWithoutStreaksInput = {
     where: GoalWhereUniqueInput
-    create: XOR<GoalCreateWithoutStreakInput, GoalUncheckedCreateWithoutStreakInput>
+    create: XOR<GoalCreateWithoutStreaksInput, GoalUncheckedCreateWithoutStreaksInput>
   }
 
-  export type GoalUpsertWithoutStreakInput = {
-    update: XOR<GoalUpdateWithoutStreakInput, GoalUncheckedUpdateWithoutStreakInput>
-    create: XOR<GoalCreateWithoutStreakInput, GoalUncheckedCreateWithoutStreakInput>
+  export type GoalUpsertWithoutStreaksInput = {
+    update: XOR<GoalUpdateWithoutStreaksInput, GoalUncheckedUpdateWithoutStreaksInput>
+    create: XOR<GoalCreateWithoutStreaksInput, GoalUncheckedCreateWithoutStreaksInput>
     where?: GoalWhereInput
   }
 
-  export type GoalUpdateToOneWithWhereWithoutStreakInput = {
+  export type GoalUpdateToOneWithWhereWithoutStreaksInput = {
     where?: GoalWhereInput
-    data: XOR<GoalUpdateWithoutStreakInput, GoalUncheckedUpdateWithoutStreakInput>
+    data: XOR<GoalUpdateWithoutStreaksInput, GoalUncheckedUpdateWithoutStreaksInput>
   }
 
-  export type GoalUpdateWithoutStreakInput = {
+  export type GoalUpdateWithoutStreaksInput = {
     title?: StringFieldUpdateOperationsInput | string
     user?: UserUpdateOneRequiredWithoutGoalsNestedInput
   }
 
-  export type GoalUncheckedUpdateWithoutStreakInput = {
+  export type GoalUncheckedUpdateWithoutStreaksInput = {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     userId?: IntFieldUpdateOperationsInput | number
@@ -5620,13 +5620,13 @@ export namespace Prisma {
 
   export type GoalUpdateWithoutUserInput = {
     title?: StringFieldUpdateOperationsInput | string
-    Streak?: StreakUpdateManyWithoutGoalNestedInput
+    streaks?: StreakUpdateManyWithoutGoalNestedInput
   }
 
   export type GoalUncheckedUpdateWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
-    Streak?: StreakUncheckedUpdateManyWithoutGoalNestedInput
+    streaks?: StreakUncheckedUpdateManyWithoutGoalNestedInput
   }
 
   export type GoalUncheckedUpdateManyWithoutUserInput = {

@@ -5,6 +5,8 @@ import {
   Controller,
   Delete,
   Get,
+  HttpException,
+  HttpStatus,
   NotFoundException,
   Param,
   Patch,
@@ -182,12 +184,22 @@ export class GoalsController {
       throw new NotFoundException();
     }
 
+    if (goal.streaks.filter(({ inProgress }) => inProgress).length) {
+      throw new BadRequestException(
+        'Cannot create new streak when one is in-progress for this goal',
+      );
+    }
+
     return this.goalsService.createStreak(goalIdNumber, newStreak);
   }
 
   @UseGuards(AuthGuard)
-  @Patch('/:id/streak')
-  async endStreak(@Param('id') goalId: string, @Req() req) {
+  @Patch('/:goalId/streak/:streakId')
+  async updateStreak(
+    @Param('goalId') goalId: string,
+    @Param('streakId') streakId: string,
+    @Req() req,
+  ) {
     const user = await this.userService.findUserById(req.jwt.sub);
 
     if (!user) {
@@ -206,6 +218,60 @@ export class GoalsController {
       throw new NotFoundException();
     }
 
-    return this.goalsService.endStreak(goalIdNumber);
+    const streakIdNumber = Number(streakId);
+
+    const targetStreak = goal.streaks.find(({ id }) => id === streakIdNumber);
+
+    const canTargetStreakBeUpdated =
+      !!targetStreak &&
+      targetStreak.inProgress &&
+      targetStreak.type === 'START';
+
+    if (!canTargetStreakBeUpdated) {
+      throw new BadRequestException('This type of streak cannot be updated');
+    }
+
+    return this.goalsService.updateStreak(streakIdNumber, goalIdNumber);
+  }
+
+  @UseGuards(AuthGuard)
+  @Delete('/:goalId/streak/:streakId')
+  async endStreak(
+    @Param('goalId') goalId: string,
+    @Param('streakId') streakId: string,
+    @Req() req,
+  ) {
+    const user = await this.userService.findUserById(req.jwt.sub);
+
+    if (!user) {
+      throw new NotFoundException();
+    }
+
+    const goalIdNumber = Number(goalId);
+
+    if (isNaN(goalIdNumber)) {
+      throw new BadRequestException('Invalid goal id');
+    }
+
+    const goal = await this.goalsService.getGoalById(goalIdNumber, req.jwt.sub);
+
+    if (!goal) {
+      throw new NotFoundException('Goal could not be found');
+    }
+
+    const streakIdNumber = Number(streakId);
+
+    const targetStreak = goal.streaks.find(({ id }) => id === streakIdNumber);
+
+    const canTargetStreakBeEnded =
+      !!targetStreak &&
+      targetStreak.inProgress &&
+      targetStreak.type === 'START';
+
+    if (!canTargetStreakBeEnded) {
+      throw new BadRequestException('This streak cannot be ended');
+    }
+
+    return this.goalsService.endStreak(streakIdNumber, goalIdNumber);
   }
 }

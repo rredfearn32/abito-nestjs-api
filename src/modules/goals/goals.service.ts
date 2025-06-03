@@ -42,7 +42,11 @@ export class GoalsService {
     return this.streaksRepositoryClient.createStreak(goalId, newStreak);
   }
 
-  async endStreak(goalId: number) {
-    return this.streaksRepositoryClient.endStreak(goalId);
+  async updateStreak(streakId: number, goalId: number) {
+    return this.streaksRepositoryClient.updateStreak(streakId, goalId);
+  }
+
+  async endStreak(streakId: number, goalId: number) {
+    return this.streaksRepositoryClient.endStreak(streakId, goalId);
   }
 }

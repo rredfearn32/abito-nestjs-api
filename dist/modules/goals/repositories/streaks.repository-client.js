@@ -25,11 +25,22 @@ let StreaksRepositoryClient = class StreaksRepositoryClient {
             },
         });
     }
-    async endStreak(goalId) {
-        return this.prismaService.streak.updateMany({
+    async updateStreak(streakId, goalId) {
+        return this.prismaService.streak.update({
             where: {
-                goalId: goalId,
-                inProgress: true,
+                id: streakId,
+                goalId,
+            },
+            data: {
+                updatedAt: new Date().toISOString(),
+            },
+        });
+    }
+    async endStreak(streakId, goalId) {
+        return this.prismaService.streak.update({
+            where: {
+                id: streakId,
+                goalId,
             },
             data: {
                 inProgress: false,

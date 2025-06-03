@@ -11,5 +11,20 @@ export declare class StreaksRepositoryClient {
         inProgress: boolean;
         goalId: number;
     }>;
-    endStreak(goalId: number): Promise<import("generated/prisma").Prisma.BatchPayload>;
+    updateStreak(streakId: number, goalId: number): Promise<{
+        id: number;
+        type: import("generated/prisma").$Enums.StreakType;
+        createdAt: Date;
+        updatedAt: Date | null;
+        inProgress: boolean;
+        goalId: number;
+    }>;
+    endStreak(streakId: number, goalId: number): Promise<{
+        id: number;
+        type: import("generated/prisma").$Enums.StreakType;
+        createdAt: Date;
+        updatedAt: Date | null;
+        inProgress: boolean;
+        goalId: number;
+    }>;
 }

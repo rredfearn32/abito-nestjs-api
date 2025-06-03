@@ -104,9 +104,12 @@ let GoalsController = class GoalsController {
         if (!goal) {
             throw new common_1.NotFoundException();
         }
+        if (goal.streaks.filter(({ inProgress }) => inProgress).length) {
+            throw new common_1.BadRequestException('Cannot create new streak when one is in-progress for this goal');
+        }
         return this.goalsService.createStreak(goalIdNumber, newStreak);
     }
-    async endStreak(goalId, req) {
+    async updateStreak(goalId, streakId, req) {
         const user = await this.userService.findUserById(req.jwt.sub);
         if (!user) {
             throw new common_1.NotFoundException();
@@ -119,7 +122,38 @@ let GoalsController = class GoalsController {
         if (!goal) {
             throw new common_1.NotFoundException();
         }
-        return this.goalsService.endStreak(goalIdNumber);
+        const streakIdNumber = Number(streakId);
+        const targetStreak = goal.streaks.find(({ id }) => id === streakIdNumber);
+        const canTargetStreakBeUpdated = !!targetStreak &&
+            targetStreak.inProgress &&
+            targetStreak.type === 'START';
+        if (!canTargetStreakBeUpdated) {
+            throw new common_1.BadRequestException('This type of streak cannot be updated');
+        }
+        return this.goalsService.updateStreak(streakIdNumber, goalIdNumber);
+    }
+    async endStreak(goalId, streakId, req) {
+        const user = await this.userService.findUserById(req.jwt.sub);
+        if (!user) {
+            throw new common_1.NotFoundException();
+        }
+        const goalIdNumber = Number(goalId);
+        if (isNaN(goalIdNumber)) {
+            throw new common_1.BadRequestException('Invalid goal id');
+        }
+        const goal = await this.goalsService.getGoalById(goalIdNumber, req.jwt.sub);
+        if (!goal) {
+            throw new common_1.NotFoundException('Goal could not be found');
+        }
+        const streakIdNumber = Number(streakId);
+        const targetStreak = goal.streaks.find(({ id }) => id === streakIdNumber);
+        const canTargetStreakBeEnded = !!targetStreak &&
+            targetStreak.inProgress &&
+            targetStreak.type === 'START';
+        if (!canTargetStreakBeEnded) {
+            throw new common_1.BadRequestException('This streak cannot be ended');
+        }
+        return this.goalsService.endStreak(streakIdNumber, goalIdNumber);
     }
 };
 exports.GoalsController = GoalsController;
@@ -180,11 +214,22 @@ __decorate([
 ], GoalsController.prototype, "createStreak", null);
 __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
-    (0, common_1.Patch)('/:id/streak'),
-    __param(0, (0, common_1.Param)('id')),
-    __param(1, (0, common_1.Req)()),
+    (0, common_1.Patch)('/:goalId/streak/:streakId'),
+    __param(0, (0, common_1.Param)('goalId')),
+    __param(1, (0, common_1.Param)('streakId')),
+    __param(2, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:paramtypes", [String, String, Object]),
+    __metadata("design:returntype", Promise)
+], GoalsController.prototype, "updateStreak", null);
+__decorate([
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, common_1.Delete)('/:goalId/streak/:streakId'),
+    __param(0, (0, common_1.Param)('goalId')),
+    __param(1, (0, common_1.Param)('streakId')),
+    __param(2, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String, Object]),
     __metadata("design:returntype", Promise)
 ], GoalsController.prototype, "endStreak", null);
 exports.GoalsController = GoalsController = __decorate([

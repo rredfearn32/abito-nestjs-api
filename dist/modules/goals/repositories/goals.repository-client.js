@@ -31,7 +31,7 @@ let GoalsRepositoryClient = class GoalsRepositoryClient {
                 userId: userId,
             },
             include: {
-                Streak: true,
+                streaks: true,
             },
         });
     }
@@ -42,7 +42,7 @@ let GoalsRepositoryClient = class GoalsRepositoryClient {
                 userId: ownerId,
             },
             include: {
-                Streak: true,
+                streaks: true,
             },
         });
     }
@@ -53,7 +53,7 @@ let GoalsRepositoryClient = class GoalsRepositoryClient {
                 userId: ownerId,
             },
             include: {
-                Streak: true,
+                streaks: true,
             },
         });
     }

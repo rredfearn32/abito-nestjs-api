@@ -17,7 +17,7 @@ export declare class GoalsController {
         userId: number;
     }>;
     deleteGoal(goalId: string, req: any): Promise<{
-        Streak: {
+        streaks: {
             id: number;
             type: import("generated/prisma").$Enums.StreakType;
             createdAt: Date;
@@ -40,5 +40,20 @@ export declare class GoalsController {
         inProgress: boolean;
         goalId: number;
     }>;
-    endStreak(goalId: string, req: any): Promise<import("generated/prisma").Prisma.BatchPayload>;
+    updateStreak(goalId: string, streakId: string, req: any): Promise<{
+        id: number;
+        type: import("generated/prisma").$Enums.StreakType;
+        createdAt: Date;
+        updatedAt: Date | null;
+        inProgress: boolean;
+        goalId: number;
+    }>;
+    endStreak(goalId: string, streakId: string, req: any): Promise<{
+        id: number;
+        type: import("generated/prisma").$Enums.StreakType;
+        createdAt: Date;
+        updatedAt: Date | null;
+        inProgress: boolean;
+        goalId: number;
+    }>;
 }

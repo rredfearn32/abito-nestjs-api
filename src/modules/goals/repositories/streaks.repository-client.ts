@@ -16,11 +16,23 @@ export class StreaksRepositoryClient {
     });
   }
 
-  async endStreak(goalId: number) {
-    return this.prismaService.streak.updateMany({
+  async updateStreak(streakId: number, goalId: number) {
+    return this.prismaService.streak.update({
       where: {
-        goalId: goalId,
-        inProgress: true,
+        id: streakId,
+        goalId,
+      },
+      data: {
+        updatedAt: new Date().toISOString(),
+      },
+    });
+  }
+
+  async endStreak(streakId: number, goalId: number) {
+    return this.prismaService.streak.update({
+      where: {
+        id: streakId,
+        goalId,
       },
       data: {
         inProgress: false,

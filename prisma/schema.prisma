@@ -23,11 +23,11 @@ model User {
 }
 
 model Goal {
-  id     Int      @id @default(autoincrement())
-  title  String
-  userId Int
-  user   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  Streak Streak[]
+  id      Int      @id @default(autoincrement())
+  title   String
+  userId  Int
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  streaks Streak[]
 }
 
 enum StreakType {

@@ -23,7 +23,7 @@ export class GoalsRepositoryClient {
         userId: userId,
       },
       include: {
-        Streak: true,
+        streaks: true,
       },
     });
   }
@@ -35,7 +35,7 @@ export class GoalsRepositoryClient {
         userId: ownerId,
       },
       include: {
-        Streak: true,
+        streaks: true,
       },
     });
   }
@@ -47,7 +47,7 @@ export class GoalsRepositoryClient {
         userId: ownerId,
       },
       include: {
-        Streak: true,
+        streaks: true,
       },
     });
   }
