@@ -20,6 +20,7 @@ import UpdateProfileRequestDto from './dtos/UpdateProfileRequestDto';
 import UpdateProfileResponseDto from './dtos/UpdateProfileResponseDto';
 import GetProfileResponseDto from './dtos/GetProfileResponseDto';
 import { UsersService } from '../../infrastructure/users/users.service';
+import { ERRORS } from './messages/errors';
 
 @ApiBearerAuth()
 @Controller('auth')
@@ -51,13 +52,13 @@ export class AuthController {
   @UseGuards(AuthGuard)
   @Get('profile')
   async getProfile(@Req() req): Promise<GetProfileResponseDto> {
-    const record = await this.userService.findUserById(req.jwt.sub);
+    const user = await this.userService.findUserById(req.jwt.sub);
 
-    if (!record) {
-      throw new NotFoundException();
+    if (!user) {
+      throw new NotFoundException(ERRORS.USER_NOT_FOUND);
     }
 
-    const { password, ...profile } = record;
+    const { password, ...profile } = user;
 
     return profile;
   }

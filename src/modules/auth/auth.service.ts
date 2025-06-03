@@ -8,6 +8,7 @@ import { compare, hash } from './helpers/hashing';
 import DeleteAccountRequestDto from './dtos/DeleteAccountRequestDto';
 import UpdateProfileRequestDto from './dtos/UpdateProfileRequestDto';
 import UpdateProfileResponseDto from './dtos/UpdateProfileResponseDto';
+import { ERRORS } from './messages/errors';
 
 @Injectable()
 export class AuthService {
@@ -26,7 +27,7 @@ export class AuthService {
   async login(username: string, password: string): Promise<LoginResponseDto> {
     const user = await this.userService.findUserByUsername(username);
     if (!(await compare(password, user?.password))) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException(ERRORS.INVALID_CREDENTIALS);
     }
 
     const payload = {
