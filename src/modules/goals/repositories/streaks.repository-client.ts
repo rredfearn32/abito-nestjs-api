@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../infrastructure/prisma/prisma.service';
-import { NewStreakDto } from '../dtos/NewStreakDto';
+import { NewStreakDto } from '../dtos/NewStreak.dto';
 
 @Injectable()
 export class StreaksRepositoryClient {

@@ -1,5 +1,5 @@
 import { PrismaService } from '../../../infrastructure/prisma/prisma.service';
-import { NewStreakDto } from '../dtos/NewStreakDto';
+import { NewStreakDto } from '../dtos/NewStreak.dto';
 export declare class StreaksRepositoryClient {
     private prismaService;
     constructor(prismaService: PrismaService);

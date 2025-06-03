@@ -1,6 +1,6 @@
 import { PrismaService } from '../../../infrastructure/prisma/prisma.service';
 import { NewGoal } from '../types/NewGoal';
-import { UpdateGoalDto } from '../dtos/UpdateGoalDto';
+import { UpdateGoalDto } from '../dtos/UpdateGoal.dto';
 export declare class GoalsRepositoryClient {
     private prismaService;
     constructor(prismaService: PrismaService);

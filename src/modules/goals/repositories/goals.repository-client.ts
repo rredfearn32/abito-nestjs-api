@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../infrastructure/prisma/prisma.service';
 import { NewGoal } from '../types/NewGoal';
-import { UpdateGoalDto } from '../dtos/UpdateGoalDto';
+import { UpdateGoalDto } from '../dtos/UpdateGoal.dto';
 
 @Injectable()
 export class GoalsRepositoryClient {

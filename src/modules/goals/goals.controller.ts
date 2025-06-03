@@ -5,8 +5,6 @@ import {
   Controller,
   Delete,
   Get,
-  HttpException,
-  HttpStatus,
   NotFoundException,
   Param,
   Patch,
@@ -17,12 +15,12 @@ import {
 import { AuthGuard } from '../../guards/auth.guard';
 import { UsersService } from '../../infrastructure/users/users.service';
 import { GoalsService } from './goals.service';
-import { CreateGoalDto } from './dtos/CreateGoalDto';
+import { CreateGoalDto } from './dtos/CreateGoal.dto';
 import { NewGoal } from './types/NewGoal';
-import { GetAllGoalsForUserResponseDto } from './dtos/GetAllGoalsForUserResponseDto';
-import { GetSingleGoalResponseDto } from './dtos/GetSingleGoalResponseDto';
-import { UpdateGoalDto } from './dtos/UpdateGoalDto';
-import { NewStreakDto } from './dtos/NewStreakDto';
+import { GetAllGoalsForUserResponseDto } from './dtos/GetAllGoalsForUserResponse.dto';
+import { GetSingleGoalResponseDto } from './dtos/GetSingleGoalResponse.dto';
+import { UpdateGoalDto } from './dtos/UpdateGoal.dto';
+import { NewStreakDto } from './dtos/NewStreak.dto';
 import { ERRORS } from './messages/error';
 
 @ApiBearerAuth()

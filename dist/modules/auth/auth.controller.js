@@ -15,12 +15,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthController = void 0;
 const common_1 = require("@nestjs/common");
 const auth_service_1 = require("./auth.service");
-const LoginRequestDto_1 = require("./dtos/LoginRequestDto");
+const LoginRequest_dto_1 = require("./dtos/LoginRequest.dto");
 const auth_guard_1 = require("../../guards/auth.guard");
 const swagger_1 = require("@nestjs/swagger");
-const RegisterRequestDto_1 = require("./dtos/RegisterRequestDto");
-const UpdateProfileRequestDto_1 = require("./dtos/UpdateProfileRequestDto");
+const RegisterRequest_dto_1 = require("./dtos/RegisterRequest.dto");
+const UpdateProfileRequest_dto_1 = require("./dtos/UpdateProfileRequest.dto");
+const GetProfileResponse_dto_1 = require("./dtos/GetProfileResponse.dto");
 const users_service_1 = require("../../infrastructure/users/users.service");
+const class_transformer_1 = require("class-transformer");
 let AuthController = class AuthController {
     constructor(authService, userService) {
         this.authService = authService;
@@ -36,12 +38,8 @@ let AuthController = class AuthController {
         this.authService.deleteAccount(req.jwt);
     }
     async getProfile(req) {
-        const record = await this.userService.findUserById(req.jwt.sub);
-        if (!record) {
-            throw new common_1.NotFoundException();
-        }
-        const { password, ...profile } = record;
-        return profile;
+        const user = await this.userService.findUserById(req.jwt.sub);
+        return (0, class_transformer_1.plainToInstance)(GetProfileResponse_dto_1.default, user);
     }
     async updateProfile(updatedProfile, req) {
         return this.authService.updateProfile(req.jwt, updatedProfile);
@@ -53,7 +51,7 @@ __decorate([
     (0, common_1.Post)('register'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [RegisterRequestDto_1.default]),
+    __metadata("design:paramtypes", [RegisterRequest_dto_1.default]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "register", null);
 __decorate([
@@ -61,7 +59,7 @@ __decorate([
     (0, common_1.Post)('login'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [LoginRequestDto_1.default]),
+    __metadata("design:paramtypes", [LoginRequest_dto_1.default]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "login", null);
 __decorate([
@@ -87,7 +85,7 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [UpdateProfileRequestDto_1.default, Object]),
+    __metadata("design:paramtypes", [UpdateProfileRequest_dto_1.default, Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "updateProfile", null);
 exports.AuthController = AuthController = __decorate([

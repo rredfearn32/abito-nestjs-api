@@ -9,15 +9,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreateGoalDto = void 0;
+exports.NewStreakDto = void 0;
+const prisma_1 = require("../../../../generated/prisma");
 const class_validator_1 = require("class-validator");
-const swagger_1 = require("@nestjs/swagger");
-class CreateGoalDto {
+class NewStreakDto {
 }
-exports.CreateGoalDto = CreateGoalDto;
+exports.NewStreakDto = NewStreakDto;
 __decorate([
-    (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsEnum)(prisma_1.StreakType),
     __metadata("design:type", String)
-], CreateGoalDto.prototype, "title", void 0);
-//# sourceMappingURL=CreateGoalDto.js.map
+], NewStreakDto.prototype, "type", void 0);
+//# sourceMappingURL=NewStreak.dto.js.map

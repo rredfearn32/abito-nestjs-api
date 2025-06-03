@@ -1,13 +1,13 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from '../../infrastructure/users/users.service';
-import LoginResponseDto from './dtos/LoginResponseDto';
+import LoginResponseDto from './dtos/LoginResponse.dto';
 import { JwtService } from '@nestjs/jwt';
-import RegisterRequestDto from './dtos/RegisterRequestDto';
-import RegisterResponseDto from './dtos/RegisterResponseDto';
+import RegisterRequestDto from './dtos/RegisterRequest.dto';
+import RegisterResponseDto from './dtos/RegisterResponse.dto';
 import { compare, hash } from './helpers/hashing';
-import DeleteAccountRequestDto from './dtos/DeleteAccountRequestDto';
-import UpdateProfileRequestDto from './dtos/UpdateProfileRequestDto';
-import UpdateProfileResponseDto from './dtos/UpdateProfileResponseDto';
+import DeleteAccountRequestDto from './dtos/DeleteAccountRequest.dto';
+import UpdateProfileRequestDto from './dtos/UpdateProfileRequest.dto';
+import UpdateProfileResponseDto from './dtos/UpdateProfileResponse.dto';
 import { ERRORS } from './messages/errors';
 
 @Injectable()

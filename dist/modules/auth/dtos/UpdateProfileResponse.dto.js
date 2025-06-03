@@ -11,16 +11,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const swagger_1 = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
-class LoginRequestDto {
+class UpdateProfileResponseDto {
 }
-exports.default = LoginRequestDto;
+exports.default = UpdateProfileResponseDto;
 __decorate([
     (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsEmail)(),
     __metadata("design:type", String)
-], LoginRequestDto.prototype, "username", void 0);
-__decorate([
-    (0, swagger_1.ApiProperty)(),
-    __metadata("design:type", String)
-], LoginRequestDto.prototype, "password", void 0);
-//# sourceMappingURL=LoginRequestDto.js.map
+], UpdateProfileResponseDto.prototype, "username", void 0);
+//# sourceMappingURL=UpdateProfileResponse.dto.js.map

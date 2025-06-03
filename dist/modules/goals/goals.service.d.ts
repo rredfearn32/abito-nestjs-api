@@ -1,8 +1,8 @@
 import { GoalsRepositoryClient } from './repositories/goals.repository-client';
 import { NewGoal } from './types/NewGoal';
-import { UpdateGoalDto } from './dtos/UpdateGoalDto';
+import { UpdateGoalDto } from './dtos/UpdateGoal.dto';
 import { StreaksRepositoryClient } from './repositories/streaks.repository-client';
-import { NewStreakDto } from './dtos/NewStreakDto';
+import { NewStreakDto } from './dtos/NewStreak.dto';
 export declare class GoalsService {
     private goalsRepositoryClient;
     private streaksRepositoryClient;

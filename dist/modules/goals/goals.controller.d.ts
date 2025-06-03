@@ -1,10 +1,10 @@
 import { UsersService } from '../../infrastructure/users/users.service';
 import { GoalsService } from './goals.service';
-import { CreateGoalDto } from './dtos/CreateGoalDto';
-import { GetAllGoalsForUserResponseDto } from './dtos/GetAllGoalsForUserResponseDto';
-import { GetSingleGoalResponseDto } from './dtos/GetSingleGoalResponseDto';
-import { UpdateGoalDto } from './dtos/UpdateGoalDto';
-import { NewStreakDto } from './dtos/NewStreakDto';
+import { CreateGoalDto } from './dtos/CreateGoal.dto';
+import { GetAllGoalsForUserResponseDto } from './dtos/GetAllGoalsForUserResponse.dto';
+import { GetSingleGoalResponseDto } from './dtos/GetSingleGoalResponse.dto';
+import { UpdateGoalDto } from './dtos/UpdateGoal.dto';
+import { NewStreakDto } from './dtos/NewStreak.dto';
 export declare class GoalsController {
     private readonly userService;
     private readonly goalsService;

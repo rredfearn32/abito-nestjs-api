@@ -18,18 +18,19 @@ const common_1 = require("@nestjs/common");
 const auth_guard_1 = require("../../guards/auth.guard");
 const users_service_1 = require("../../infrastructure/users/users.service");
 const goals_service_1 = require("./goals.service");
-const CreateGoalDto_1 = require("./dtos/CreateGoalDto");
-const UpdateGoalDto_1 = require("./dtos/UpdateGoalDto");
-const NewStreakDto_1 = require("./dtos/NewStreakDto");
+const CreateGoal_dto_1 = require("./dtos/CreateGoal.dto");
+const UpdateGoal_dto_1 = require("./dtos/UpdateGoal.dto");
+const NewStreak_dto_1 = require("./dtos/NewStreak.dto");
+const error_1 = require("./messages/error");
 let GoalsController = class GoalsController {
     constructor(userService, goalsService) {
         this.userService = userService;
         this.goalsService = goalsService;
     }
     async getAllGoalsForUser(req) {
-        const record = await this.userService.findUserById(req.jwt.sub);
-        if (!record) {
-            throw new common_1.NotFoundException();
+        const user = await this.userService.findUserById(req.jwt.sub);
+        if (!user) {
+            throw new common_1.NotFoundException(error_1.ERRORS.USER_NOT_FOUND);
         }
         const goals = await this.goalsService.getUsersGoals(req.jwt.sub);
         const goalsWithoutUserIds = goals.map(({ userId, ...rest }) => rest);
@@ -38,15 +39,15 @@ let GoalsController = class GoalsController {
     async getGoalById(goalId, req) {
         const user = await this.userService.findUserById(req.jwt.sub);
         if (!user) {
-            throw new common_1.NotFoundException();
+            throw new common_1.NotFoundException(error_1.ERRORS.USER_NOT_FOUND);
         }
         const goalIdNumber = Number(goalId);
         if (isNaN(goalIdNumber)) {
-            throw new common_1.BadRequestException('Invalid goal id');
+            throw new common_1.BadRequestException(error_1.ERRORS.INVALID_ID_FORMAT);
         }
         const goal = await this.goalsService.getGoalById(goalIdNumber, req.jwt.sub);
         if (!goal) {
-            throw new common_1.NotFoundException();
+            throw new common_1.NotFoundException(error_1.ERRORS.GOAL_NOT_FOUND);
         }
         const { userId, ...goalWithoutUserId } = goal;
         return goalWithoutUserId;
@@ -54,7 +55,7 @@ let GoalsController = class GoalsController {
     async createGoal(newGoalDto, req) {
         const user = await this.userService.findUserById(req.jwt.sub);
         if (!user) {
-            throw new common_1.NotFoundException();
+            throw new common_1.NotFoundException(error_1.ERRORS.USER_NOT_FOUND);
         }
         const newGoal = { ...newGoalDto, userId: req.jwt.sub };
         return this.goalsService.createGoal(newGoal);
@@ -62,15 +63,15 @@ let GoalsController = class GoalsController {
     async deleteGoal(goalId, req) {
         const user = await this.userService.findUserById(req.jwt.sub);
         if (!user) {
-            throw new common_1.NotFoundException();
+            throw new common_1.NotFoundException(error_1.ERRORS.USER_NOT_FOUND);
         }
         const goalIdNumber = Number(goalId);
         if (isNaN(goalIdNumber)) {
-            throw new common_1.BadRequestException('Invalid goal id');
+            throw new common_1.BadRequestException(error_1.ERRORS.INVALID_ID_FORMAT);
         }
         const goal = await this.goalsService.getGoalById(goalIdNumber, req.jwt.sub);
         if (!goal) {
-            throw new common_1.NotFoundException();
+            throw new common_1.NotFoundException(error_1.ERRORS.GOAL_NOT_FOUND);
         }
         const { userId, ...goalWithoutUserId } = await this.goalsService.deleteGoal(goalIdNumber, req.jwt.sub);
         return goalWithoutUserId;
@@ -78,15 +79,15 @@ let GoalsController = class GoalsController {
     async updateGoal(updatedGoal, goalId, req) {
         const user = await this.userService.findUserById(req.jwt.sub);
         if (!user) {
-            throw new common_1.NotFoundException();
+            throw new common_1.NotFoundException(error_1.ERRORS.USER_NOT_FOUND);
         }
         const goalIdNumber = Number(goalId);
         if (isNaN(goalIdNumber)) {
-            throw new common_1.BadRequestException('Invalid goal id');
+            throw new common_1.BadRequestException(error_1.ERRORS.INVALID_ID_FORMAT);
         }
         const goal = await this.goalsService.getGoalById(goalIdNumber, req.jwt.sub);
         if (!goal) {
-            throw new common_1.NotFoundException();
+            throw new common_1.NotFoundException(error_1.ERRORS.GOAL_NOT_FOUND);
         }
         const { userId, ...goalWithoutUserId } = await this.goalsService.updateGoal(goalIdNumber, req.jwt.sub, updatedGoal);
         return goalWithoutUserId;
@@ -94,64 +95,70 @@ let GoalsController = class GoalsController {
     async createStreak(goalId, req, newStreak) {
         const user = await this.userService.findUserById(req.jwt.sub);
         if (!user) {
-            throw new common_1.NotFoundException();
+            throw new common_1.NotFoundException(error_1.ERRORS.USER_NOT_FOUND);
         }
         const goalIdNumber = Number(goalId);
         if (isNaN(goalIdNumber)) {
-            throw new common_1.BadRequestException('Invalid goal id');
+            throw new common_1.BadRequestException(error_1.ERRORS.INVALID_ID_FORMAT);
         }
         const goal = await this.goalsService.getGoalById(goalIdNumber, req.jwt.sub);
         if (!goal) {
-            throw new common_1.NotFoundException();
+            throw new common_1.NotFoundException(error_1.ERRORS.GOAL_NOT_FOUND);
         }
         if (goal.streaks.filter(({ inProgress }) => inProgress).length) {
-            throw new common_1.BadRequestException('Cannot create new streak when one is in-progress for this goal');
+            throw new common_1.BadRequestException(error_1.ERRORS.CANNOT_CREATE_NEW_STREAK);
         }
         return this.goalsService.createStreak(goalIdNumber, newStreak);
     }
     async updateStreak(goalId, streakId, req) {
         const user = await this.userService.findUserById(req.jwt.sub);
         if (!user) {
-            throw new common_1.NotFoundException();
+            throw new common_1.NotFoundException(error_1.ERRORS.USER_NOT_FOUND);
         }
         const goalIdNumber = Number(goalId);
         if (isNaN(goalIdNumber)) {
-            throw new common_1.BadRequestException('Invalid goal id');
+            throw new common_1.BadRequestException(error_1.ERRORS.INVALID_ID_FORMAT);
         }
         const goal = await this.goalsService.getGoalById(goalIdNumber, req.jwt.sub);
         if (!goal) {
-            throw new common_1.NotFoundException();
+            throw new common_1.NotFoundException(error_1.ERRORS.GOAL_NOT_FOUND);
         }
         const streakIdNumber = Number(streakId);
+        if (isNaN(streakIdNumber)) {
+            throw new common_1.BadRequestException(error_1.ERRORS.INVALID_ID_FORMAT);
+        }
         const targetStreak = goal.streaks.find(({ id }) => id === streakIdNumber);
         const canTargetStreakBeUpdated = !!targetStreak &&
             targetStreak.inProgress &&
             targetStreak.type === 'START';
         if (!canTargetStreakBeUpdated) {
-            throw new common_1.BadRequestException('This type of streak cannot be updated');
+            throw new common_1.BadRequestException(error_1.ERRORS.CANNOT_UPDATE_STREAK);
         }
         return this.goalsService.updateStreak(streakIdNumber, goalIdNumber);
     }
     async endStreak(goalId, streakId, req) {
         const user = await this.userService.findUserById(req.jwt.sub);
         if (!user) {
-            throw new common_1.NotFoundException();
+            throw new common_1.NotFoundException(error_1.ERRORS.USER_NOT_FOUND);
         }
         const goalIdNumber = Number(goalId);
         if (isNaN(goalIdNumber)) {
-            throw new common_1.BadRequestException('Invalid goal id');
+            throw new common_1.BadRequestException(error_1.ERRORS.INVALID_ID_FORMAT);
         }
         const goal = await this.goalsService.getGoalById(goalIdNumber, req.jwt.sub);
         if (!goal) {
-            throw new common_1.NotFoundException('Goal could not be found');
+            throw new common_1.NotFoundException(error_1.ERRORS.GOAL_NOT_FOUND);
         }
         const streakIdNumber = Number(streakId);
+        if (isNaN(streakIdNumber)) {
+            throw new common_1.BadRequestException(error_1.ERRORS.INVALID_ID_FORMAT);
+        }
         const targetStreak = goal.streaks.find(({ id }) => id === streakIdNumber);
         const canTargetStreakBeEnded = !!targetStreak &&
             targetStreak.inProgress &&
             targetStreak.type === 'START';
         if (!canTargetStreakBeEnded) {
-            throw new common_1.BadRequestException('This streak cannot be ended');
+            throw new common_1.BadRequestException(error_1.ERRORS.CANNOT_END_STREAK);
         }
         return this.goalsService.endStreak(streakIdNumber, goalIdNumber);
     }
@@ -180,7 +187,7 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [CreateGoalDto_1.CreateGoalDto, Object]),
+    __metadata("design:paramtypes", [CreateGoal_dto_1.CreateGoalDto, Object]),
     __metadata("design:returntype", Promise)
 ], GoalsController.prototype, "createGoal", null);
 __decorate([
@@ -199,7 +206,7 @@ __decorate([
     __param(1, (0, common_1.Param)('id')),
     __param(2, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [UpdateGoalDto_1.UpdateGoalDto, String, Object]),
+    __metadata("design:paramtypes", [UpdateGoal_dto_1.UpdateGoalDto, String, Object]),
     __metadata("design:returntype", Promise)
 ], GoalsController.prototype, "updateGoal", null);
 __decorate([
@@ -209,7 +216,7 @@ __decorate([
     __param(1, (0, common_1.Req)()),
     __param(2, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Object, NewStreakDto_1.NewStreakDto]),
+    __metadata("design:paramtypes", [String, Object, NewStreak_dto_1.NewStreakDto]),
     __metadata("design:returntype", Promise)
 ], GoalsController.prototype, "createStreak", null);
 __decorate([

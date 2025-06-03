@@ -1,8 +1,9 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { UsersRepositoryClient } from './repositories/users.repository-client';
 import { User } from '@prisma/client';
-import RegisterRequestDto from '../../modules/auth/dtos/RegisterRequestDto';
-import UpdateProfileRequestDto from '../../modules/auth/dtos/UpdateProfileRequestDto';
+import RegisterRequestDto from '../../modules/auth/dtos/RegisterRequest.dto';
+import UpdateProfileRequestDto from '../../modules/auth/dtos/UpdateProfileRequest.dto';
+import { ERRORS } from '../../modules/auth/messages/errors';
 
 @Injectable()
 export class UsersService {
@@ -18,9 +19,15 @@ export class UsersService {
   }
 
   async findUserById(id: number): Promise<User | undefined> {
-    return this.usersRepositoryClient.findUser({
+    const user = this.usersRepositoryClient.findUser({
       id,
     });
+
+    if (!user) {
+      throw new NotFoundException(ERRORS.USER_NOT_FOUND);
+    }
+
+    return user;
   }
 
   async createUser(newUser: RegisterRequestDto): Promise<User | undefined> {

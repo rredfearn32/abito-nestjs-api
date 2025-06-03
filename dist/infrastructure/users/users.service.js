@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersService = void 0;
 const common_1 = require("@nestjs/common");
 const users_repository_client_1 = require("./repositories/users.repository-client");
+const errors_1 = require("../../modules/auth/messages/errors");
 let UsersService = class UsersService {
     constructor(usersRepositoryClient) {
         this.usersRepositoryClient = usersRepositoryClient;
@@ -25,9 +26,13 @@ let UsersService = class UsersService {
         });
     }
     async findUserById(id) {
-        return this.usersRepositoryClient.findUser({
+        const user = this.usersRepositoryClient.findUser({
             id,
         });
+        if (!user) {
+            throw new common_1.NotFoundException(errors_1.ERRORS.USER_NOT_FOUND);
+        }
+        return user;
     }
     async createUser(newUser) {
         return this.usersRepositoryClient.createUser(newUser);
