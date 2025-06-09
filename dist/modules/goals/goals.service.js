@@ -16,16 +16,26 @@ exports.GoalsService = void 0;
 const common_1 = require("@nestjs/common");
 const goals_repository_client_1 = require("./repositories/goals.repository-client");
 const streaks_repository_client_1 = require("./repositories/streaks.repository-client");
+const users_service_1 = require("../../infrastructure/users/users.service");
+const error_1 = require("./messages/error");
+const class_transformer_1 = require("class-transformer");
+const GetAllGoalsForUserResponse_dto_1 = require("./dtos/GetAllGoalsForUserResponse.dto");
 let GoalsService = class GoalsService {
-    constructor(goalsRepositoryClient, streaksRepositoryClient) {
+    constructor(goalsRepositoryClient, streaksRepositoryClient, userService) {
         this.goalsRepositoryClient = goalsRepositoryClient;
         this.streaksRepositoryClient = streaksRepositoryClient;
+        this.userService = userService;
     }
     async createGoal(newGoal) {
         return this.goalsRepositoryClient.createGoal(newGoal);
     }
     async getUsersGoals(userId) {
-        return this.goalsRepositoryClient.getUsersGoals(userId);
+        const user = await this.userService.findUserById(userId);
+        if (!user) {
+            throw new common_1.NotFoundException(error_1.ERRORS.USER_NOT_FOUND);
+        }
+        const goals = await this.goalsRepositoryClient.getUsersGoals(userId);
+        return goals.map((goal) => (0, class_transformer_1.plainToInstance)(GetAllGoalsForUserResponse_dto_1.GetAllGoalsForUserResponseDto, goal));
     }
     async getGoalById(goalId, ownerId) {
         return this.goalsRepositoryClient.getGoalById(goalId, ownerId);
@@ -52,6 +62,7 @@ exports.GoalsService = GoalsService = __decorate([
     __param(0, (0, common_1.Inject)(goals_repository_client_1.GoalsRepositoryClient)),
     __param(1, (0, common_1.Inject)(streaks_repository_client_1.StreaksRepositoryClient)),
     __metadata("design:paramtypes", [goals_repository_client_1.GoalsRepositoryClient,
-        streaks_repository_client_1.StreaksRepositoryClient])
+        streaks_repository_client_1.StreaksRepositoryClient,
+        users_service_1.UsersService])
 ], GoalsService);
 //# sourceMappingURL=goals.service.js.map

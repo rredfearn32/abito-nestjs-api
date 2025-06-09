@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Exclude } from 'class-transformer';
 
 export class GetAllGoalsForUserResponseDto {
   @ApiProperty()
@@ -6,4 +7,7 @@ export class GetAllGoalsForUserResponseDto {
 
   @ApiProperty()
   title: string;
+
+  @Exclude()
+  userId: number;
 }

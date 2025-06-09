@@ -1,9 +1,13 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { GoalsRepositoryClient } from './repositories/goals.repository-client';
 import { NewGoal } from './types/NewGoal';
 import { UpdateGoalDto } from './dtos/UpdateGoal.dto';
 import { StreaksRepositoryClient } from './repositories/streaks.repository-client';
 import { NewStreakDto } from './dtos/NewStreak.dto';
+import { UsersService } from '../../infrastructure/users/users.service';
+import { ERRORS } from './messages/error';
+import { plainToInstance } from 'class-transformer';
+import { GetAllGoalsForUserResponseDto } from './dtos/GetAllGoalsForUserResponse.dto';
 
 @Injectable()
 export class GoalsService {
@@ -12,6 +16,7 @@ export class GoalsService {
     private goalsRepositoryClient: GoalsRepositoryClient,
     @Inject(StreaksRepositoryClient)
     private streaksRepositoryClient: StreaksRepositoryClient,
+    private readonly userService: UsersService,
   ) {}
 
   async createGoal(newGoal: NewGoal) {
@@ -19,7 +24,17 @@ export class GoalsService {
   }
 
   async getUsersGoals(userId: number) {
-    return this.goalsRepositoryClient.getUsersGoals(userId);
+    const user = await this.userService.findUserById(userId);
+
+    if (!user) {
+      throw new NotFoundException(ERRORS.USER_NOT_FOUND);
+    }
+
+    const goals = await this.goalsRepositoryClient.getUsersGoals(userId);
+
+    return goals.map((goal) =>
+      plainToInstance(GetAllGoalsForUserResponseDto, goal),
+    );
   }
 
   async getGoalById(goalId: number, ownerId: number) {

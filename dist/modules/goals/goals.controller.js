@@ -28,13 +28,7 @@ let GoalsController = class GoalsController {
         this.goalsService = goalsService;
     }
     async getAllGoalsForUser(req) {
-        const user = await this.userService.findUserById(req.jwt.sub);
-        if (!user) {
-            throw new common_1.NotFoundException(error_1.ERRORS.USER_NOT_FOUND);
-        }
-        const goals = await this.goalsService.getUsersGoals(req.jwt.sub);
-        const goalsWithoutUserIds = goals.map(({ userId, ...rest }) => rest);
-        return goalsWithoutUserIds;
+        return this.goalsService.getUsersGoals(req.jwt.sub);
     }
     async getGoalById(goalId, req) {
         const user = await this.userService.findUserById(req.jwt.sub);

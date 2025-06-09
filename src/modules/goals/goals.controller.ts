@@ -36,17 +36,7 @@ export class GoalsController {
   async getAllGoalsForUser(
     @Req() req,
   ): Promise<GetAllGoalsForUserResponseDto[]> {
-    const user = await this.userService.findUserById(req.jwt.sub);
-
-    if (!user) {
-      throw new NotFoundException(ERRORS.USER_NOT_FOUND);
-    }
-
-    const goals = await this.goalsService.getUsersGoals(req.jwt.sub);
-
-    const goalsWithoutUserIds = goals.map(({ userId, ...rest }) => rest);
-
-    return goalsWithoutUserIds;
+    return this.goalsService.getUsersGoals(req.jwt.sub);
   }
 
   @UseGuards(AuthGuard)
