@@ -20,8 +20,7 @@ import UpdateProfileRequestDto from './dtos/UpdateProfileRequest.dto';
 import UpdateProfileResponseDto from './dtos/UpdateProfileResponse.dto';
 import GetProfileResponseDto from './dtos/GetProfileResponse.dto';
 import { UsersService } from '../../infrastructure/users/users.service';
-import { ERRORS } from './messages/errors';
-import { instanceToPlain, plainToInstance } from 'class-transformer';
+import { plainToInstance } from 'class-transformer';
 
 @ApiBearerAuth()
 @Controller('auth')

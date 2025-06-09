@@ -18,154 +18,45 @@ const common_1 = require("@nestjs/common");
 const auth_guard_1 = require("../../guards/auth.guard");
 const users_service_1 = require("../../infrastructure/users/users.service");
 const goals_service_1 = require("./goals.service");
-const CreateGoal_dto_1 = require("./dtos/CreateGoal.dto");
 const UpdateGoal_dto_1 = require("./dtos/UpdateGoal.dto");
-const NewStreak_dto_1 = require("./dtos/NewStreak.dto");
-const error_1 = require("./messages/error");
+const CreateStreak_dto_1 = require("./dtos/CreateStreak.dto");
+const CreateGoal_dto_1 = require("./dtos/CreateGoal.dto");
+const streaks_service_1 = require("./streaks.service");
+const userexists_guard_1 = require("../../guards/userexists.guard");
+const goalexists_guard_1 = require("../../guards/goalexists.guard");
 let GoalsController = class GoalsController {
-    constructor(userService, goalsService) {
+    constructor(userService, goalsService, streaksService) {
         this.userService = userService;
         this.goalsService = goalsService;
+        this.streaksService = streaksService;
     }
     async getAllGoalsForUser(req) {
-        const user = await this.userService.findUserById(req.jwt.sub);
-        if (!user) {
-            throw new common_1.NotFoundException(error_1.ERRORS.USER_NOT_FOUND);
-        }
-        const goals = await this.goalsService.getUsersGoals(req.jwt.sub);
-        const goalsWithoutUserIds = goals.map(({ userId, ...rest }) => rest);
-        return goalsWithoutUserIds;
+        return this.goalsService.getUsersGoals(req.jwt.sub);
     }
     async getGoalById(goalId, req) {
-        const user = await this.userService.findUserById(req.jwt.sub);
-        if (!user) {
-            throw new common_1.NotFoundException(error_1.ERRORS.USER_NOT_FOUND);
-        }
-        const goalIdNumber = Number(goalId);
-        if (isNaN(goalIdNumber)) {
-            throw new common_1.BadRequestException(error_1.ERRORS.INVALID_ID_FORMAT);
-        }
-        const goal = await this.goalsService.getGoalById(goalIdNumber, req.jwt.sub);
-        if (!goal) {
-            throw new common_1.NotFoundException(error_1.ERRORS.GOAL_NOT_FOUND);
-        }
-        const { userId, ...goalWithoutUserId } = goal;
-        return goalWithoutUserId;
+        return this.goalsService.getGoalById(req.jwt.sub, goalId);
     }
     async createGoal(newGoalDto, req) {
-        const user = await this.userService.findUserById(req.jwt.sub);
-        if (!user) {
-            throw new common_1.NotFoundException(error_1.ERRORS.USER_NOT_FOUND);
-        }
-        const newGoal = { ...newGoalDto, userId: req.jwt.sub };
-        return this.goalsService.createGoal(newGoal);
+        return this.goalsService.createGoal(newGoalDto, req.jwt.sub);
     }
-    async deleteGoal(goalId, req) {
-        const user = await this.userService.findUserById(req.jwt.sub);
-        if (!user) {
-            throw new common_1.NotFoundException(error_1.ERRORS.USER_NOT_FOUND);
-        }
-        const goalIdNumber = Number(goalId);
-        if (isNaN(goalIdNumber)) {
-            throw new common_1.BadRequestException(error_1.ERRORS.INVALID_ID_FORMAT);
-        }
-        const goal = await this.goalsService.getGoalById(goalIdNumber, req.jwt.sub);
-        if (!goal) {
-            throw new common_1.NotFoundException(error_1.ERRORS.GOAL_NOT_FOUND);
-        }
-        const { userId, ...goalWithoutUserId } = await this.goalsService.deleteGoal(goalIdNumber, req.jwt.sub);
-        return goalWithoutUserId;
+    async deleteGoal(_, req) {
+        return this.goalsService.deleteGoal(req.goal, req.jwt.sub);
     }
-    async updateGoal(updatedGoal, goalId, req) {
-        const user = await this.userService.findUserById(req.jwt.sub);
-        if (!user) {
-            throw new common_1.NotFoundException(error_1.ERRORS.USER_NOT_FOUND);
-        }
-        const goalIdNumber = Number(goalId);
-        if (isNaN(goalIdNumber)) {
-            throw new common_1.BadRequestException(error_1.ERRORS.INVALID_ID_FORMAT);
-        }
-        const goal = await this.goalsService.getGoalById(goalIdNumber, req.jwt.sub);
-        if (!goal) {
-            throw new common_1.NotFoundException(error_1.ERRORS.GOAL_NOT_FOUND);
-        }
-        const { userId, ...goalWithoutUserId } = await this.goalsService.updateGoal(goalIdNumber, req.jwt.sub, updatedGoal);
-        return goalWithoutUserId;
+    async updateGoal(_, updatedGoal, req) {
+        return this.goalsService.updateGoal(req.goal, req.jwt.sub, updatedGoal);
     }
-    async createStreak(goalId, req, newStreak) {
-        const user = await this.userService.findUserById(req.jwt.sub);
-        if (!user) {
-            throw new common_1.NotFoundException(error_1.ERRORS.USER_NOT_FOUND);
-        }
-        const goalIdNumber = Number(goalId);
-        if (isNaN(goalIdNumber)) {
-            throw new common_1.BadRequestException(error_1.ERRORS.INVALID_ID_FORMAT);
-        }
-        const goal = await this.goalsService.getGoalById(goalIdNumber, req.jwt.sub);
-        if (!goal) {
-            throw new common_1.NotFoundException(error_1.ERRORS.GOAL_NOT_FOUND);
-        }
-        if (goal.streaks.filter(({ inProgress }) => inProgress).length) {
-            throw new common_1.BadRequestException(error_1.ERRORS.CANNOT_CREATE_NEW_STREAK);
-        }
-        return this.goalsService.createStreak(goalIdNumber, newStreak);
+    async createStreak(_, req, newStreak) {
+        return this.streaksService.createStreak(req.goal, newStreak);
     }
-    async updateStreak(goalId, streakId, req) {
-        const user = await this.userService.findUserById(req.jwt.sub);
-        if (!user) {
-            throw new common_1.NotFoundException(error_1.ERRORS.USER_NOT_FOUND);
-        }
-        const goalIdNumber = Number(goalId);
-        if (isNaN(goalIdNumber)) {
-            throw new common_1.BadRequestException(error_1.ERRORS.INVALID_ID_FORMAT);
-        }
-        const goal = await this.goalsService.getGoalById(goalIdNumber, req.jwt.sub);
-        if (!goal) {
-            throw new common_1.NotFoundException(error_1.ERRORS.GOAL_NOT_FOUND);
-        }
-        const streakIdNumber = Number(streakId);
-        if (isNaN(streakIdNumber)) {
-            throw new common_1.BadRequestException(error_1.ERRORS.INVALID_ID_FORMAT);
-        }
-        const targetStreak = goal.streaks.find(({ id }) => id === streakIdNumber);
-        const canTargetStreakBeUpdated = !!targetStreak &&
-            targetStreak.inProgress &&
-            targetStreak.type === 'START';
-        if (!canTargetStreakBeUpdated) {
-            throw new common_1.BadRequestException(error_1.ERRORS.CANNOT_UPDATE_STREAK);
-        }
-        return this.goalsService.updateStreak(streakIdNumber, goalIdNumber);
+    async updateStreak(_, streakId, req) {
+        return this.streaksService.updateStreak(streakId, req.goal);
     }
-    async endStreak(goalId, streakId, req) {
-        const user = await this.userService.findUserById(req.jwt.sub);
-        if (!user) {
-            throw new common_1.NotFoundException(error_1.ERRORS.USER_NOT_FOUND);
-        }
-        const goalIdNumber = Number(goalId);
-        if (isNaN(goalIdNumber)) {
-            throw new common_1.BadRequestException(error_1.ERRORS.INVALID_ID_FORMAT);
-        }
-        const goal = await this.goalsService.getGoalById(goalIdNumber, req.jwt.sub);
-        if (!goal) {
-            throw new common_1.NotFoundException(error_1.ERRORS.GOAL_NOT_FOUND);
-        }
-        const streakIdNumber = Number(streakId);
-        if (isNaN(streakIdNumber)) {
-            throw new common_1.BadRequestException(error_1.ERRORS.INVALID_ID_FORMAT);
-        }
-        const targetStreak = goal.streaks.find(({ id }) => id === streakIdNumber);
-        const canTargetStreakBeEnded = !!targetStreak &&
-            targetStreak.inProgress &&
-            targetStreak.type === 'START';
-        if (!canTargetStreakBeEnded) {
-            throw new common_1.BadRequestException(error_1.ERRORS.CANNOT_END_STREAK);
-        }
-        return this.goalsService.endStreak(streakIdNumber, goalIdNumber);
+    async endStreak(_, streakId, req) {
+        return this.streaksService.endStreak(streakId, req.goal);
     }
 };
 exports.GoalsController = GoalsController;
 __decorate([
-    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Get)('/'),
     __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),
@@ -173,55 +64,49 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], GoalsController.prototype, "getAllGoalsForUser", null);
 __decorate([
-    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
-    (0, common_1.Get)('/:id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Get)('/:goalId'),
+    __param(0, (0, common_1.Param)('goalId')),
     __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", Promise)
 ], GoalsController.prototype, "getGoalById", null);
 __decorate([
-    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Post)('/'),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [CreateGoal_dto_1.CreateGoalDto, Object]),
+    __metadata("design:paramtypes", [CreateGoal_dto_1.CreateGoalRequestDto, Object]),
     __metadata("design:returntype", Promise)
 ], GoalsController.prototype, "createGoal", null);
 __decorate([
-    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
-    (0, common_1.Delete)('/:id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Delete)('/:goalId'),
+    __param(0, (0, common_1.Param)('goalId')),
     __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", Promise)
 ], GoalsController.prototype, "deleteGoal", null);
 __decorate([
-    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
-    (0, common_1.Patch)('/:id'),
-    __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Param)('id')),
+    (0, common_1.Patch)('/:goalId'),
+    __param(0, (0, common_1.Param)('goalId')),
+    __param(1, (0, common_1.Body)()),
     __param(2, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [UpdateGoal_dto_1.UpdateGoalDto, String, Object]),
+    __metadata("design:paramtypes", [String, UpdateGoal_dto_1.UpdateGoalDto, Object]),
     __metadata("design:returntype", Promise)
 ], GoalsController.prototype, "updateGoal", null);
 __decorate([
-    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
-    (0, common_1.Post)('/:id/streak'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Post)('/:goalId/streaks'),
+    __param(0, (0, common_1.Param)('goalId')),
     __param(1, (0, common_1.Req)()),
     __param(2, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Object, NewStreak_dto_1.NewStreakDto]),
+    __metadata("design:paramtypes", [String, Object, CreateStreak_dto_1.NewStreakDto]),
     __metadata("design:returntype", Promise)
 ], GoalsController.prototype, "createStreak", null);
 __decorate([
-    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
-    (0, common_1.Patch)('/:goalId/streak/:streakId'),
+    (0, common_1.Patch)('/:goalId/streaks/:streakId'),
     __param(0, (0, common_1.Param)('goalId')),
     __param(1, (0, common_1.Param)('streakId')),
     __param(2, (0, common_1.Req)()),
@@ -230,8 +115,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], GoalsController.prototype, "updateStreak", null);
 __decorate([
-    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
-    (0, common_1.Delete)('/:goalId/streak/:streakId'),
+    (0, common_1.Delete)('/:goalId/streaks/:streakId'),
     __param(0, (0, common_1.Param)('goalId')),
     __param(1, (0, common_1.Param)('streakId')),
     __param(2, (0, common_1.Req)()),
@@ -242,7 +126,9 @@ __decorate([
 exports.GoalsController = GoalsController = __decorate([
     (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.Controller)('goals'),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, userexists_guard_1.UserExistsGuard, goalexists_guard_1.GoalExistsGuard),
     __metadata("design:paramtypes", [users_service_1.UsersService,
-        goals_service_1.GoalsService])
+        goals_service_1.GoalsService,
+        streaks_service_1.StreaksService])
 ], GoalsController);
 //# sourceMappingURL=goals.controller.js.map

@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ERRORS = void 0;
 var ERRORS;
 (function (ERRORS) {
-    ERRORS["USER_NOT_FOUND"] = "USER_NOT_FOUND";
     ERRORS["INVALID_ID_FORMAT"] = "INVALID_ID_FORMAT";
     ERRORS["GOAL_NOT_FOUND"] = "GOAL_NOT_FOUND";
     ERRORS["CANNOT_CREATE_NEW_STREAK"] = "CANNOT_CREATE_NEW_STREAK";

@@ -1,52 +1,90 @@
-import { Inject, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { GoalsRepositoryClient } from './repositories/goals.repository-client';
 import { NewGoal } from './types/NewGoal';
 import { UpdateGoalDto } from './dtos/UpdateGoal.dto';
-import { StreaksRepositoryClient } from './repositories/streaks.repository-client';
-import { NewStreakDto } from './dtos/NewStreak.dto';
+import { UsersService } from '../../infrastructure/users/users.service';
+import { ERRORS } from './messages/error';
+import { plainToInstance } from 'class-transformer';
+import { GetAllGoalsForUserResponseDto } from './dtos/GetAllGoalsForUserResponse.dto';
+import { GetSingleGoalResponseDto } from './dtos/GetSingleGoalResponse.dto';
+import { DeleteGoalResponseDto } from './dtos/DeleteGoal.dto';
+import {
+  CreateGoalRequestDto,
+  CreateGoalResponseDto,
+} from './dtos/CreateGoal.dto';
+import { Goal } from './types/Goal';
 
 @Injectable()
 export class GoalsService {
   constructor(
     @Inject(GoalsRepositoryClient)
     private goalsRepositoryClient: GoalsRepositoryClient,
-    @Inject(StreaksRepositoryClient)
-    private streaksRepositoryClient: StreaksRepositoryClient,
+    private readonly userService: UsersService,
   ) {}
 
-  async createGoal(newGoal: NewGoal) {
-    return this.goalsRepositoryClient.createGoal(newGoal);
+  async getGoalById(userId: number, goalId: string) {
+    /**
+     * This function is used in the GoalExists guard, which checks for every Goal/Streak endpoint if a goal exists.
+     *
+     * There is no need to duplicate this functionality in other endpoints, or to call this function in other services
+     * if they are called from within a controller that users the GoalExists guard, as the found goal will be added to
+     * the req
+     */
+
+    const goalIdNumber = Number(goalId);
+
+    if (isNaN(goalIdNumber)) {
+      throw new BadRequestException(ERRORS.INVALID_ID_FORMAT);
+    }
+
+    const goal = await this.goalsRepositoryClient.getGoalById(
+      goalIdNumber,
+      userId,
+    );
+
+    if (!goal) {
+      throw new NotFoundException(ERRORS.GOAL_NOT_FOUND);
+    }
+    return plainToInstance(GetSingleGoalResponseDto, goal); // plainToInstance
+  }
+
+  async createGoal(newGoalDto: CreateGoalRequestDto, userId: number) {
+    const newGoal: NewGoal = { ...newGoalDto, userId };
+
+    const createdGoal = this.goalsRepositoryClient.createGoal(newGoal);
+
+    return plainToInstance(CreateGoalResponseDto, createdGoal);
   }
 
   async getUsersGoals(userId: number) {
-    return this.goalsRepositoryClient.getUsersGoals(userId);
+    const goals = await this.goalsRepositoryClient.getUsersGoals(userId);
+
+    return goals.map((goal) =>
+      plainToInstance(GetAllGoalsForUserResponseDto, goal),
+    );
   }
 
-  async getGoalById(goalId: number, ownerId: number) {
-    return this.goalsRepositoryClient.getGoalById(goalId, ownerId);
+  async deleteGoal(goal: Goal, ownerId: string) {
+    const deleteGoalResult = this.goalsRepositoryClient.deleteGoal(
+      goal.id,
+      Number(ownerId),
+    );
+
+    return plainToInstance(DeleteGoalResponseDto, deleteGoalResult);
   }
 
-  async deleteGoal(goalId: number, ownerId: number) {
-    return this.goalsRepositoryClient.deleteGoal(goalId, ownerId);
-  }
+  async updateGoal(goal: Goal, ownerId: string, updatedGoal: UpdateGoalDto) {
+    const updatedGoalResponse = this.goalsRepositoryClient.updateGoal(
+      goal.id,
+      Number(ownerId),
+      updatedGoal,
+    );
 
-  async updateGoal(
-    goalId: number,
-    ownerId: number,
-    updatedGoal: UpdateGoalDto,
-  ) {
-    return this.goalsRepositoryClient.updateGoal(goalId, ownerId, updatedGoal);
-  }
-
-  async createStreak(goalId: number, newStreak: NewStreakDto) {
-    return this.streaksRepositoryClient.createStreak(goalId, newStreak);
-  }
-
-  async updateStreak(streakId: number, goalId: number) {
-    return this.streaksRepositoryClient.updateStreak(streakId, goalId);
-  }
-
-  async endStreak(streakId: number, goalId: number) {
-    return this.streaksRepositoryClient.endStreak(streakId, goalId);
+    return plainToInstance(GetSingleGoalResponseDto, updatedGoalResponse);
   }
 }

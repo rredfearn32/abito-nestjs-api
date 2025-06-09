@@ -1,4 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Exclude } from 'class-transformer';
+import { Streak } from '../types/Streak';
 
 export class GetSingleGoalResponseDto {
   @ApiProperty()
@@ -6,4 +8,10 @@ export class GetSingleGoalResponseDto {
 
   @ApiProperty()
   title: string;
+
+  @ApiProperty()
+  streaks: Streak[];
+
+  @Exclude()
+  userId: number;
 }
