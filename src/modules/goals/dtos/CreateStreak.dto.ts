@@ -6,3 +6,12 @@ export class NewStreakDto {
   @IsEnum(StreakType)
   type: StreakType;
 }
+
+export class CreateStreakResponseDto {
+  id: number;
+  createdAt: string;
+  updatedAt: string;
+  type: StreakType;
+  inProgress: boolean;
+  goalId: number;
+}

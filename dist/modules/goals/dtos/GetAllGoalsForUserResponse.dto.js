@@ -24,6 +24,10 @@ __decorate([
     __metadata("design:type", String)
 ], GetAllGoalsForUserResponseDto.prototype, "title", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)(),
+    __metadata("design:type", Array)
+], GetAllGoalsForUserResponseDto.prototype, "streaks", void 0);
+__decorate([
     (0, class_transformer_1.Exclude)(),
     __metadata("design:type", Number)
 ], GetAllGoalsForUserResponseDto.prototype, "userId", void 0);

@@ -9,32 +9,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreateGoalResponseDto = exports.CreateGoalRequestDto = void 0;
+exports.CreateStreakResponseDto = exports.NewStreakDto = void 0;
+const prisma_1 = require("../../../../generated/prisma");
 const class_validator_1 = require("class-validator");
-const swagger_1 = require("@nestjs/swagger");
-const class_transformer_1 = require("class-transformer");
-class CreateGoalRequestDto {
+class NewStreakDto {
 }
-exports.CreateGoalRequestDto = CreateGoalRequestDto;
+exports.NewStreakDto = NewStreakDto;
 __decorate([
-    (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsEnum)(prisma_1.StreakType),
     __metadata("design:type", String)
-], CreateGoalRequestDto.prototype, "title", void 0);
-class CreateGoalResponseDto {
+], NewStreakDto.prototype, "type", void 0);
+class CreateStreakResponseDto {
 }
-exports.CreateGoalResponseDto = CreateGoalResponseDto;
-__decorate([
-    (0, swagger_1.ApiProperty)(),
-    __metadata("design:type", Number)
-], CreateGoalResponseDto.prototype, "id", void 0);
-__decorate([
-    (0, swagger_1.ApiProperty)(),
-    (0, class_validator_1.IsNotEmpty)(),
-    __metadata("design:type", String)
-], CreateGoalResponseDto.prototype, "title", void 0);
-__decorate([
-    (0, class_transformer_1.Exclude)(),
-    __metadata("design:type", Number)
-], CreateGoalResponseDto.prototype, "userId", void 0);
-//# sourceMappingURL=CreateGoal.dto.js.map
+exports.CreateStreakResponseDto = CreateStreakResponseDto;
+//# sourceMappingURL=CreateStreak.dto.js.map

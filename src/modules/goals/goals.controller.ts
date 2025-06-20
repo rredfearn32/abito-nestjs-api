@@ -1,11 +1,9 @@
 import { ApiBearerAuth } from '@nestjs/swagger';
 import {
-  BadRequestException,
   Body,
   Controller,
   Delete,
   Get,
-  NotFoundException,
   Param,
   Patch,
   Post,
@@ -15,13 +13,12 @@ import {
 import { AuthGuard } from '../../guards/auth.guard';
 import { UsersService } from '../../infrastructure/users/users.service';
 import { GoalsService } from './goals.service';
-import { CreateGoalDto } from './dtos/CreateGoal.dto';
-import { NewGoal } from './types/NewGoal';
 import { GetAllGoalsForUserResponseDto } from './dtos/GetAllGoalsForUserResponse.dto';
 import { GetSingleGoalResponseDto } from './dtos/GetSingleGoalResponse.dto';
 import { UpdateGoalDto } from './dtos/UpdateGoal.dto';
-import { NewStreakDto } from './dtos/NewStreak.dto';
-import { ERRORS } from './messages/error';
+import { NewStreakDto } from './dtos/CreateStreak.dto';
+import { CreateGoalRequestDto } from './dtos/CreateGoal.dto';
+import { StreaksService } from './streaks.service';
 
 @ApiBearerAuth()
 @Controller('goals')
@@ -29,6 +26,7 @@ export class GoalsController {
   constructor(
     private readonly userService: UsersService,
     private readonly goalsService: GoalsService,
+    private readonly streaksService: StreaksService,
   ) {}
 
   @UseGuards(AuthGuard)
@@ -45,70 +43,19 @@ export class GoalsController {
     @Param('id') goalId: string,
     @Req() req,
   ): Promise<GetSingleGoalResponseDto | undefined> {
-    const user = await this.userService.findUserById(req.jwt.sub);
-
-    if (!user) {
-      throw new NotFoundException(ERRORS.USER_NOT_FOUND);
-    }
-
-    const goalIdNumber = Number(goalId);
-
-    if (isNaN(goalIdNumber)) {
-      throw new BadRequestException(ERRORS.INVALID_ID_FORMAT);
-    }
-
-    const goal = await this.goalsService.getGoalById(goalIdNumber, req.jwt.sub);
-
-    if (!goal) {
-      throw new NotFoundException(ERRORS.GOAL_NOT_FOUND);
-    }
-
-    const { userId, ...goalWithoutUserId } = goal;
-
-    return goalWithoutUserId;
+    return this.goalsService.getGoalById(req.jwt.sub, goalId);
   }
 
   @UseGuards(AuthGuard)
   @Post('/')
-  async createGoal(@Body() newGoalDto: CreateGoalDto, @Req() req) {
-    const user = await this.userService.findUserById(req.jwt.sub);
-
-    if (!user) {
-      throw new NotFoundException(ERRORS.USER_NOT_FOUND);
-    }
-
-    const newGoal: NewGoal = { ...newGoalDto, userId: req.jwt.sub };
-
-    return this.goalsService.createGoal(newGoal);
+  async createGoal(@Body() newGoalDto: CreateGoalRequestDto, @Req() req) {
+    return this.goalsService.createGoal(newGoalDto, req.jwt.sub);
   }
 
   @UseGuards(AuthGuard)
   @Delete('/:id')
   async deleteGoal(@Param('id') goalId: string, @Req() req) {
-    const user = await this.userService.findUserById(req.jwt.sub);
-
-    if (!user) {
-      throw new NotFoundException(ERRORS.USER_NOT_FOUND);
-    }
-
-    const goalIdNumber = Number(goalId);
-
-    if (isNaN(goalIdNumber)) {
-      throw new BadRequestException(ERRORS.INVALID_ID_FORMAT);
-    }
-
-    const goal = await this.goalsService.getGoalById(goalIdNumber, req.jwt.sub);
-
-    if (!goal) {
-      throw new NotFoundException(ERRORS.GOAL_NOT_FOUND);
-    }
-
-    const { userId, ...goalWithoutUserId } = await this.goalsService.deleteGoal(
-      goalIdNumber,
-      req.jwt.sub,
-    );
-
-    return goalWithoutUserId;
+    return this.goalsService.deleteGoal(goalId, req.jwt.sub);
   }
 
   @UseGuards(AuthGuard)
@@ -118,31 +65,7 @@ export class GoalsController {
     @Param('id') goalId: string,
     @Req() req,
   ) {
-    const user = await this.userService.findUserById(req.jwt.sub);
-
-    if (!user) {
-      throw new NotFoundException(ERRORS.USER_NOT_FOUND);
-    }
-
-    const goalIdNumber = Number(goalId);
-
-    if (isNaN(goalIdNumber)) {
-      throw new BadRequestException(ERRORS.INVALID_ID_FORMAT);
-    }
-
-    const goal = await this.goalsService.getGoalById(goalIdNumber, req.jwt.sub);
-
-    if (!goal) {
-      throw new NotFoundException(ERRORS.GOAL_NOT_FOUND);
-    }
-
-    const { userId, ...goalWithoutUserId } = await this.goalsService.updateGoal(
-      goalIdNumber,
-      req.jwt.sub,
-      updatedGoal,
-    );
-
-    return goalWithoutUserId;
+    return this.goalsService.updateGoal(goalId, req.jwt.sub, updatedGoal);
   }
 
   @UseGuards(AuthGuard)
@@ -152,29 +75,7 @@ export class GoalsController {
     @Req() req,
     @Body() newStreak: NewStreakDto,
   ) {
-    const user = await this.userService.findUserById(req.jwt.sub);
-
-    if (!user) {
-      throw new NotFoundException(ERRORS.USER_NOT_FOUND);
-    }
-
-    const goalIdNumber = Number(goalId);
-
-    if (isNaN(goalIdNumber)) {
-      throw new BadRequestException(ERRORS.INVALID_ID_FORMAT);
-    }
-
-    const goal = await this.goalsService.getGoalById(goalIdNumber, req.jwt.sub);
-
-    if (!goal) {
-      throw new NotFoundException(ERRORS.GOAL_NOT_FOUND);
-    }
-
-    if (goal.streaks.filter(({ inProgress }) => inProgress).length) {
-      throw new BadRequestException(ERRORS.CANNOT_CREATE_NEW_STREAK);
-    }
-
-    return this.goalsService.createStreak(goalIdNumber, newStreak);
+    return this.streaksService.createStreak(goalId, req.jwt.sub, newStreak);
   }
 
   @UseGuards(AuthGuard)
@@ -184,42 +85,7 @@ export class GoalsController {
     @Param('streakId') streakId: string,
     @Req() req,
   ) {
-    const user = await this.userService.findUserById(req.jwt.sub);
-
-    if (!user) {
-      throw new NotFoundException(ERRORS.USER_NOT_FOUND);
-    }
-
-    const goalIdNumber = Number(goalId);
-
-    if (isNaN(goalIdNumber)) {
-      throw new BadRequestException(ERRORS.INVALID_ID_FORMAT);
-    }
-
-    const goal = await this.goalsService.getGoalById(goalIdNumber, req.jwt.sub);
-
-    if (!goal) {
-      throw new NotFoundException(ERRORS.GOAL_NOT_FOUND);
-    }
-
-    const streakIdNumber = Number(streakId);
-
-    if (isNaN(streakIdNumber)) {
-      throw new BadRequestException(ERRORS.INVALID_ID_FORMAT);
-    }
-
-    const targetStreak = goal.streaks.find(({ id }) => id === streakIdNumber);
-
-    const canTargetStreakBeUpdated =
-      !!targetStreak &&
-      targetStreak.inProgress &&
-      targetStreak.type === 'START';
-
-    if (!canTargetStreakBeUpdated) {
-      throw new BadRequestException(ERRORS.CANNOT_UPDATE_STREAK);
-    }
-
-    return this.goalsService.updateStreak(streakIdNumber, goalIdNumber);
+    return this.streaksService.updateStreak(streakId, req.jwt.sub, goalId);
   }
 
   @UseGuards(AuthGuard)
@@ -229,41 +95,6 @@ export class GoalsController {
     @Param('streakId') streakId: string,
     @Req() req,
   ) {
-    const user = await this.userService.findUserById(req.jwt.sub);
-
-    if (!user) {
-      throw new NotFoundException(ERRORS.USER_NOT_FOUND);
-    }
-
-    const goalIdNumber = Number(goalId);
-
-    if (isNaN(goalIdNumber)) {
-      throw new BadRequestException(ERRORS.INVALID_ID_FORMAT);
-    }
-
-    const goal = await this.goalsService.getGoalById(goalIdNumber, req.jwt.sub);
-
-    if (!goal) {
-      throw new NotFoundException(ERRORS.GOAL_NOT_FOUND);
-    }
-
-    const streakIdNumber = Number(streakId);
-
-    if (isNaN(streakIdNumber)) {
-      throw new BadRequestException(ERRORS.INVALID_ID_FORMAT);
-    }
-
-    const targetStreak = goal.streaks.find(({ id }) => id === streakIdNumber);
-
-    const canTargetStreakBeEnded =
-      !!targetStreak &&
-      targetStreak.inProgress &&
-      targetStreak.type === 'START';
-
-    if (!canTargetStreakBeEnded) {
-      throw new BadRequestException(ERRORS.CANNOT_END_STREAK);
-    }
-
-    return this.goalsService.endStreak(streakIdNumber, goalIdNumber);
+    return this.streaksService.endStreak(streakId, req.jwt.sub, goalId);
   }
 }

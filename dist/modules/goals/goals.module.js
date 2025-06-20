@@ -16,6 +16,7 @@ const goals_service_1 = require("./goals.service");
 const goals_repository_client_1 = require("./repositories/goals.repository-client");
 const prisma_service_1 = require("../../infrastructure/prisma/prisma.service");
 const streaks_repository_client_1 = require("./repositories/streaks.repository-client");
+const streaks_service_1 = require("./streaks.service");
 let GoalsModule = class GoalsModule {
 };
 exports.GoalsModule = GoalsModule;
@@ -23,6 +24,7 @@ exports.GoalsModule = GoalsModule = __decorate([
     (0, common_1.Module)({
         providers: [
             goals_service_1.GoalsService,
+            streaks_service_1.StreaksService,
             goals_repository_client_1.GoalsRepositoryClient,
             streaks_repository_client_1.StreaksRepositoryClient,
             prisma_service_1.PrismaService,

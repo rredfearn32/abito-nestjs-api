@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GetSingleGoalResponseDto = void 0;
 const swagger_1 = require("@nestjs/swagger");
+const class_transformer_1 = require("class-transformer");
 class GetSingleGoalResponseDto {
 }
 exports.GetSingleGoalResponseDto = GetSingleGoalResponseDto;
@@ -22,4 +23,12 @@ __decorate([
     (0, swagger_1.ApiProperty)(),
     __metadata("design:type", String)
 ], GetSingleGoalResponseDto.prototype, "title", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)(),
+    __metadata("design:type", Array)
+], GetSingleGoalResponseDto.prototype, "streaks", void 0);
+__decorate([
+    (0, class_transformer_1.Exclude)(),
+    __metadata("design:type", Number)
+], GetSingleGoalResponseDto.prototype, "userId", void 0);
 //# sourceMappingURL=GetSingleGoalResponse.dto.js.map
