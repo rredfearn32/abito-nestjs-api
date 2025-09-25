@@ -35,7 +35,10 @@ let AuthService = class AuthService {
             sub: user.id,
             username: user.username,
         };
-        return { access_token: await this.jwtService.signAsync(payload) };
+        return {
+            access_token: await this.jwtService.signAsync(payload),
+            username: user.username,
+        };
     }
     deleteAccount(jwt) {
         this.userService.deleteUser(jwt.sub);

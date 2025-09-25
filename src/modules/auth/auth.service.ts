@@ -35,7 +35,10 @@ export class AuthService {
       username: user.username,
     };
 
-    return { access_token: await this.jwtService.signAsync(payload) };
+    return {
+      access_token: await this.jwtService.signAsync(payload),
+      username: user.username,
+    };
   }
 
   deleteAccount(jwt: DeleteAccountRequestDto) {
