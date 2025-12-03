@@ -27,4 +27,3 @@ __decorate([
     (0, class_transformer_1.Exclude)(),
     __metadata("design:type", Number)
 ], DeleteGoalResponseDto.prototype, "userId", void 0);
-//# sourceMappingURL=DeleteGoal.dto.js.map

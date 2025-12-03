@@ -131,4 +131,3 @@ exports.GoalsController = GoalsController = __decorate([
         goals_service_1.GoalsService,
         streaks_service_1.StreaksService])
 ], GoalsController);
-//# sourceMappingURL=goals.controller.js.map

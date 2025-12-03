@@ -45,4 +45,3 @@ exports.GoalsModule = GoalsModule = __decorate([
         ],
     })
 ], GoalsModule);
-//# sourceMappingURL=goals.module.js.map

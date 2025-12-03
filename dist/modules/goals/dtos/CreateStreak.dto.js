@@ -23,4 +23,3 @@ __decorate([
 class CreateStreakResponseDto {
 }
 exports.CreateStreakResponseDto = CreateStreakResponseDto;
-//# sourceMappingURL=CreateStreak.dto.js.map

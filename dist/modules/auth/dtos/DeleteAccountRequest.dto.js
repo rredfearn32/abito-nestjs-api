@@ -17,4 +17,3 @@ __decorate([
     (0, swagger_1.ApiProperty)(),
     __metadata("design:type", Number)
 ], DeleteAccountRequestDto.prototype, "sub", void 0);
-//# sourceMappingURL=DeleteAccountRequest.dto.js.map

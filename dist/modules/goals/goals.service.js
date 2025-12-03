@@ -63,4 +63,3 @@ exports.GoalsService = GoalsService = __decorate([
     __metadata("design:paramtypes", [goals_repository_client_1.GoalsRepositoryClient,
         users_service_1.UsersService])
 ], GoalsService);
-//# sourceMappingURL=goals.service.js.map

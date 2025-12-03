@@ -45,4 +45,3 @@ exports.AuthGuard = AuthGuard = __decorate([
     __metadata("design:paramtypes", [jwt_1.JwtService,
         config_1.ConfigService])
 ], AuthGuard);
-//# sourceMappingURL=auth.guard.js.map

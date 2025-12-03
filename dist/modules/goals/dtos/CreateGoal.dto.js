@@ -37,4 +37,3 @@ __decorate([
     (0, class_transformer_1.Exclude)(),
     __metadata("design:type", Number)
 ], CreateGoalResponseDto.prototype, "userId", void 0);
-//# sourceMappingURL=CreateGoal.dto.js.map

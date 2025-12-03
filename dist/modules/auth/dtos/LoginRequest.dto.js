@@ -23,4 +23,3 @@ __decorate([
     (0, swagger_1.ApiProperty)(),
     __metadata("design:type", String)
 ], LoginRequestDto.prototype, "password", void 0);
-//# sourceMappingURL=LoginRequest.dto.js.map

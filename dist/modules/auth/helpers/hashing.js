@@ -11,4 +11,3 @@ const compare = async (password, hash) => {
     return await bcrypt.compare(password, hash);
 };
 exports.compare = compare;
-//# sourceMappingURL=hashing.js.map

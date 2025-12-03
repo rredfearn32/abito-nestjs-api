@@ -54,4 +54,3 @@ exports.StreaksRepositoryClient = StreaksRepositoryClient = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [prisma_service_1.PrismaService])
 ], StreaksRepositoryClient);
-//# sourceMappingURL=streaks.repository-client.js.map

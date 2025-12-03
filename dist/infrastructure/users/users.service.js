@@ -50,4 +50,3 @@ exports.UsersService = UsersService = __decorate([
     __param(0, (0, common_1.Inject)(users_repository_client_1.UsersRepositoryClient)),
     __metadata("design:paramtypes", [users_repository_client_1.UsersRepositoryClient])
 ], UsersService);
-//# sourceMappingURL=users.service.js.map

@@ -21,4 +21,3 @@ __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], UpdateGoalDto.prototype, "title", void 0);
-//# sourceMappingURL=UpdateGoal.dto.js.map

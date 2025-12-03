@@ -25,4 +25,3 @@ __decorate([
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], UpdateProfileRequestDto.prototype, "password", void 0);
-//# sourceMappingURL=UpdateProfileRequest.dto.js.map

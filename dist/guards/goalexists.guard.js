@@ -41,4 +41,3 @@ exports.GoalExistsGuard = GoalExistsGuard = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [goals_service_1.GoalsService])
 ], GoalExistsGuard);
-//# sourceMappingURL=goalexists.guard.js.map

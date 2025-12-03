@@ -47,4 +47,3 @@ exports.UsersRepositoryClient = UsersRepositoryClient = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [prisma_service_1.PrismaService])
 ], UsersRepositoryClient);
-//# sourceMappingURL=users.repository-client.js.map

@@ -19,4 +19,3 @@ __decorate([
     (0, class_validator_1.IsEmail)(),
     __metadata("design:type", String)
 ], UpdateProfileResponseDto.prototype, "username", void 0);
-//# sourceMappingURL=UpdateProfileResponse.dto.js.map

@@ -9,4 +9,3 @@ var ERRORS;
     ERRORS["CANNOT_UPDATE_STREAK"] = "CANNOT_UPDATE_STREAK";
     ERRORS["CANNOT_END_STREAK"] = "CANNOT_END_STREAK";
 })(ERRORS || (exports.ERRORS = ERRORS = {}));
-//# sourceMappingURL=error.js.map
