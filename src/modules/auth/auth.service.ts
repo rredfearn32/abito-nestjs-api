@@ -26,13 +26,24 @@ export class AuthService {
     });
   }
 
+  private signRefreshToken(payload: Record<string, string | number>) {
+    return this.jwtService.sign(payload, {
+      expiresIn: '7d',
+      secret: this.configService.get<string>('JWT_REFRESH_SECRET'),
+    });
+  }
+
   async register(newUser: RegisterRequestDto): Promise<RegisterResponseDto> {
     newUser.password = await hash(newUser.password);
     const { id, username } = await this.userService.createUser(newUser);
     const result = { sub: id, username };
+
+    const rtId = crypto.randomUUID(); // rotation id (jti)
+
     return {
       ...result,
       access_token: this.signAccessToken(result),
+      refresh_token: this.signRefreshToken({ ...result, rtId }),
     };
   }
 
@@ -49,6 +60,7 @@ export class AuthService {
 
     return {
       access_token: this.signAccessToken(payload),
+      refresh_token: this.signRefreshToken(payload),
       username: user.username,
     };
   }

@@ -11,4 +11,7 @@ export default class RegisterResponseDto {
 
   @ApiProperty()
   access_token: string;
+
+  @ApiProperty()
+  refresh_token: string;
 }

@@ -28,13 +28,21 @@ let AuthService = class AuthService {
             secret: this.configService.get('JWT_ACCESS_SECRET'),
         });
     }
+    signRefreshToken(payload) {
+        return this.jwtService.sign(payload, {
+            expiresIn: '7d',
+            secret: this.configService.get('JWT_REFRESH_SECRET'),
+        });
+    }
     async register(newUser) {
         newUser.password = await (0, hashing_1.hash)(newUser.password);
         const { id, username } = await this.userService.createUser(newUser);
         const result = { sub: id, username };
+        const rtId = crypto.randomUUID();
         return {
             ...result,
             access_token: this.signAccessToken(result),
+            refresh_token: this.signRefreshToken({ ...result, rtId }),
         };
     }
     async login(username, password) {
@@ -48,6 +56,7 @@ let AuthService = class AuthService {
         };
         return {
             access_token: this.signAccessToken(payload),
+            refresh_token: this.signRefreshToken(payload),
             username: user.username,
         };
     }

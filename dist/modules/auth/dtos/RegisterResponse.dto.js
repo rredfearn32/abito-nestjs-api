@@ -27,4 +27,8 @@ __decorate([
     (0, swagger_1.ApiProperty)(),
     __metadata("design:type", String)
 ], RegisterResponseDto.prototype, "access_token", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)(),
+    __metadata("design:type", String)
+], RegisterResponseDto.prototype, "refresh_token", void 0);
 //# sourceMappingURL=RegisterResponse.dto.js.map
