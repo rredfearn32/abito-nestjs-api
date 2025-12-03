@@ -15,16 +15,24 @@ const users_service_1 = require("../../infrastructure/users/users.service");
 const jwt_1 = require("@nestjs/jwt");
 const hashing_1 = require("./helpers/hashing");
 const errors_1 = require("./messages/errors");
+const config_1 = require("@nestjs/config");
 let AuthService = class AuthService {
-    constructor(userService, jwtService) {
+    constructor(userService, configService, jwtService) {
         this.userService = userService;
+        this.configService = configService;
         this.jwtService = jwtService;
     }
     async register(newUser) {
         newUser.password = await (0, hashing_1.hash)(newUser.password);
         const { id, username } = await this.userService.createUser(newUser);
         const result = { sub: id, username };
-        return { ...result, access_token: await this.jwtService.signAsync(result) };
+        return {
+            ...result,
+            access_token: await this.jwtService.signAsync(result, {
+                expiresIn: '1h',
+                secret: this.configService.get('JWT_ACCESS_SECRET'),
+            }),
+        };
     }
     async login(username, password) {
         const user = await this.userService.findUserByUsername(username);
@@ -36,7 +44,10 @@ let AuthService = class AuthService {
             username: user.username,
         };
         return {
-            access_token: await this.jwtService.signAsync(payload),
+            access_token: await this.jwtService.signAsync(payload, {
+                expiresIn: '1h',
+                secret: this.configService.get('JWT_ACCESS_SECRET'),
+            }),
             username: user.username,
         };
     }
@@ -56,6 +67,7 @@ exports.AuthService = AuthService;
 exports.AuthService = AuthService = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [users_service_1.UsersService,
+        config_1.ConfigService,
         jwt_1.JwtService])
 ], AuthService);
 //# sourceMappingURL=auth.service.js.map

@@ -9,11 +9,13 @@ import DeleteAccountRequestDto from './dtos/DeleteAccountRequest.dto';
 import UpdateProfileRequestDto from './dtos/UpdateProfileRequest.dto';
 import UpdateProfileResponseDto from './dtos/UpdateProfileResponse.dto';
 import { ERRORS } from './messages/errors';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly userService: UsersService,
+    private configService: ConfigService,
     private jwtService: JwtService,
   ) {}
 
@@ -21,7 +23,13 @@ export class AuthService {
     newUser.password = await hash(newUser.password);
     const { id, username } = await this.userService.createUser(newUser);
     const result = { sub: id, username };
-    return { ...result, access_token: await this.jwtService.signAsync(result) };
+    return {
+      ...result,
+      access_token: await this.jwtService.signAsync(result, {
+        expiresIn: '1h',
+        secret: this.configService.get<string>('JWT_ACCESS_SECRET'),
+      }),
+    };
   }
 
   async login(username: string, password: string): Promise<LoginResponseDto> {
@@ -36,7 +44,10 @@ export class AuthService {
     };
 
     return {
-      access_token: await this.jwtService.signAsync(payload),
+      access_token: await this.jwtService.signAsync(payload, {
+        expiresIn: '1h',
+        secret: this.configService.get<string>('JWT_ACCESS_SECRET'),
+      }),
       username: user.username,
     };
   }
