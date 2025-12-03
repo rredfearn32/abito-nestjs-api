@@ -12,6 +12,7 @@ export declare class AuthService {
     private configService;
     private jwtService;
     constructor(userService: UsersService, configService: ConfigService, jwtService: JwtService);
+    private signAccessToken;
     register(newUser: RegisterRequestDto): Promise<RegisterResponseDto>;
     login(username: string, password: string): Promise<LoginResponseDto>;
     deleteAccount(jwt: DeleteAccountRequestDto): void;

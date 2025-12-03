@@ -22,16 +22,19 @@ let AuthService = class AuthService {
         this.configService = configService;
         this.jwtService = jwtService;
     }
+    signAccessToken(payload) {
+        return this.jwtService.sign(payload, {
+            expiresIn: '1h',
+            secret: this.configService.get('JWT_ACCESS_SECRET'),
+        });
+    }
     async register(newUser) {
         newUser.password = await (0, hashing_1.hash)(newUser.password);
         const { id, username } = await this.userService.createUser(newUser);
         const result = { sub: id, username };
         return {
             ...result,
-            access_token: await this.jwtService.signAsync(result, {
-                expiresIn: '1h',
-                secret: this.configService.get('JWT_ACCESS_SECRET'),
-            }),
+            access_token: this.signAccessToken(result),
         };
     }
     async login(username, password) {
@@ -44,10 +47,7 @@ let AuthService = class AuthService {
             username: user.username,
         };
         return {
-            access_token: await this.jwtService.signAsync(payload, {
-                expiresIn: '1h',
-                secret: this.configService.get('JWT_ACCESS_SECRET'),
-            }),
+            access_token: this.signAccessToken(payload),
             username: user.username,
         };
     }

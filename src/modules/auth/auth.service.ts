@@ -19,16 +19,20 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
+  private signAccessToken(payload: Record<string, string | number>) {
+    return this.jwtService.sign(payload, {
+      expiresIn: '1h',
+      secret: this.configService.get<string>('JWT_ACCESS_SECRET'),
+    });
+  }
+
   async register(newUser: RegisterRequestDto): Promise<RegisterResponseDto> {
     newUser.password = await hash(newUser.password);
     const { id, username } = await this.userService.createUser(newUser);
     const result = { sub: id, username };
     return {
       ...result,
-      access_token: await this.jwtService.signAsync(result, {
-        expiresIn: '1h',
-        secret: this.configService.get<string>('JWT_ACCESS_SECRET'),
-      }),
+      access_token: this.signAccessToken(result),
     };
   }
 
@@ -44,10 +48,7 @@ export class AuthService {
     };
 
     return {
-      access_token: await this.jwtService.signAsync(payload, {
-        expiresIn: '1h',
-        secret: this.configService.get<string>('JWT_ACCESS_SECRET'),
-      }),
+      access_token: this.signAccessToken(payload),
       username: user.username,
     };
   }
