@@ -123,6 +123,15 @@ exports.Prisma.UserScalarFieldEnum = {
   password: 'password'
 };
 
+exports.Prisma.RefreshTokenScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  token: 'token',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  revokedAt: 'revokedAt'
+};
+
 exports.Prisma.GoalScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -159,6 +168,7 @@ exports.StreakType = exports.$Enums.StreakType = {
 
 exports.Prisma.ModelName = {
   User: 'User',
+  RefreshToken: 'RefreshToken',
   Goal: 'Goal',
   Streak: 'Streak'
 };
