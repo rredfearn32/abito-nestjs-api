@@ -1,7 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from '../../infrastructure/users/users.service';
 import LoginResponseDto from './dtos/LoginResponse.dto';
-import { JwtService } from '@nestjs/jwt';
 import RegisterRequestDto from './dtos/RegisterRequest.dto';
 import RegisterResponseDto from './dtos/RegisterResponse.dto';
 import { compare, hash } from './helpers/hashing';
@@ -9,41 +8,31 @@ import DeleteAccountRequestDto from './dtos/DeleteAccountRequest.dto';
 import UpdateProfileRequestDto from './dtos/UpdateProfileRequest.dto';
 import UpdateProfileResponseDto from './dtos/UpdateProfileResponse.dto';
 import { ERRORS } from './messages/errors';
-import { ConfigService } from '@nestjs/config';
+import { TokensService } from '../../infrastructure/tokens/tokens.service';
+import { TokenGenerationPayload } from '../../infrastructure/tokens/types/TokenGenerationPayload';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly userService: UsersService,
-    private configService: ConfigService,
-    private jwtService: JwtService,
+    private tokensService: TokensService,
   ) {}
-
-  private signAccessToken(payload: Record<string, string | number>) {
-    return this.jwtService.sign(payload, {
-      expiresIn: '1h',
-      secret: this.configService.get<string>('JWT_ACCESS_SECRET'),
-    });
-  }
-
-  private signRefreshToken(payload: Record<string, string | number>) {
-    return this.jwtService.sign(payload, {
-      expiresIn: '7d',
-      secret: this.configService.get<string>('JWT_REFRESH_SECRET'),
-    });
-  }
 
   async register(newUser: RegisterRequestDto): Promise<RegisterResponseDto> {
     newUser.password = await hash(newUser.password);
     const { id, username } = await this.userService.createUser(newUser);
-    const result = { sub: id, username };
 
-    const rtId = crypto.randomUUID(); // rotation id (jti)
+    const tokenGenerationPayload: TokenGenerationPayload = { sub: id };
 
     return {
-      ...result,
-      access_token: this.signAccessToken(result),
-      refresh_token: this.signRefreshToken({ ...result, rtId }),
+      userId: id,
+      userName: username,
+      access_token: await this.tokensService.generateAccessToken(
+        tokenGenerationPayload,
+      ),
+      refresh_token: await this.tokensService.generateRefreshToken(
+        tokenGenerationPayload,
+      ),
     };
   }
 
@@ -53,15 +42,17 @@ export class AuthService {
       throw new UnauthorizedException(ERRORS.INVALID_CREDENTIALS);
     }
 
-    const payload = {
-      sub: user.id,
-      username: user.username,
-    };
+    const tokenGenerationPayload: TokenGenerationPayload = { sub: user.id };
 
     return {
-      access_token: this.signAccessToken(payload),
-      refresh_token: this.signRefreshToken(payload),
-      username: user.username,
+      userId: user.id,
+      userName: user.username,
+      access_token: await this.tokensService.generateAccessToken(
+        tokenGenerationPayload,
+      ),
+      refresh_token: await this.tokensService.generateRefreshToken(
+        tokenGenerationPayload,
+      ),
     };
   }
 

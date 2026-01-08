@@ -15,7 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.GoalsService = void 0;
 const common_1 = require("@nestjs/common");
 const goals_repository_client_1 = require("./repositories/goals.repository-client");
-const users_service_1 = require("../../infrastructure/users/users.service");
 const error_1 = require("./messages/error");
 const class_transformer_1 = require("class-transformer");
 const GetAllGoalsForUserResponse_dto_1 = require("./dtos/GetAllGoalsForUserResponse.dto");
@@ -23,9 +22,8 @@ const GetSingleGoalResponse_dto_1 = require("./dtos/GetSingleGoalResponse.dto");
 const DeleteGoal_dto_1 = require("./dtos/DeleteGoal.dto");
 const CreateGoal_dto_1 = require("./dtos/CreateGoal.dto");
 let GoalsService = class GoalsService {
-    constructor(goalsRepositoryClient, userService) {
+    constructor(goalsRepositoryClient) {
         this.goalsRepositoryClient = goalsRepositoryClient;
-        this.userService = userService;
     }
     async getGoalById(userId, goalId) {
         const goalIdNumber = Number(goalId);
@@ -60,6 +58,5 @@ exports.GoalsService = GoalsService;
 exports.GoalsService = GoalsService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, common_1.Inject)(goals_repository_client_1.GoalsRepositoryClient)),
-    __metadata("design:paramtypes", [goals_repository_client_1.GoalsRepositoryClient,
-        users_service_1.UsersService])
+    __metadata("design:paramtypes", [goals_repository_client_1.GoalsRepositoryClient])
 ], GoalsService);

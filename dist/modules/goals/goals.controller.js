@@ -16,7 +16,6 @@ exports.GoalsController = void 0;
 const swagger_1 = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
 const auth_guard_1 = require("../../guards/auth.guard");
-const users_service_1 = require("../../infrastructure/users/users.service");
 const goals_service_1 = require("./goals.service");
 const UpdateGoal_dto_1 = require("./dtos/UpdateGoal.dto");
 const CreateStreak_dto_1 = require("./dtos/CreateStreak.dto");
@@ -25,8 +24,7 @@ const streaks_service_1 = require("./streaks.service");
 const userexists_guard_1 = require("../../guards/userexists.guard");
 const goalexists_guard_1 = require("../../guards/goalexists.guard");
 let GoalsController = class GoalsController {
-    constructor(userService, goalsService, streaksService) {
-        this.userService = userService;
+    constructor(goalsService, streaksService) {
         this.goalsService = goalsService;
         this.streaksService = streaksService;
     }
@@ -127,7 +125,6 @@ exports.GoalsController = GoalsController = __decorate([
     (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.Controller)('goals'),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard, userexists_guard_1.UserExistsGuard, goalexists_guard_1.GoalExistsGuard),
-    __metadata("design:paramtypes", [users_service_1.UsersService,
-        goals_service_1.GoalsService,
+    __metadata("design:paramtypes", [goals_service_1.GoalsService,
         streaks_service_1.StreaksService])
 ], GoalsController);

@@ -23,9 +23,12 @@ const UpdateProfileRequest_dto_1 = require("./dtos/UpdateProfileRequest.dto");
 const GetProfileResponse_dto_1 = require("./dtos/GetProfileResponse.dto");
 const users_service_1 = require("../../infrastructure/users/users.service");
 const class_transformer_1 = require("class-transformer");
+const tokens_service_1 = require("../../infrastructure/tokens/tokens.service");
+const RefreshRequest_dto_1 = require("./dtos/RefreshRequest.dto");
 let AuthController = class AuthController {
-    constructor(authService, userService) {
+    constructor(authService, tokensService, userService) {
         this.authService = authService;
+        this.tokensService = tokensService;
         this.userService = userService;
     }
     register(newUser) {
@@ -43,6 +46,9 @@ let AuthController = class AuthController {
     }
     async updateProfile(updatedProfile, req) {
         return this.authService.updateProfile(req.jwt, updatedProfile);
+    }
+    async refresh(refreshRequest) {
+        return this.tokensService.refresh(refreshRequest.refresh_token);
     }
 };
 exports.AuthController = AuthController;
@@ -88,9 +94,18 @@ __decorate([
     __metadata("design:paramtypes", [UpdateProfileRequest_dto_1.default, Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "updateProfile", null);
+__decorate([
+    (0, common_1.HttpCode)(common_1.HttpStatus.OK),
+    (0, common_1.Post)('refresh'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [RefreshRequest_dto_1.default]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "refresh", null);
 exports.AuthController = AuthController = __decorate([
     (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [auth_service_1.AuthService,
+        tokens_service_1.TokensService,
         users_service_1.UsersService])
 ], AuthController);

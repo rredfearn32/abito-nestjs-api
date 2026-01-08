@@ -3,11 +3,11 @@ import { IsEmail } from 'class-validator';
 
 export default class RegisterResponseDto {
   @ApiProperty()
-  sub: number;
+  userId: number;
 
   @ApiProperty()
   @IsEmail()
-  username: string;
+  userName: string;
 
   @ApiProperty()
   access_token: string;

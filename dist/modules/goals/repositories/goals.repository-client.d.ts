@@ -6,54 +6,54 @@ export declare class GoalsRepositoryClient {
     constructor(prismaService: PrismaService);
     createGoal(newGoal: NewGoal): Promise<{
         id: number;
-        title: string;
         userId: number;
+        title: string;
     }>;
     getUsersGoals(userId: number): Promise<({
         streaks: {
             id: number;
-            type: import("generated/prisma").$Enums.StreakType;
             createdAt: Date;
+            type: import("generated/prisma").$Enums.StreakType;
             updatedAt: Date | null;
             inProgress: boolean;
             goalId: number;
         }[];
     } & {
         id: number;
-        title: string;
         userId: number;
+        title: string;
     })[]>;
     getGoalById(goalId: number, ownerId: number): Promise<{
         streaks: {
             id: number;
-            type: import("generated/prisma").$Enums.StreakType;
             createdAt: Date;
+            type: import("generated/prisma").$Enums.StreakType;
             updatedAt: Date | null;
             inProgress: boolean;
             goalId: number;
         }[];
     } & {
         id: number;
-        title: string;
         userId: number;
+        title: string;
     }>;
     deleteGoal(goalId: number, ownerId: number): Promise<{
         streaks: {
             id: number;
-            type: import("generated/prisma").$Enums.StreakType;
             createdAt: Date;
+            type: import("generated/prisma").$Enums.StreakType;
             updatedAt: Date | null;
             inProgress: boolean;
             goalId: number;
         }[];
     } & {
         id: number;
-        title: string;
         userId: number;
+        title: string;
     }>;
     updateGoal(goalId: number, ownerId: number, updateGoal: UpdateGoalDto): Promise<{
         id: number;
-        title: string;
         userId: number;
+        title: string;
     }>;
 }

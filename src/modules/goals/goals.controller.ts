@@ -11,7 +11,6 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '../../guards/auth.guard';
-import { UsersService } from '../../infrastructure/users/users.service';
 import { GoalsService } from './goals.service';
 import { GetAllGoalsForUserResponseDto } from './dtos/GetAllGoalsForUserResponse.dto';
 import { GetSingleGoalResponseDto } from './dtos/GetSingleGoalResponse.dto';
@@ -27,7 +26,6 @@ import { GoalExistsGuard } from '../../guards/goalexists.guard';
 @UseGuards(AuthGuard, UserExistsGuard, GoalExistsGuard)
 export class GoalsController {
   constructor(
-    private readonly userService: UsersService,
     private readonly goalsService: GoalsService,
     private readonly streaksService: StreaksService,
   ) {}

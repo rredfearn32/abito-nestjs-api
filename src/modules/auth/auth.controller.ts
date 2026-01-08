@@ -5,7 +5,6 @@ import {
   Get,
   HttpCode,
   HttpStatus,
-  NotFoundException,
   Patch,
   Post,
   Req,
@@ -21,12 +20,15 @@ import UpdateProfileResponseDto from './dtos/UpdateProfileResponse.dto';
 import GetProfileResponseDto from './dtos/GetProfileResponse.dto';
 import { UsersService } from '../../infrastructure/users/users.service';
 import { plainToInstance } from 'class-transformer';
+import { TokensService } from '../../infrastructure/tokens/tokens.service';
+import RefreshRequestDto from './dtos/RefreshRequest.dto';
 
 @ApiBearerAuth()
 @Controller('auth')
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
+    private readonly tokensService: TokensService,
     private readonly userService: UsersService,
   ) {}
 
@@ -64,5 +66,11 @@ export class AuthController {
     @Req() req: any,
   ): Promise<UpdateProfileResponseDto> {
     return this.authService.updateProfile(req.jwt, updatedProfile);
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Post('refresh')
+  async refresh(@Body() refreshRequest: RefreshRequestDto): Promise<any> {
+    return this.tokensService.refresh(refreshRequest.refresh_token);
   }
 }

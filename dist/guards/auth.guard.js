@@ -26,7 +26,7 @@ let AuthGuard = class AuthGuard {
         }
         try {
             request['jwt'] = await this.jwtService.verifyAsync(token, {
-                secret: this.configService.get('JWT_SECRET'),
+                secret: this.configService.get('JWT_ACCESS_SECRET'),
             });
         }
         catch {

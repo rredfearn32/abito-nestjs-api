@@ -12,37 +12,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
 const common_1 = require("@nestjs/common");
 const users_service_1 = require("../../infrastructure/users/users.service");
-const jwt_1 = require("@nestjs/jwt");
 const hashing_1 = require("./helpers/hashing");
 const errors_1 = require("./messages/errors");
-const config_1 = require("@nestjs/config");
+const tokens_service_1 = require("../../infrastructure/tokens/tokens.service");
 let AuthService = class AuthService {
-    constructor(userService, configService, jwtService) {
+    constructor(userService, tokensService) {
         this.userService = userService;
-        this.configService = configService;
-        this.jwtService = jwtService;
-    }
-    signAccessToken(payload) {
-        return this.jwtService.sign(payload, {
-            expiresIn: '1h',
-            secret: this.configService.get('JWT_ACCESS_SECRET'),
-        });
-    }
-    signRefreshToken(payload) {
-        return this.jwtService.sign(payload, {
-            expiresIn: '7d',
-            secret: this.configService.get('JWT_REFRESH_SECRET'),
-        });
+        this.tokensService = tokensService;
     }
     async register(newUser) {
         newUser.password = await (0, hashing_1.hash)(newUser.password);
         const { id, username } = await this.userService.createUser(newUser);
-        const result = { sub: id, username };
-        const rtId = crypto.randomUUID();
+        const tokenGenerationPayload = { sub: id };
         return {
-            ...result,
-            access_token: this.signAccessToken(result),
-            refresh_token: this.signRefreshToken({ ...result, rtId }),
+            userId: id,
+            userName: username,
+            access_token: await this.tokensService.generateAccessToken(tokenGenerationPayload),
+            refresh_token: await this.tokensService.generateRefreshToken(tokenGenerationPayload),
         };
     }
     async login(username, password) {
@@ -50,14 +36,12 @@ let AuthService = class AuthService {
         if (!(await (0, hashing_1.compare)(password, user?.password))) {
             throw new common_1.UnauthorizedException(errors_1.ERRORS.INVALID_CREDENTIALS);
         }
-        const payload = {
-            sub: user.id,
-            username: user.username,
-        };
+        const tokenGenerationPayload = { sub: user.id };
         return {
-            access_token: this.signAccessToken(payload),
-            refresh_token: this.signRefreshToken(payload),
-            username: user.username,
+            userId: user.id,
+            userName: user.username,
+            access_token: await this.tokensService.generateAccessToken(tokenGenerationPayload),
+            refresh_token: await this.tokensService.generateRefreshToken(tokenGenerationPayload),
         };
     }
     deleteAccount(jwt) {
@@ -76,6 +60,5 @@ exports.AuthService = AuthService;
 exports.AuthService = AuthService = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [users_service_1.UsersService,
-        config_1.ConfigService,
-        jwt_1.JwtService])
+        tokens_service_1.TokensService])
 ], AuthService);

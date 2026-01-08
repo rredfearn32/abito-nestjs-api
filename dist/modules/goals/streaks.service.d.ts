@@ -12,16 +12,16 @@ export declare class StreaksService {
     createStreak(goal: Goal, newStreak: NewStreakDto): Promise<CreateStreakResponseDto>;
     updateStreak(streakId: string, goal: Goal): Promise<{
         id: number;
-        type: import("generated/prisma").$Enums.StreakType;
         createdAt: Date;
+        type: import("generated/prisma").$Enums.StreakType;
         updatedAt: Date | null;
         inProgress: boolean;
         goalId: number;
     }>;
     endStreak(streakId: string, goal: Goal): Promise<{
         id: number;
-        type: import("generated/prisma").$Enums.StreakType;
         createdAt: Date;
+        type: import("generated/prisma").$Enums.StreakType;
         updatedAt: Date | null;
         inProgress: boolean;
         goalId: number;

@@ -12,6 +12,7 @@ const auth_module_1 = require("./modules/auth/auth.module");
 const users_module_1 = require("./infrastructure/users/users.module");
 const config_1 = require("@nestjs/config");
 const goals_module_1 = require("./modules/goals/goals.module");
+const tokens_module_1 = require("./infrastructure/tokens/tokens.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -20,6 +21,7 @@ exports.AppModule = AppModule = __decorate([
         imports: [
             auth_module_1.AuthModule,
             users_module_1.UsersModule,
+            tokens_module_1.TokensModule,
             goals_module_1.GoalsModule,
             config_1.ConfigModule.forRoot({
                 isGlobal: true,

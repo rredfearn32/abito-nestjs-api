@@ -24,7 +24,6 @@ export class GoalsService {
   constructor(
     @Inject(GoalsRepositoryClient)
     private goalsRepositoryClient: GoalsRepositoryClient,
-    private readonly userService: UsersService,
   ) {}
 
   async getGoalById(userId: number, goalId: string) {

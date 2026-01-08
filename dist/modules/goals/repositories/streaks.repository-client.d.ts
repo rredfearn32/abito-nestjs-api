@@ -5,24 +5,24 @@ export declare class StreaksRepositoryClient {
     constructor(prismaService: PrismaService);
     createStreak(goalId: number, newStreak: NewStreakDto): Promise<{
         id: number;
-        type: import("generated/prisma").$Enums.StreakType;
         createdAt: Date;
+        type: import("generated/prisma").$Enums.StreakType;
         updatedAt: Date | null;
         inProgress: boolean;
         goalId: number;
     }>;
     updateStreak(streakId: number, goalId: number): Promise<{
         id: number;
-        type: import("generated/prisma").$Enums.StreakType;
         createdAt: Date;
+        type: import("generated/prisma").$Enums.StreakType;
         updatedAt: Date | null;
         inProgress: boolean;
         goalId: number;
     }>;
     endStreak(streakId: number, goalId: number): Promise<{
         id: number;
-        type: import("generated/prisma").$Enums.StreakType;
         createdAt: Date;
+        type: import("generated/prisma").$Enums.StreakType;
         updatedAt: Date | null;
         inProgress: boolean;
         goalId: number;
