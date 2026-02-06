@@ -6,19 +6,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.TokensModule = void 0;
+exports.PrismaModule = void 0;
 const common_1 = require("@nestjs/common");
-const prisma_module_1 = require("../prisma/prisma.module");
-const refresh_tokens_repository_client_1 = require("./repositories/refresh-tokens.repository-client");
-const tokens_service_1 = require("./tokens.service");
-const jwt_1 = require("@nestjs/jwt");
-let TokensModule = class TokensModule {
+const prisma_service_1 = require("./prisma.service");
+let PrismaModule = class PrismaModule {
 };
-exports.TokensModule = TokensModule;
-exports.TokensModule = TokensModule = __decorate([
+exports.PrismaModule = PrismaModule;
+exports.PrismaModule = PrismaModule = __decorate([
     (0, common_1.Module)({
-        imports: [prisma_module_1.PrismaModule],
-        providers: [refresh_tokens_repository_client_1.RefreshTokensRepositoryClient, tokens_service_1.TokensService, jwt_1.JwtService],
-        exports: [tokens_service_1.TokensService],
+        providers: [prisma_service_1.PrismaService],
+        exports: [prisma_service_1.PrismaService],
     })
-], TokensModule);
+], PrismaModule);

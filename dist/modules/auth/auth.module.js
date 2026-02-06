@@ -13,23 +13,15 @@ const auth_controller_1 = require("./auth.controller");
 const users_module_1 = require("../../infrastructure/users/users.module");
 const jwt_1 = require("@nestjs/jwt");
 const config_1 = require("@nestjs/config");
-const tokens_service_1 = require("../../infrastructure/tokens/tokens.service");
-const refresh_tokens_repository_client_1 = require("../../infrastructure/tokens/repositories/refresh-tokens.repository-client");
-const prisma_service_1 = require("../../infrastructure/prisma/prisma.service");
+const tokens_module_1 = require("../../infrastructure/tokens/tokens.module");
 let AuthModule = class AuthModule {
 };
 exports.AuthModule = AuthModule;
 exports.AuthModule = AuthModule = __decorate([
     (0, common_1.Module)({
-        providers: [
-            auth_service_1.AuthService,
-            tokens_service_1.TokensService,
-            refresh_tokens_repository_client_1.RefreshTokensRepositoryClient,
-            prisma_service_1.PrismaService,
-        ],
-        controllers: [auth_controller_1.AuthController],
         imports: [
             users_module_1.UsersModule,
+            tokens_module_1.TokensModule,
             jwt_1.JwtModule.registerAsync({
                 imports: [config_1.ConfigModule],
                 inject: [config_1.ConfigService],
@@ -38,5 +30,7 @@ exports.AuthModule = AuthModule = __decorate([
                 }),
             }),
         ],
+        providers: [auth_service_1.AuthService],
+        controllers: [auth_controller_1.AuthController],
     })
 ], AuthModule);
