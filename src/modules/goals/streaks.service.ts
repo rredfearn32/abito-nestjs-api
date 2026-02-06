@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  Inject,
-  Injectable,
-} from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { StreaksRepositoryClient } from './repositories/streaks.repository-client';
 import { NewStreakDto } from './dtos/CreateStreak.dto';
 import { ERRORS } from './messages/error';

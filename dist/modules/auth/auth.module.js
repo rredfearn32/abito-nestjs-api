@@ -12,7 +12,6 @@ const auth_service_1 = require("./auth.service");
 const auth_controller_1 = require("./auth.controller");
 const users_module_1 = require("../../infrastructure/users/users.module");
 const jwt_1 = require("@nestjs/jwt");
-const config_1 = require("@nestjs/config");
 const tokens_module_1 = require("../../infrastructure/tokens/tokens.module");
 let AuthModule = class AuthModule {
 };
@@ -23,8 +22,6 @@ exports.AuthModule = AuthModule = __decorate([
             users_module_1.UsersModule,
             tokens_module_1.TokensModule,
             jwt_1.JwtModule.registerAsync({
-                imports: [config_1.ConfigModule],
-                inject: [config_1.ConfigService],
                 useFactory: () => ({
                     global: true,
                 }),

@@ -10,7 +10,6 @@ exports.GoalsModule = void 0;
 const common_1 = require("@nestjs/common");
 const users_module_1 = require("../../infrastructure/users/users.module");
 const jwt_1 = require("@nestjs/jwt");
-const config_1 = require("@nestjs/config");
 const goals_controller_1 = require("./goals.controller");
 const goals_service_1 = require("./goals.service");
 const goals_repository_client_1 = require("./repositories/goals.repository-client");
@@ -26,8 +25,6 @@ exports.GoalsModule = GoalsModule = __decorate([
             prisma_module_1.PrismaModule,
             users_module_1.UsersModule,
             jwt_1.JwtModule.registerAsync({
-                imports: [config_1.ConfigModule],
-                inject: [config_1.ConfigService],
                 useFactory: () => ({
                     global: true,
                 }),
