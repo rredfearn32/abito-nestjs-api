@@ -8,6 +8,4 @@ export default class LoginRequestDto {
 
   @ApiProperty()
   password: string;
-
-  foo: string;
 }
