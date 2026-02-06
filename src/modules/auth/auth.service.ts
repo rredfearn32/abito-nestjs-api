@@ -37,7 +37,9 @@ export class AuthService {
 
   async login(username: string, password: string): Promise<AuthResponseDto> {
     const user = await this.userService.findUserByUsername(username);
-    if (!(await compare(password, user?.password))) {
+
+    // Check if there's a provided password, and the password entered matches the user's recorded one
+    if (!user?.password || !(await compare(password, user?.password))) {
       throw new UnauthorizedException(ERRORS.INVALID_CREDENTIALS);
     }
 

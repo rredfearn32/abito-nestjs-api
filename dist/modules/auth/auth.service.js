@@ -33,7 +33,7 @@ let AuthService = class AuthService {
     }
     async login(username, password) {
         const user = await this.userService.findUserByUsername(username);
-        if (!(await (0, hashing_1.compare)(password, user?.password))) {
+        if (!user?.password || !(await (0, hashing_1.compare)(password, user?.password))) {
             throw new common_1.UnauthorizedException(errors_1.ERRORS.INVALID_CREDENTIALS);
         }
         const tokenGenerationPayload = { sub: user.id };
