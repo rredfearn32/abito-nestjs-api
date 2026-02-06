@@ -48,7 +48,7 @@ let AuthService = class AuthService {
         this.userService.deleteUser(jwt.sub);
     }
     async updateProfile(jwt, updatedProfile) {
-        const user = this.userService.findUserById(jwt.sub);
+        const user = await this.userService.findUserById(jwt.sub);
         if (updatedProfile.password) {
             updatedProfile.password = await (0, hashing_1.hash)(updatedProfile.password);
         }

@@ -63,7 +63,7 @@ export class AuthService {
     jwt: any,
     updatedProfile: UpdateProfileRequestDto,
   ): Promise<UpdateProfileResponseDto> {
-    const user = this.userService.findUserById(jwt.sub);
+    const user = await this.userService.findUserById(jwt.sub);
     if (updatedProfile.password) {
       updatedProfile.password = await hash(updatedProfile.password);
     }
