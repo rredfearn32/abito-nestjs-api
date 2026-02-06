@@ -1,4 +1,4 @@
-export default class LoginResponseDto {
+export default class AuthResponseDto {
     userId: number;
     userName: string;
     access_token: string;

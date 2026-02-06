@@ -12,8 +12,8 @@ export declare class AuthController {
     private readonly tokensService;
     private readonly userService;
     constructor(authService: AuthService, tokensService: TokensService, userService: UsersService);
-    register(newUser: RegisterRequestDto): Promise<import("./dtos/RegisterResponse.dto").default>;
-    login(loginRequest: LoginRequestDto): Promise<import("./dtos/LoginResponse.dto").default>;
+    register(newUser: RegisterRequestDto): Promise<import("./dtos/AuthResponse.dto").default>;
+    login(loginRequest: LoginRequestDto): Promise<import("./dtos/AuthResponse.dto").default>;
     deleteAccount(req: any): void;
     getProfile(req: any): Promise<GetProfileResponseDto>;
     updateProfile(updatedProfile: UpdateProfileRequestDto, req: any): Promise<UpdateProfileResponseDto>;

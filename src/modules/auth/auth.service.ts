@@ -1,8 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from '../../infrastructure/users/users.service';
-import LoginResponseDto from './dtos/LoginResponse.dto';
 import RegisterRequestDto from './dtos/RegisterRequest.dto';
-import RegisterResponseDto from './dtos/RegisterResponse.dto';
 import { compare, hash } from './helpers/hashing';
 import DeleteAccountRequestDto from './dtos/DeleteAccountRequest.dto';
 import UpdateProfileRequestDto from './dtos/UpdateProfileRequest.dto';
@@ -10,6 +8,7 @@ import UpdateProfileResponseDto from './dtos/UpdateProfileResponse.dto';
 import { ERRORS } from './messages/errors';
 import { TokensService } from '../../infrastructure/tokens/tokens.service';
 import { TokenGenerationPayload } from '../../infrastructure/tokens/types/TokenGenerationPayload';
+import AuthResponseDto from './dtos/AuthResponse.dto';
 
 @Injectable()
 export class AuthService {
@@ -18,7 +17,7 @@ export class AuthService {
     private tokensService: TokensService,
   ) {}
 
-  async register(newUser: RegisterRequestDto): Promise<RegisterResponseDto> {
+  async register(newUser: RegisterRequestDto): Promise<AuthResponseDto> {
     newUser.password = await hash(newUser.password);
     const { id, username } = await this.userService.createUser(newUser);
 
@@ -36,7 +35,7 @@ export class AuthService {
     };
   }
 
-  async login(username: string, password: string): Promise<LoginResponseDto> {
+  async login(username: string, password: string): Promise<AuthResponseDto> {
     const user = await this.userService.findUserByUsername(username);
     if (!(await compare(password, user?.password))) {
       throw new UnauthorizedException(ERRORS.INVALID_CREDENTIALS);

@@ -10,24 +10,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const swagger_1 = require("@nestjs/swagger");
-const class_validator_1 = require("class-validator");
-class RegisterResponseDto {
+class AuthResponseDto {
 }
-exports.default = RegisterResponseDto;
+exports.default = AuthResponseDto;
 __decorate([
     (0, swagger_1.ApiProperty)(),
     __metadata("design:type", Number)
-], RegisterResponseDto.prototype, "userId", void 0);
-__decorate([
-    (0, swagger_1.ApiProperty)(),
-    (0, class_validator_1.IsEmail)(),
-    __metadata("design:type", String)
-], RegisterResponseDto.prototype, "userName", void 0);
+], AuthResponseDto.prototype, "userId", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)(),
     __metadata("design:type", String)
-], RegisterResponseDto.prototype, "access_token", void 0);
+], AuthResponseDto.prototype, "userName", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)(),
     __metadata("design:type", String)
-], RegisterResponseDto.prototype, "refresh_token", void 0);
+], AuthResponseDto.prototype, "access_token", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)(),
+    __metadata("design:type", String)
+], AuthResponseDto.prototype, "refresh_token", void 0);
