@@ -15,18 +15,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.StreaksService = void 0;
 const common_1 = require("@nestjs/common");
 const streaks_repository_client_1 = require("./repositories/streaks.repository-client");
-const users_service_1 = require("../../infrastructure/users/users.service");
 const error_1 = require("./messages/error");
-const goals_service_1 = require("./goals.service");
 const class_transformer_1 = require("class-transformer");
 const CreateStreak_dto_1 = require("./dtos/CreateStreak.dto");
-const auth_guard_1 = require("../../guards/auth.guard");
-const userexists_guard_1 = require("../../guards/userexists.guard");
 let StreaksService = class StreaksService {
-    constructor(streaksRepositoryClient, userService, goalsService) {
+    constructor(streaksRepositoryClient) {
         this.streaksRepositoryClient = streaksRepositoryClient;
-        this.userService = userService;
-        this.goalsService = goalsService;
     }
     async createStreak(goal, newStreak) {
         if (goal.streaks.filter(({ inProgress }) => inProgress).length) {
@@ -66,10 +60,7 @@ let StreaksService = class StreaksService {
 };
 exports.StreaksService = StreaksService;
 exports.StreaksService = StreaksService = __decorate([
-    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, userexists_guard_1.UserExistsGuard),
     (0, common_1.Injectable)(),
     __param(0, (0, common_1.Inject)(streaks_repository_client_1.StreaksRepositoryClient)),
-    __metadata("design:paramtypes", [streaks_repository_client_1.StreaksRepositoryClient,
-        users_service_1.UsersService,
-        goals_service_1.GoalsService])
+    __metadata("design:paramtypes", [streaks_repository_client_1.StreaksRepositoryClient])
 ], StreaksService);
