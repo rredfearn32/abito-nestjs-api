@@ -2,18 +2,14 @@ import {
   BadRequestException,
   Inject,
   Injectable,
-  UseGuards,
 } from '@nestjs/common';
 import { StreaksRepositoryClient } from './repositories/streaks.repository-client';
 import { NewStreakDto } from './dtos/CreateStreak.dto';
 import { ERRORS } from './messages/error';
 import { plainToInstance } from 'class-transformer';
 import { CreateStreakResponseDto } from './dtos/CreateStreak.dto';
-import { AuthGuard } from '../../guards/auth.guard';
-import { UserExistsGuard } from '../../guards/userexists.guard';
 import { Goal } from './types/Goal';
 
-@UseGuards(AuthGuard, UserExistsGuard)
 @Injectable()
 export class StreaksService {
   constructor(
