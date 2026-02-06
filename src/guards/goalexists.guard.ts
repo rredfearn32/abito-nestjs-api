@@ -6,7 +6,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { GoalsService } from '../modules/goals/goals.service';
-import { ERRORS } from '../modules/goals/messages/error';
+import { ERRORS } from '../modules/goals/messages/errors';
 
 @Injectable()
 export class GoalExistsGuard implements CanActivate {

@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.GoalsService = void 0;
 const common_1 = require("@nestjs/common");
 const goals_repository_client_1 = require("./repositories/goals.repository-client");
-const error_1 = require("./messages/error");
+const errors_1 = require("./messages/errors");
 const class_transformer_1 = require("class-transformer");
 const GetAllGoalsForUserResponse_dto_1 = require("./dtos/GetAllGoalsForUserResponse.dto");
 const GetSingleGoalResponse_dto_1 = require("./dtos/GetSingleGoalResponse.dto");
@@ -28,11 +28,11 @@ let GoalsService = class GoalsService {
     async getGoalById(userId, goalId) {
         const goalIdNumber = Number(goalId);
         if (isNaN(goalIdNumber)) {
-            throw new common_1.BadRequestException(error_1.ERRORS.INVALID_ID_FORMAT);
+            throw new common_1.BadRequestException(errors_1.ERRORS.INVALID_ID_FORMAT);
         }
         const goal = await this.goalsRepositoryClient.getGoalById(goalIdNumber, userId);
         if (!goal) {
-            throw new common_1.NotFoundException(error_1.ERRORS.GOAL_NOT_FOUND);
+            throw new common_1.NotFoundException(errors_1.ERRORS.GOAL_NOT_FOUND);
         }
         return (0, class_transformer_1.plainToInstance)(GetSingleGoalResponse_dto_1.GetSingleGoalResponseDto, goal);
     }

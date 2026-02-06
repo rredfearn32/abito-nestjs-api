@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.GoalExistsGuard = void 0;
 const common_1 = require("@nestjs/common");
 const goals_service_1 = require("../modules/goals/goals.service");
-const error_1 = require("../modules/goals/messages/error");
+const errors_1 = require("../modules/goals/messages/errors");
 let GoalExistsGuard = class GoalExistsGuard {
     constructor(goalsService) {
         this.goalsService = goalsService;
@@ -26,11 +26,11 @@ let GoalExistsGuard = class GoalExistsGuard {
         }
         const goalIdNumber = Number(goalId);
         if (isNaN(goalIdNumber)) {
-            throw new common_1.BadRequestException(error_1.ERRORS.INVALID_ID_FORMAT);
+            throw new common_1.BadRequestException(errors_1.ERRORS.INVALID_ID_FORMAT);
         }
         const goal = await this.goalsService.getGoalById(userId, goalId);
         if (!goal) {
-            throw new common_1.NotFoundException(error_1.ERRORS.GOAL_NOT_FOUND);
+            throw new common_1.NotFoundException(errors_1.ERRORS.GOAL_NOT_FOUND);
         }
         request.goal = goal;
         return true;

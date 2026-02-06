@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.StreaksService = void 0;
 const common_1 = require("@nestjs/common");
 const streaks_repository_client_1 = require("./repositories/streaks.repository-client");
-const error_1 = require("./messages/error");
+const errors_1 = require("./messages/errors");
 const class_transformer_1 = require("class-transformer");
 const CreateStreak_dto_1 = require("./dtos/CreateStreak.dto");
 let StreaksService = class StreaksService {
@@ -24,7 +24,7 @@ let StreaksService = class StreaksService {
     }
     async createStreak(goal, newStreak) {
         if (goal.streaks.filter(({ inProgress }) => inProgress).length) {
-            throw new common_1.BadRequestException(error_1.ERRORS.CANNOT_CREATE_NEW_STREAK);
+            throw new common_1.BadRequestException(errors_1.ERRORS.CANNOT_CREATE_NEW_STREAK);
         }
         const createdStreak = this.streaksRepositoryClient.createStreak(goal.id, newStreak);
         return (0, class_transformer_1.plainToInstance)(CreateStreak_dto_1.CreateStreakResponseDto, createdStreak);
@@ -32,28 +32,28 @@ let StreaksService = class StreaksService {
     async updateStreak(streakId, goal) {
         const streakIdNumber = Number(streakId);
         if (isNaN(streakIdNumber)) {
-            throw new common_1.BadRequestException(error_1.ERRORS.INVALID_ID_FORMAT);
+            throw new common_1.BadRequestException(errors_1.ERRORS.INVALID_ID_FORMAT);
         }
         const targetStreak = goal.streaks.find(({ id }) => id === streakIdNumber);
         const canTargetStreakBeUpdated = !!targetStreak &&
             targetStreak.inProgress &&
             targetStreak.type === 'START';
         if (!canTargetStreakBeUpdated) {
-            throw new common_1.BadRequestException(error_1.ERRORS.CANNOT_UPDATE_STREAK);
+            throw new common_1.BadRequestException(errors_1.ERRORS.CANNOT_UPDATE_STREAK);
         }
         return this.streaksRepositoryClient.updateStreak(streakIdNumber, goal.id);
     }
     async endStreak(streakId, goal) {
         const streakIdNumber = Number(streakId);
         if (isNaN(streakIdNumber)) {
-            throw new common_1.BadRequestException(error_1.ERRORS.INVALID_ID_FORMAT);
+            throw new common_1.BadRequestException(errors_1.ERRORS.INVALID_ID_FORMAT);
         }
         const targetStreak = goal.streaks.find(({ id }) => id === streakIdNumber);
         const canTargetStreakBeEnded = !!targetStreak &&
             targetStreak.inProgress &&
             targetStreak.type === 'START';
         if (!canTargetStreakBeEnded) {
-            throw new common_1.BadRequestException(error_1.ERRORS.CANNOT_END_STREAK);
+            throw new common_1.BadRequestException(errors_1.ERRORS.CANNOT_END_STREAK);
         }
         return this.streaksRepositoryClient.endStreak(streakIdNumber, goal.id);
     }
