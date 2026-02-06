@@ -26,7 +26,7 @@ let UsersService = class UsersService {
         });
     }
     async findUserById(id) {
-        const user = this.usersRepositoryClient.findUser({
+        const user = await this.usersRepositoryClient.findUser({
             id,
         });
         if (!user) {

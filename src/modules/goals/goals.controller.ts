@@ -12,8 +12,7 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '../../guards/auth.guard';
 import { GoalsService } from './goals.service';
-import { GetAllGoalsForUserResponseDto } from './dtos/GetAllGoalsForUserResponse.dto';
-import { GetSingleGoalResponseDto } from './dtos/GetSingleGoalResponse.dto';
+import { GoalsResponseDto } from './dtos/GoalsResponse.dto';
 import { UpdateGoalDto } from './dtos/UpdateGoal.dto';
 import { NewStreakDto } from './dtos/CreateStreak.dto';
 import { CreateGoalRequestDto } from './dtos/CreateGoal.dto';
@@ -31,9 +30,7 @@ export class GoalsController {
   ) {}
 
   @Get('/')
-  async getAllGoalsForUser(
-    @Req() req,
-  ): Promise<GetAllGoalsForUserResponseDto[]> {
+  async getAllGoalsForUser(@Req() req): Promise<GoalsResponseDto[]> {
     return this.goalsService.getUsersGoals(req.jwt.sub);
   }
 
@@ -41,7 +38,7 @@ export class GoalsController {
   async getGoalById(
     @Param('goalId') goalId: string,
     @Req() req,
-  ): Promise<GetSingleGoalResponseDto | undefined> {
+  ): Promise<GoalsResponseDto | undefined> {
     return this.goalsService.getGoalById(req.jwt.sub, goalId);
   }
 

@@ -13,7 +13,6 @@ export class CreateGoalResponseDto {
   id: number;
 
   @ApiProperty()
-  @IsNotEmpty()
   title: string;
 
   @Exclude()

@@ -9,25 +9,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GetAllGoalsForUserResponseDto = void 0;
+exports.GoalsResponseDto = void 0;
 const swagger_1 = require("@nestjs/swagger");
 const class_transformer_1 = require("class-transformer");
-class GetAllGoalsForUserResponseDto {
+class GoalsResponseDto {
 }
-exports.GetAllGoalsForUserResponseDto = GetAllGoalsForUserResponseDto;
+exports.GoalsResponseDto = GoalsResponseDto;
 __decorate([
     (0, swagger_1.ApiProperty)(),
     __metadata("design:type", Number)
-], GetAllGoalsForUserResponseDto.prototype, "id", void 0);
+], GoalsResponseDto.prototype, "id", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)(),
     __metadata("design:type", String)
-], GetAllGoalsForUserResponseDto.prototype, "title", void 0);
+], GoalsResponseDto.prototype, "title", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)(),
     __metadata("design:type", Array)
-], GetAllGoalsForUserResponseDto.prototype, "streaks", void 0);
+], GoalsResponseDto.prototype, "streaks", void 0);
 __decorate([
     (0, class_transformer_1.Exclude)(),
     __metadata("design:type", Number)
-], GetAllGoalsForUserResponseDto.prototype, "userId", void 0);
+], GoalsResponseDto.prototype, "userId", void 0);

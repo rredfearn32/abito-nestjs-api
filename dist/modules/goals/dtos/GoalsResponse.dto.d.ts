@@ -1,5 +1,5 @@
 import { Streak } from '../types/Streak';
-export declare class GetSingleGoalResponseDto {
+export declare class GoalsResponseDto {
     id: number;
     title: string;
     streaks: Streak[];

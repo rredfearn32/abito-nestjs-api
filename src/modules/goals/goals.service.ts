@@ -9,8 +9,7 @@ import { NewGoal } from './types/NewGoal';
 import { UpdateGoalDto } from './dtos/UpdateGoal.dto';
 import { ERRORS } from './messages/errors';
 import { plainToInstance } from 'class-transformer';
-import { GetAllGoalsForUserResponseDto } from './dtos/GetAllGoalsForUserResponse.dto';
-import { GetSingleGoalResponseDto } from './dtos/GetSingleGoalResponse.dto';
+import { GoalsResponseDto } from './dtos/GoalsResponse.dto';
 import { DeleteGoalResponseDto } from './dtos/DeleteGoal.dto';
 import {
   CreateGoalRequestDto,
@@ -25,7 +24,7 @@ export class GoalsService {
     private goalsRepositoryClient: GoalsRepositoryClient,
   ) {}
 
-  async getGoalById(userId: number, goalId: string) {
+  async getGoalById(userId: number, goalId: string): Promise<GoalsResponseDto> {
     /**
      * This function is used in the GoalExists guard, which checks for every Goal/Streak endpoint if a goal exists.
      *
@@ -48,27 +47,31 @@ export class GoalsService {
     if (!goal) {
       throw new NotFoundException(ERRORS.GOAL_NOT_FOUND);
     }
-    return plainToInstance(GetSingleGoalResponseDto, goal); // plainToInstance
+    return plainToInstance(GoalsResponseDto, goal); // plainToInstance
   }
 
-  async createGoal(newGoalDto: CreateGoalRequestDto, userId: number) {
+  async createGoal(
+    newGoalDto: CreateGoalRequestDto,
+    userId: number,
+  ): Promise<CreateGoalResponseDto> {
     const newGoal: NewGoal = { ...newGoalDto, userId };
 
-    const createdGoal = this.goalsRepositoryClient.createGoal(newGoal);
+    const createdGoal = await this.goalsRepositoryClient.createGoal(newGoal);
 
     return plainToInstance(CreateGoalResponseDto, createdGoal);
   }
 
-  async getUsersGoals(userId: number) {
+  async getUsersGoals(userId: number): Promise<GoalsResponseDto[]> {
     const goals = await this.goalsRepositoryClient.getUsersGoals(userId);
 
-    return goals.map((goal) =>
-      plainToInstance(GetAllGoalsForUserResponseDto, goal),
-    );
+    return goals.map((goal) => plainToInstance(GoalsResponseDto, goal));
   }
 
-  async deleteGoal(goal: Goal, ownerId: string) {
-    const deleteGoalResult = this.goalsRepositoryClient.deleteGoal(
+  async deleteGoal(
+    goal: Goal,
+    ownerId: string,
+  ): Promise<DeleteGoalResponseDto> {
+    const deleteGoalResult = await this.goalsRepositoryClient.deleteGoal(
       goal.id,
       Number(ownerId),
     );
@@ -76,13 +79,17 @@ export class GoalsService {
     return plainToInstance(DeleteGoalResponseDto, deleteGoalResult);
   }
 
-  async updateGoal(goal: Goal, ownerId: string, updatedGoal: UpdateGoalDto) {
-    const updatedGoalResponse = this.goalsRepositoryClient.updateGoal(
+  async updateGoal(
+    goal: Goal,
+    ownerId: string,
+    updatedGoal: UpdateGoalDto,
+  ): Promise<GoalsResponseDto> {
+    const updatedGoalResponse = await this.goalsRepositoryClient.updateGoal(
       goal.id,
       Number(ownerId),
       updatedGoal,
     );
 
-    return plainToInstance(GetSingleGoalResponseDto, updatedGoalResponse);
+    return plainToInstance(GoalsResponseDto, updatedGoalResponse);
   }
 }

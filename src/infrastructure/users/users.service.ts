@@ -19,7 +19,7 @@ export class UsersService {
   }
 
   async findUserById(id: number): Promise<User | undefined> {
-    const user = this.usersRepositoryClient.findUser({
+    const user = await this.usersRepositoryClient.findUser({
       id,
     });
 

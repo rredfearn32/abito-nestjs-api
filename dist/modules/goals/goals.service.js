@@ -17,8 +17,7 @@ const common_1 = require("@nestjs/common");
 const goals_repository_client_1 = require("./repositories/goals.repository-client");
 const errors_1 = require("./messages/errors");
 const class_transformer_1 = require("class-transformer");
-const GetAllGoalsForUserResponse_dto_1 = require("./dtos/GetAllGoalsForUserResponse.dto");
-const GetSingleGoalResponse_dto_1 = require("./dtos/GetSingleGoalResponse.dto");
+const GoalsResponse_dto_1 = require("./dtos/GoalsResponse.dto");
 const DeleteGoal_dto_1 = require("./dtos/DeleteGoal.dto");
 const CreateGoal_dto_1 = require("./dtos/CreateGoal.dto");
 let GoalsService = class GoalsService {
@@ -34,24 +33,24 @@ let GoalsService = class GoalsService {
         if (!goal) {
             throw new common_1.NotFoundException(errors_1.ERRORS.GOAL_NOT_FOUND);
         }
-        return (0, class_transformer_1.plainToInstance)(GetSingleGoalResponse_dto_1.GetSingleGoalResponseDto, goal);
+        return (0, class_transformer_1.plainToInstance)(GoalsResponse_dto_1.GoalsResponseDto, goal);
     }
     async createGoal(newGoalDto, userId) {
         const newGoal = { ...newGoalDto, userId };
-        const createdGoal = this.goalsRepositoryClient.createGoal(newGoal);
+        const createdGoal = await this.goalsRepositoryClient.createGoal(newGoal);
         return (0, class_transformer_1.plainToInstance)(CreateGoal_dto_1.CreateGoalResponseDto, createdGoal);
     }
     async getUsersGoals(userId) {
         const goals = await this.goalsRepositoryClient.getUsersGoals(userId);
-        return goals.map((goal) => (0, class_transformer_1.plainToInstance)(GetAllGoalsForUserResponse_dto_1.GetAllGoalsForUserResponseDto, goal));
+        return goals.map((goal) => (0, class_transformer_1.plainToInstance)(GoalsResponse_dto_1.GoalsResponseDto, goal));
     }
     async deleteGoal(goal, ownerId) {
-        const deleteGoalResult = this.goalsRepositoryClient.deleteGoal(goal.id, Number(ownerId));
+        const deleteGoalResult = await this.goalsRepositoryClient.deleteGoal(goal.id, Number(ownerId));
         return (0, class_transformer_1.plainToInstance)(DeleteGoal_dto_1.DeleteGoalResponseDto, deleteGoalResult);
     }
     async updateGoal(goal, ownerId, updatedGoal) {
-        const updatedGoalResponse = this.goalsRepositoryClient.updateGoal(goal.id, Number(ownerId), updatedGoal);
-        return (0, class_transformer_1.plainToInstance)(GetSingleGoalResponse_dto_1.GetSingleGoalResponseDto, updatedGoalResponse);
+        const updatedGoalResponse = await this.goalsRepositoryClient.updateGoal(goal.id, Number(ownerId), updatedGoal);
+        return (0, class_transformer_1.plainToInstance)(GoalsResponse_dto_1.GoalsResponseDto, updatedGoalResponse);
     }
 };
 exports.GoalsService = GoalsService;
