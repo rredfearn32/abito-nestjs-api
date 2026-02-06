@@ -5,10 +5,8 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { StreaksRepositoryClient } from './repositories/streaks.repository-client';
-import { UsersService } from '../../infrastructure/users/users.service';
 import { NewStreakDto } from './dtos/CreateStreak.dto';
 import { ERRORS } from './messages/error';
-import { GoalsService } from './goals.service';
 import { plainToInstance } from 'class-transformer';
 import { CreateStreakResponseDto } from './dtos/CreateStreak.dto';
 import { AuthGuard } from '../../guards/auth.guard';
@@ -21,8 +19,6 @@ export class StreaksService {
   constructor(
     @Inject(StreaksRepositoryClient)
     private streaksRepositoryClient: StreaksRepositoryClient,
-    private readonly userService: UsersService,
-    private readonly goalsService: GoalsService,
   ) {}
 
   async createStreak(goal: Goal, newStreak: NewStreakDto) {
