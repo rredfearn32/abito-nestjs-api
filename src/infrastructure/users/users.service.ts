@@ -1,6 +1,6 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { UsersRepositoryClient } from './repositories/users.repository-client';
-import { User } from '@prisma/client';
+import { User } from 'generated/prisma';
 import RegisterRequestDto from '../../modules/auth/dtos/RegisterRequest.dto';
 import UpdateProfileRequestDto from '../../modules/auth/dtos/UpdateProfileRequest.dto';
 import { ERRORS } from '../../modules/auth/messages/errors';

@@ -1,0 +1,39 @@
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { join } from 'path';
+import * as express from 'express';
+import { ValidationPipe } from '@nestjs/common';
+import { AuthModule } from './modules/auth/auth.module';
+import { GoalsModule } from './modules/goals/goals.module';
+
+export async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+  app.useGlobalPipes(new ValidationPipe());
+
+  // Serve Swagger UI assets
+  app.use(
+    '/swagger-static',
+    express.static(join(__dirname, '../node_modules/swagger-ui-dist')),
+  );
+
+  const config = new DocumentBuilder()
+    .setTitle('Abito API')
+    .setDescription('An API for Abito.dev')
+    .addBearerAuth({
+      type: 'http',
+      description:
+        'The Token used to communicate directly with the underlying API',
+    })
+    .setVersion('0.1')
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config, {
+    include: [AuthModule, GoalsModule],
+  });
+
+  // Use static assets URL
+  SwaggerModule.setup('swagger', app, document);
+
+  return app;
+}
