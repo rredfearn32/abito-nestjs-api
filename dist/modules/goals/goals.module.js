@@ -9,7 +9,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.GoalsModule = void 0;
 const common_1 = require("@nestjs/common");
 const users_module_1 = require("../../infrastructure/users/users.module");
-const jwt_1 = require("@nestjs/jwt");
 const goals_controller_1 = require("./goals.controller");
 const goals_service_1 = require("./goals.service");
 const goals_repository_client_1 = require("./repositories/goals.repository-client");
@@ -21,15 +20,7 @@ let GoalsModule = class GoalsModule {
 exports.GoalsModule = GoalsModule;
 exports.GoalsModule = GoalsModule = __decorate([
     (0, common_1.Module)({
-        imports: [
-            prisma_module_1.PrismaModule,
-            users_module_1.UsersModule,
-            jwt_1.JwtModule.registerAsync({
-                useFactory: () => ({
-                    global: true,
-                }),
-            }),
-        ],
+        imports: [prisma_module_1.PrismaModule, users_module_1.UsersModule],
         providers: [
             goals_service_1.GoalsService,
             streaks_service_1.StreaksService,

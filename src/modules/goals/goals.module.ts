@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { UsersModule } from '../../infrastructure/users/users.module';
-import { JwtModule } from '@nestjs/jwt';
 import { GoalsController } from './goals.controller';
 import { GoalsService } from './goals.service';
 import { GoalsRepositoryClient } from './repositories/goals.repository-client';
@@ -9,15 +8,7 @@ import { StreaksRepositoryClient } from './repositories/streaks.repository-clien
 import { StreaksService } from './streaks.service';
 
 @Module({
-  imports: [
-    PrismaModule,
-    UsersModule,
-    JwtModule.registerAsync({
-      useFactory: () => ({
-        global: true,
-      }),
-    }),
-  ],
+  imports: [PrismaModule, UsersModule],
   providers: [
     GoalsService,
     StreaksService,

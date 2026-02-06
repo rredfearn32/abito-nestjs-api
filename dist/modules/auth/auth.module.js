@@ -11,22 +11,13 @@ const common_1 = require("@nestjs/common");
 const auth_service_1 = require("./auth.service");
 const auth_controller_1 = require("./auth.controller");
 const users_module_1 = require("../../infrastructure/users/users.module");
-const jwt_1 = require("@nestjs/jwt");
 const tokens_module_1 = require("../../infrastructure/tokens/tokens.module");
 let AuthModule = class AuthModule {
 };
 exports.AuthModule = AuthModule;
 exports.AuthModule = AuthModule = __decorate([
     (0, common_1.Module)({
-        imports: [
-            users_module_1.UsersModule,
-            tokens_module_1.TokensModule,
-            jwt_1.JwtModule.registerAsync({
-                useFactory: () => ({
-                    global: true,
-                }),
-            }),
-        ],
+        imports: [users_module_1.UsersModule, tokens_module_1.TokensModule],
         providers: [auth_service_1.AuthService],
         controllers: [auth_controller_1.AuthController],
     })
