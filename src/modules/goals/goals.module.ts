@@ -5,21 +5,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GoalsController } from './goals.controller';
 import { GoalsService } from './goals.service';
 import { GoalsRepositoryClient } from './repositories/goals.repository-client';
-import { PrismaService } from '../../infrastructure/prisma/prisma.service';
+import { PrismaModule } from '../../infrastructure/prisma/prisma.module';
 import { StreaksRepositoryClient } from './repositories/streaks.repository-client';
 import { StreaksService } from './streaks.service';
 
 @Module({
-  providers: [
-    GoalsService,
-    StreaksService,
-    GoalsRepositoryClient,
-    StreaksRepositoryClient,
-    PrismaService,
-    ConfigService,
-  ],
-  controllers: [GoalsController],
   imports: [
+    PrismaModule,
     UsersModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
@@ -29,5 +21,12 @@ import { StreaksService } from './streaks.service';
       }),
     }),
   ],
+  providers: [
+    GoalsService,
+    StreaksService,
+    GoalsRepositoryClient,
+    StreaksRepositoryClient,
+  ],
+  controllers: [GoalsController],
 })
 export class GoalsModule {}

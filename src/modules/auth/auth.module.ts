@@ -6,17 +6,11 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TokensService } from '../../infrastructure/tokens/tokens.service';
 import { RefreshTokensRepositoryClient } from '../../infrastructure/tokens/repositories/refresh-tokens.repository-client';
-import { PrismaService } from '../../infrastructure/prisma/prisma.service';
+import { PrismaModule } from '../../infrastructure/prisma/prisma.module';
 
 @Module({
-  providers: [
-    AuthService,
-    TokensService,
-    RefreshTokensRepositoryClient,
-    PrismaService,
-  ],
-  controllers: [AuthController],
   imports: [
+    PrismaModule,
     UsersModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
@@ -26,5 +20,7 @@ import { PrismaService } from '../../infrastructure/prisma/prisma.service';
       }),
     }),
   ],
+  providers: [AuthService, TokensService, RefreshTokensRepositoryClient],
+  controllers: [AuthController],
 })
 export class AuthModule {}
