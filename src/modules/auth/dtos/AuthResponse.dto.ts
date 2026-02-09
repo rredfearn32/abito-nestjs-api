@@ -5,11 +5,11 @@ export default class AuthResponseDto {
   userId: number;
 
   @ApiProperty()
-  userName: string;
+  username: string;
 
   @ApiProperty()
-  access_token: string;
+  accessToken: string;
 
   @ApiProperty()
-  refresh_token: string;
+  refreshToken: string;
 }

@@ -25,11 +25,11 @@ export class AuthService {
 
     return {
       userId: id,
-      userName: username,
-      access_token: await this.tokensService.generateAccessToken(
+      username: username,
+      accessToken: await this.tokensService.generateAccessToken(
         tokenGenerationPayload,
       ),
-      refresh_token: await this.tokensService.generateRefreshToken(
+      refreshToken: await this.tokensService.generateRefreshToken(
         tokenGenerationPayload,
       ),
     };
@@ -47,11 +47,11 @@ export class AuthService {
 
     return {
       userId: user.id,
-      userName: user.username,
-      access_token: await this.tokensService.generateAccessToken(
+      username: user.username,
+      accessToken: await this.tokensService.generateAccessToken(
         tokenGenerationPayload,
       ),
-      refresh_token: await this.tokensService.generateRefreshToken(
+      refreshToken: await this.tokensService.generateRefreshToken(
         tokenGenerationPayload,
       ),
     };

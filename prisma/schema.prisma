@@ -16,12 +16,11 @@ datasource db {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  username String @unique
-  password String
-  goals    Goal[]
-
-  refresh_tokens RefreshToken[]
+  id            Int            @id @default(autoincrement())
+  username      String         @unique
+  password      String
+  goals         Goal[]
+  refreshTokens RefreshToken[]
 }
 
 model RefreshToken {
