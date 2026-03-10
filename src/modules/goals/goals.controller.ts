@@ -23,6 +23,7 @@ import {
 import { AuthGuard } from '../../guards/auth.guard';
 import { GoalsService } from './goals.service';
 import { GoalsResponseDto } from './dtos/GoalsResponse.dto';
+import { GetAllGoalsResponseDto } from './dtos/GetAllGoalsResponse.dto';
 import { UpdateGoalDto } from './dtos/UpdateGoal.dto';
 import { NewStreakDto, CreateStreakResponseDto } from './dtos/CreateStreak.dto';
 import {
@@ -46,9 +47,9 @@ export class GoalsController {
 
   @Get('/')
   @ApiOperation({ summary: 'Get all goals for the authenticated user' })
-  @ApiOkResponse({ type: [GoalsResponseDto] })
+  @ApiOkResponse({ type: [GetAllGoalsResponseDto] })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
-  async getAllGoalsForUser(@Req() req): Promise<GoalsResponseDto[]> {
+  async getAllGoalsForUser(@Req() req): Promise<GetAllGoalsResponseDto[]> {
     return this.goalsService.getUsersGoals(req.jwt.sub);
   }
 

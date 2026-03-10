@@ -10,6 +10,7 @@ import { UpdateGoalDto } from './dtos/UpdateGoal.dto';
 import { ERRORS } from './messages/errors';
 import { plainToInstance } from 'class-transformer';
 import { GoalsResponseDto } from './dtos/GoalsResponse.dto';
+import { GetAllGoalsResponseDto } from './dtos/GetAllGoalsResponse.dto';
 import { DeleteGoalResponseDto } from './dtos/DeleteGoal.dto';
 import {
   CreateGoalRequestDto,
@@ -61,10 +62,23 @@ export class GoalsService {
     return plainToInstance(CreateGoalResponseDto, createdGoal);
   }
 
-  async getUsersGoals(userId: number): Promise<GoalsResponseDto[]> {
+  async getUsersGoals(userId: number): Promise<GetAllGoalsResponseDto[]> {
     const goals = await this.goalsRepositoryClient.getUsersGoals(userId);
 
-    return goals.map((goal) => plainToInstance(GoalsResponseDto, goal));
+    return goals.map((goal) => {
+      const activeStreak =
+        goal.streaks
+          .filter((s) => s.inProgress)
+          .sort(
+            (a, b) =>
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+          )[0] ?? null;
+
+      return plainToInstance(GetAllGoalsResponseDto, {
+        ...goal,
+        activeStreak,
+      });
+    });
   }
 
   async deleteGoal(
