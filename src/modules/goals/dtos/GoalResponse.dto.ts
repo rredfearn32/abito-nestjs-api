@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
 import { Streak } from '../types/Streak';
 
-export class GoalsResponseDto {
+export class GoalResponseDto {
   @ApiProperty()
   id: number;
 

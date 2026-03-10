@@ -22,8 +22,7 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '../../guards/auth.guard';
 import { GoalsService } from './goals.service';
-import { GoalsResponseDto } from './dtos/GoalsResponse.dto';
-import { GetAllGoalsResponseDto } from './dtos/GetAllGoalsResponse.dto';
+import { GoalResponseDto } from './dtos/GoalResponse.dto';
 import { UpdateGoalDto } from './dtos/UpdateGoal.dto';
 import { NewStreakDto, CreateStreakResponseDto } from './dtos/CreateStreak.dto';
 import {
@@ -34,6 +33,7 @@ import { DeleteGoalResponseDto } from './dtos/DeleteGoal.dto';
 import { StreaksService } from './streaks.service';
 import { UserExistsGuard } from '../../guards/userexists.guard';
 import { GoalExistsGuard } from '../../guards/goalexists.guard';
+import { GetAllGoalsResponseDto } from './dtos/GetAllGoalsResponse.dto';
 
 @ApiTags('Goals')
 @ApiBearerAuth()
@@ -56,14 +56,14 @@ export class GoalsController {
   @Get('/:goalId')
   @ApiOperation({ summary: 'Get a goal by ID' })
   @ApiParam({ name: 'goalId', description: 'Numeric ID of the goal' })
-  @ApiOkResponse({ type: GoalsResponseDto })
+  @ApiOkResponse({ type: GoalResponseDto })
   @ApiBadRequestResponse({ description: 'Invalid ID format' })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
   @ApiNotFoundResponse({ description: 'Goal not found' })
   async getGoalById(
     @Param('goalId') goalId: string,
     @Req() req,
-  ): Promise<GoalsResponseDto | undefined> {
+  ): Promise<GoalResponseDto | undefined> {
     return this.goalsService.getGoalById(req.jwt.sub, goalId);
   }
 
@@ -89,7 +89,7 @@ export class GoalsController {
   @Patch('/:goalId')
   @ApiOperation({ summary: "Update a goal's properties (e.g. title)" })
   @ApiParam({ name: 'goalId', description: 'Numeric ID of the goal to update' })
-  @ApiOkResponse({ type: GoalsResponseDto })
+  @ApiOkResponse({ type: GoalResponseDto })
   @ApiBadRequestResponse({ description: 'Invalid ID format' })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
   @ApiNotFoundResponse({ description: 'Goal not found' })

@@ -9,14 +9,14 @@ import { NewGoal } from './types/NewGoal';
 import { UpdateGoalDto } from './dtos/UpdateGoal.dto';
 import { ERRORS } from './messages/errors';
 import { plainToInstance } from 'class-transformer';
-import { GoalsResponseDto } from './dtos/GoalsResponse.dto';
-import { GetAllGoalsResponseDto } from './dtos/GetAllGoalsResponse.dto';
+import { GoalResponseDto } from './dtos/GoalResponse.dto';
 import { DeleteGoalResponseDto } from './dtos/DeleteGoal.dto';
 import {
   CreateGoalRequestDto,
   CreateGoalResponseDto,
 } from './dtos/CreateGoal.dto';
 import { Goal } from './types/Goal';
+import { GetAllGoalsResponseDto } from './dtos/GetAllGoalsResponse.dto';
 
 @Injectable()
 export class GoalsService {
@@ -25,7 +25,7 @@ export class GoalsService {
     private goalsRepositoryClient: GoalsRepositoryClient,
   ) {}
 
-  async getGoalById(userId: number, goalId: string): Promise<GoalsResponseDto> {
+  async getGoalById(userId: number, goalId: string): Promise<GoalResponseDto> {
     /**
      * This function is used in the GoalExists guard, which checks for every Goal/Streak endpoint if a goal exists.
      *
@@ -48,7 +48,7 @@ export class GoalsService {
     if (!goal) {
       throw new NotFoundException(ERRORS.GOAL_NOT_FOUND);
     }
-    return plainToInstance(GoalsResponseDto, goal); // plainToInstance
+    return plainToInstance(GoalResponseDto, goal); // plainToInstance
   }
 
   async createGoal(
@@ -97,13 +97,13 @@ export class GoalsService {
     goal: Goal,
     ownerId: string,
     updatedGoal: UpdateGoalDto,
-  ): Promise<GoalsResponseDto> {
+  ): Promise<GoalResponseDto> {
     const updatedGoalResponse = await this.goalsRepositoryClient.updateGoal(
       goal.id,
       Number(ownerId),
       updatedGoal,
     );
 
-    return plainToInstance(GoalsResponseDto, updatedGoalResponse);
+    return plainToInstance(GoalResponseDto, updatedGoalResponse);
   }
 }
