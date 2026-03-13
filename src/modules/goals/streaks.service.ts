@@ -13,7 +13,7 @@ export class StreaksService {
   ) {}
 
   async createStreak(goal: Goal) {
-    if (goal.streaks.filter(({ inProgress }) => inProgress).length) {
+    if (goal.streaks.some(({ inProgress }) => inProgress)) {
       throw new BadRequestException(ERRORS.CANNOT_CREATE_NEW_STREAK);
     }
 

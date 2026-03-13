@@ -17,6 +17,7 @@ import {
 } from './dtos/CreateGoal.dto';
 import { Goal } from './types/Goal';
 import { GetAllGoalsResponseDto } from './dtos/GetAllGoalsResponse.dto';
+import { findActiveStreak, findPreviousStreaks } from './domain/goal.helpers';
 
 @Injectable()
 export class GoalsService {
@@ -25,30 +26,26 @@ export class GoalsService {
     private goalsRepositoryClient: GoalsRepositoryClient,
   ) {}
 
-  async getGoalById(userId: number, goalId: string): Promise<GoalResponseDto> {
-    /**
-     * This function is used in the GoalExists guard, which checks for every Goal/Streak endpoint if a goal exists.
-     *
-     * There is no need to duplicate this functionality in other endpoints, or to call this function in other services
-     * if they are called from within a controller that users the GoalExists guard, as the found goal will be added to
-     * the req
-     */
+  toGoalResponseDto(goal: Goal): GoalResponseDto {
+    return plainToInstance(GoalResponseDto, {
+      ...goal,
+      activeStreak: findActiveStreak(goal.streaks),
+      previousStreaks: findPreviousStreaks(goal.streaks),
+    });
+  }
 
+  async findGoalById(userId: number, goalId: string | number): Promise<Goal> {
     const goalIdNumber = Number(goalId);
-
-    if (isNaN(goalIdNumber)) {
+    if (isNaN(goalIdNumber))
       throw new BadRequestException(ERRORS.INVALID_ID_FORMAT);
-    }
 
     const goal = await this.goalsRepositoryClient.getGoalById(
       goalIdNumber,
       userId,
     );
+    if (!goal) throw new NotFoundException(ERRORS.GOAL_NOT_FOUND);
 
-    if (!goal) {
-      throw new NotFoundException(ERRORS.GOAL_NOT_FOUND);
-    }
-    return plainToInstance(GoalResponseDto, goal); // plainToInstance
+    return goal;
   }
 
   async createGoal(
@@ -66,13 +63,7 @@ export class GoalsService {
     const goals = await this.goalsRepositoryClient.getUsersGoals(userId);
 
     return goals.map((goal) => {
-      const activeStreak =
-        goal.streaks
-          .filter((s) => s.inProgress)
-          .sort(
-            (a, b) =>
-              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-          )[0] ?? null;
+      const activeStreak = findActiveStreak(goal.streaks);
 
       return plainToInstance(GetAllGoalsResponseDto, {
         ...goal,
@@ -95,15 +86,17 @@ export class GoalsService {
 
   async updateGoal(
     goal: Goal,
-    ownerId: string,
-    updatedGoal: UpdateGoalDto,
+    ownerId: number,
+    updateGoal: UpdateGoalDto,
   ): Promise<GoalResponseDto> {
-    const updatedGoalResponse = await this.goalsRepositoryClient.updateGoal(
+    await this.goalsRepositoryClient.updateGoal(
       goal.id,
       Number(ownerId),
-      updatedGoal,
+      updateGoal,
     );
 
-    return plainToInstance(GoalResponseDto, updatedGoalResponse);
+    const updatedGoal = await this.findGoalById(ownerId, goal.id);
+
+    return this.toGoalResponseDto(updatedGoal);
   }
 }

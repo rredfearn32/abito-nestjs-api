@@ -1,7 +1,7 @@
 export interface Streak {
   id: number;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
   inProgress: boolean;
   goalId: number;
 }

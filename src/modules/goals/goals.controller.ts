@@ -61,10 +61,10 @@ export class GoalsController {
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
   @ApiNotFoundResponse({ description: 'Goal not found' })
   async getGoalById(
-    @Param('goalId') goalId: string,
+    @Param('goalId') _: string,
     @Req() req,
-  ): Promise<GoalResponseDto | undefined> {
-    return this.goalsService.getGoalById(req.jwt.sub, goalId);
+  ): Promise<GoalResponseDto> {
+    return this.goalsService.toGoalResponseDto(req.goal);
   }
 
   @Post('/')

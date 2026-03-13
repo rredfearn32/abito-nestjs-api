@@ -10,11 +10,17 @@ export class GoalResponseDto {
   @ApiProperty()
   title: string;
 
+  @ApiProperty({ type: Object, nullable: true })
+  activeStreak: Streak | null;
+
   @ApiProperty()
-  streaks: Streak[];
+  previousStreaks: Streak[];
 
   @ApiProperty()
   type: GoalType;
+
+  @Exclude()
+  streaks: number;
 
   @Exclude()
   userId: number;
