@@ -39,7 +39,13 @@ model Goal {
   title   String
   userId  Int
   user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type    GoalType
   streaks Streak[]
+}
+
+enum GoalType {
+  START
+  STOP
 }
 
 enum StreakType {

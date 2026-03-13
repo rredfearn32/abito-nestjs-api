@@ -36,9 +36,7 @@ export class StreaksService {
     const targetStreak = goal.streaks.find(({ id }) => id === streakIdNumber);
 
     const canTargetStreakBeUpdated =
-      !!targetStreak &&
-      targetStreak.inProgress &&
-      targetStreak.type === 'START';
+      !!targetStreak && targetStreak.inProgress && goal.type === 'START';
 
     if (!canTargetStreakBeUpdated) {
       throw new BadRequestException(ERRORS.CANNOT_UPDATE_STREAK);
@@ -56,11 +54,7 @@ export class StreaksService {
 
     const targetStreak = goal.streaks.find(({ id }) => id === streakIdNumber);
 
-    const canTargetStreakBeEnded =
-      !!targetStreak &&
-      targetStreak.inProgress &&
-      targetStreak.type === 'START';
-
+    const canTargetStreakBeEnded = !!targetStreak && targetStreak.inProgress;
     if (!canTargetStreakBeEnded) {
       throw new BadRequestException(ERRORS.CANNOT_END_STREAK);
     }

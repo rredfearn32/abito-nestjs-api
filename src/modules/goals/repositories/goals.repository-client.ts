@@ -8,10 +8,11 @@ export class GoalsRepositoryClient {
   constructor(private prismaService: PrismaService) {}
 
   async createGoal(newGoal: NewGoal) {
-    const { title, userId } = newGoal;
+    const { title, userId, type } = newGoal;
     return this.prismaService.goal.create({
       data: {
         title,
+        type,
         user: { connect: { id: userId } },
       },
     });
