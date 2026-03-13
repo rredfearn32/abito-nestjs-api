@@ -1,13 +1,4 @@
-import { StreakType } from '../../../../generated/prisma';
-import { IsEnum, IsNotEmpty } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-
-export class NewStreakDto {
-  @ApiProperty({ enum: StreakType })
-  @IsNotEmpty()
-  @IsEnum(StreakType)
-  type: StreakType;
-}
 
 export class CreateStreakResponseDto {
   @ApiProperty()
@@ -18,9 +9,6 @@ export class CreateStreakResponseDto {
 
   @ApiProperty()
   updatedAt: string;
-
-  @ApiProperty({ enum: StreakType })
-  type: StreakType;
 
   @ApiProperty()
   inProgress: boolean;

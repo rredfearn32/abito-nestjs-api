@@ -48,17 +48,11 @@ enum GoalType {
   STOP
 }
 
-enum StreakType {
-  START
-  STOP
-}
-
 model Streak {
-  id         Int        @id @default(autoincrement())
-  createdAt  DateTime   @default(now())
+  id         Int       @id @default(autoincrement())
+  createdAt  DateTime  @default(now())
   updatedAt  DateTime?
-  type       StreakType
-  inProgress Boolean    @default(true)
+  inProgress Boolean   @default(true)
   goalId     Int
-  goal       Goal       @relation(fields: [goalId], references: [id], onDelete: Cascade)
+  goal       Goal      @relation(fields: [goalId], references: [id], onDelete: Cascade)
 }

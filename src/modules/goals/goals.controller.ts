@@ -24,7 +24,7 @@ import { AuthGuard } from '../../guards/auth.guard';
 import { GoalsService } from './goals.service';
 import { GoalResponseDto } from './dtos/GoalResponse.dto';
 import { UpdateGoalDto } from './dtos/UpdateGoal.dto';
-import { NewStreakDto, CreateStreakResponseDto } from './dtos/CreateStreak.dto';
+import { CreateStreakResponseDto } from './dtos/CreateStreak.dto';
 import {
   CreateGoalRequestDto,
   CreateGoalResponseDto,
@@ -110,12 +110,8 @@ export class GoalsController {
   })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
   @ApiNotFoundResponse({ description: 'Goal not found' })
-  async createStreak(
-    @Param('goalId') _: string,
-    @Req() req,
-    @Body() newStreak: NewStreakDto,
-  ) {
-    return this.streaksService.createStreak(req.goal, newStreak);
+  async createStreak(@Param('goalId') _: string, @Req() req) {
+    return this.streaksService.createStreak(req.goal);
   }
 
   @Patch('/:goalId/streaks/:streakId')

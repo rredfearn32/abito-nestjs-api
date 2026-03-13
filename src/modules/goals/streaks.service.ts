@@ -1,6 +1,5 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { StreaksRepositoryClient } from './repositories/streaks.repository-client';
-import { NewStreakDto } from './dtos/CreateStreak.dto';
 import { ERRORS } from './messages/errors';
 import { plainToInstance } from 'class-transformer';
 import { CreateStreakResponseDto } from './dtos/CreateStreak.dto';
@@ -13,15 +12,12 @@ export class StreaksService {
     private streaksRepositoryClient: StreaksRepositoryClient,
   ) {}
 
-  async createStreak(goal: Goal, newStreak: NewStreakDto) {
+  async createStreak(goal: Goal) {
     if (goal.streaks.filter(({ inProgress }) => inProgress).length) {
       throw new BadRequestException(ERRORS.CANNOT_CREATE_NEW_STREAK);
     }
 
-    const createdStreak = this.streaksRepositoryClient.createStreak(
-      goal.id,
-      newStreak,
-    );
+    const createdStreak = this.streaksRepositoryClient.createStreak(goal.id);
 
     return plainToInstance(CreateStreakResponseDto, createdStreak);
   }
