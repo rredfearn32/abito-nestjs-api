@@ -4,7 +4,7 @@ import { GoalType } from '../../../../generated/prisma';
 
 export class DeleteGoalResponseDto {
   @ApiProperty()
-  id: number;
+  id: string;
 
   @ApiProperty()
   title: string;
@@ -13,5 +13,5 @@ export class DeleteGoalResponseDto {
   type: GoalType;
 
   @Exclude()
-  userId: number;
+  userId: string;
 }

@@ -1,3 +1,3 @@
 export type TokenGenerationPayload = {
-  sub: number;
+  sub: string;
 };

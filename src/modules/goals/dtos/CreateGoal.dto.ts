@@ -15,7 +15,7 @@ export class CreateGoalRequestDto {
 
 export class CreateGoalResponseDto {
   @ApiProperty()
-  id: number;
+  id: string;
 
   @ApiProperty()
   title: string;
@@ -24,5 +24,5 @@ export class CreateGoalResponseDto {
   type: GoalType;
 
   @Exclude()
-  userId: number;
+  userId: string;
 }

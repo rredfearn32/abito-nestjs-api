@@ -2,9 +2,9 @@ import { Streak } from './Streak';
 import { GoalType } from '../../../../generated/prisma';
 
 export interface Goal {
-  id: number;
+  id: string;
   title: string;
-  userId: number;
+  userId: string;
   type: GoalType;
   streaks: Streak[];
 }

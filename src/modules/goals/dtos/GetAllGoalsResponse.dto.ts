@@ -5,7 +5,7 @@ import { GoalType } from '../../../../generated/prisma';
 
 export class GetAllGoalsResponseDto {
   @ApiProperty()
-  id: number;
+  id: string;
 
   @ApiProperty()
   title: string;
@@ -20,5 +20,5 @@ export class GetAllGoalsResponseDto {
   streaks: Streak[];
 
   @Exclude()
-  userId: number;
+  userId: string;
 }

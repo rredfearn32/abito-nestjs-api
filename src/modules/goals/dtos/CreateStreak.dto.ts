@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateStreakResponseDto {
   @ApiProperty()
-  id: number;
+  id: string;
 
   @ApiProperty()
   createdAt: string;
@@ -14,5 +14,5 @@ export class CreateStreakResponseDto {
   inProgress: boolean;
 
   @ApiProperty()
-  goalId: number;
+  goalId: string;
 }

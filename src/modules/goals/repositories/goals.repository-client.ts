@@ -18,7 +18,7 @@ export class GoalsRepositoryClient {
     });
   }
 
-  async getUsersGoals(userId: number) {
+  async getUsersGoals(userId: string) {
     return this.prismaService.goal.findMany({
       where: {
         userId: userId,
@@ -29,7 +29,7 @@ export class GoalsRepositoryClient {
     });
   }
 
-  async getGoalById(goalId: number, ownerId: number) {
+  async getGoalById(goalId: string, ownerId: string) {
     return this.prismaService.goal.findUnique({
       where: {
         id: goalId,
@@ -41,7 +41,7 @@ export class GoalsRepositoryClient {
     });
   }
 
-  async deleteGoal(goalId: number, ownerId: number) {
+  async deleteGoal(goalId: string, ownerId: string) {
     return this.prismaService.goal.delete({
       where: {
         id: goalId,
@@ -53,7 +53,7 @@ export class GoalsRepositoryClient {
     });
   }
 
-  async updateGoal(goalId: number, ownerId: number, updateGoal: UpdateGoalDto) {
+  async updateGoal(goalId: string, ownerId: string, updateGoal: UpdateGoalDto) {
     return this.prismaService.goal.update({
       where: {
         id: goalId,

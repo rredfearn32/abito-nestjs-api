@@ -5,7 +5,7 @@ import { PrismaService } from '../../prisma/prisma.service';
 export class RefreshTokensRepositoryClient {
   constructor(private prismaService: PrismaService) {}
 
-  async create(userId: number, token: string, expiresAt: Date) {
+  async create(userId: string, token: string, expiresAt: Date) {
     return this.prismaService.refreshToken.create({
       data: {
         userId,
@@ -28,7 +28,7 @@ export class RefreshTokensRepositoryClient {
     });
   }
 
-  async revokeAllForUser(userId: number) {
+  async revokeAllForUser(userId: string) {
     return this.prismaService.refreshToken.updateMany({
       where: { userId: userId, revokedAt: null },
       data: { revokedAt: new Date() },

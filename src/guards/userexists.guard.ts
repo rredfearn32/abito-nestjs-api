@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   CanActivate,
   ExecutionContext,
   Injectable,
@@ -16,13 +15,7 @@ export class UserExistsGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const userId = request.jwt.sub;
 
-    const userIdAsNumber = Number(userId);
-
-    if (isNaN(userIdAsNumber)) {
-      throw new BadRequestException(ERRORS.INVALID_ID_FORMAT);
-    }
-
-    const user = await this.usersService.findUserById(userIdAsNumber);
+    const user = await this.usersService.findUserById(userId);
 
     if (!user) {
       throw new NotFoundException(ERRORS.USER_NOT_FOUND);

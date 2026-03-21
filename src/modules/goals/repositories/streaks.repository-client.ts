@@ -5,7 +5,7 @@ import { PrismaService } from '../../../infrastructure/prisma/prisma.service';
 export class StreaksRepositoryClient {
   constructor(private prismaService: PrismaService) {}
 
-  async createStreak(goalId: number) {
+  async createStreak(goalId: string) {
     return this.prismaService.streak.create({
       data: {
         goal: { connect: { id: goalId } },
@@ -13,7 +13,7 @@ export class StreaksRepositoryClient {
     });
   }
 
-  async updateStreak(streakId: number, goalId: number) {
+  async updateStreak(streakId: string, goalId: string) {
     return this.prismaService.streak.update({
       where: {
         id: streakId,
@@ -25,7 +25,7 @@ export class StreaksRepositoryClient {
     });
   }
 
-  async endStreak(streakId: number, goalId: number) {
+  async endStreak(streakId: string, goalId: string) {
     return this.prismaService.streak.update({
       where: {
         id: streakId,

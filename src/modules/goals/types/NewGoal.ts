@@ -2,6 +2,6 @@ import { GoalType } from '../../../../generated/prisma';
 
 export interface NewGoal {
   title: string;
-  userId: number;
+  userId: string;
   type: GoalType;
 }

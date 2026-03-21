@@ -1,9 +1,4 @@
-import {
-  BadRequestException,
-  Inject,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { GoalsRepositoryClient } from './repositories/goals.repository-client';
 import { NewGoal } from './types/NewGoal';
 import { UpdateGoalDto } from './dtos/UpdateGoal.dto';
@@ -34,15 +29,8 @@ export class GoalsService {
     });
   }
 
-  async findGoalById(userId: number, goalId: string | number): Promise<Goal> {
-    const goalIdNumber = Number(goalId);
-    if (isNaN(goalIdNumber))
-      throw new BadRequestException(ERRORS.INVALID_ID_FORMAT);
-
-    const goal = await this.goalsRepositoryClient.getGoalById(
-      goalIdNumber,
-      userId,
-    );
+  async findGoalById(userId: string, goalId: string): Promise<Goal> {
+    const goal = await this.goalsRepositoryClient.getGoalById(goalId, userId);
     if (!goal) throw new NotFoundException(ERRORS.GOAL_NOT_FOUND);
 
     return goal;
@@ -50,7 +38,7 @@ export class GoalsService {
 
   async createGoal(
     newGoalDto: CreateGoalRequestDto,
-    userId: number,
+    userId: string,
   ): Promise<CreateGoalResponseDto> {
     const newGoal: NewGoal = { ...newGoalDto, userId };
 
@@ -59,7 +47,7 @@ export class GoalsService {
     return plainToInstance(CreateGoalResponseDto, createdGoal);
   }
 
-  async getUsersGoals(userId: number): Promise<GetAllGoalsResponseDto[]> {
+  async getUsersGoals(userId: string): Promise<GetAllGoalsResponseDto[]> {
     const goals = await this.goalsRepositoryClient.getUsersGoals(userId);
 
     return goals.map((goal) => {
@@ -78,7 +66,7 @@ export class GoalsService {
   ): Promise<DeleteGoalResponseDto> {
     const deleteGoalResult = await this.goalsRepositoryClient.deleteGoal(
       goal.id,
-      Number(ownerId),
+      ownerId,
     );
 
     return plainToInstance(DeleteGoalResponseDto, deleteGoalResult);
@@ -86,14 +74,10 @@ export class GoalsService {
 
   async updateGoal(
     goal: Goal,
-    ownerId: number,
+    ownerId: string,
     updateGoal: UpdateGoalDto,
   ): Promise<GoalResponseDto> {
-    await this.goalsRepositoryClient.updateGoal(
-      goal.id,
-      Number(ownerId),
-      updateGoal,
-    );
+    await this.goalsRepositoryClient.updateGoal(goal.id, ownerId, updateGoal);
 
     const updatedGoal = await this.findGoalById(ownerId, goal.id);
 

@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export default class AuthResponseDto {
   @ApiProperty()
-  userId: number;
+  userId: string;
 
   @ApiProperty()
   username: string;

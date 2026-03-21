@@ -18,7 +18,7 @@ export class UsersService {
     });
   }
 
-  async findUserById(id: number): Promise<User | undefined> {
+  async findUserById(id: string): Promise<User | undefined> {
     const user = await this.usersRepositoryClient.findUser({
       id,
     });
@@ -34,12 +34,12 @@ export class UsersService {
     return this.usersRepositoryClient.createUser(newUser);
   }
 
-  deleteUser(id: number) {
+  deleteUser(id: string) {
     this.usersRepositoryClient.deleteUser(id);
   }
 
   updateUser(
-    id: number,
+    id: string,
     updatedProfile: UpdateProfileRequestDto,
   ): Promise<User> {
     return this.usersRepositoryClient.updateUser(id, updatedProfile);

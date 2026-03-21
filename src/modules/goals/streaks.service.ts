@@ -23,13 +23,7 @@ export class StreaksService {
   }
 
   async updateStreak(streakId: string, goal: Goal) {
-    const streakIdNumber = Number(streakId);
-
-    if (isNaN(streakIdNumber)) {
-      throw new BadRequestException(ERRORS.INVALID_ID_FORMAT);
-    }
-
-    const targetStreak = goal.streaks.find(({ id }) => id === streakIdNumber);
+    const targetStreak = goal.streaks.find(({ id }) => id === streakId);
 
     const canTargetStreakBeUpdated =
       !!targetStreak && targetStreak.inProgress && goal.type === 'START';
@@ -38,23 +32,17 @@ export class StreaksService {
       throw new BadRequestException(ERRORS.CANNOT_UPDATE_STREAK);
     }
 
-    return this.streaksRepositoryClient.updateStreak(streakIdNumber, goal.id);
+    return this.streaksRepositoryClient.updateStreak(streakId, goal.id);
   }
 
   async endStreak(streakId: string, goal: Goal) {
-    const streakIdNumber = Number(streakId);
-
-    if (isNaN(streakIdNumber)) {
-      throw new BadRequestException(ERRORS.INVALID_ID_FORMAT);
-    }
-
-    const targetStreak = goal.streaks.find(({ id }) => id === streakIdNumber);
+    const targetStreak = goal.streaks.find(({ id }) => id === streakId);
 
     const canTargetStreakBeEnded = !!targetStreak && targetStreak.inProgress;
     if (!canTargetStreakBeEnded) {
       throw new BadRequestException(ERRORS.CANNOT_END_STREAK);
     }
 
-    return this.streaksRepositoryClient.endStreak(streakIdNumber, goal.id);
+    return this.streaksRepositoryClient.endStreak(streakId, goal.id);
   }
 }
