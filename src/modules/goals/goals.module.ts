@@ -16,5 +16,6 @@ import { StreaksService } from './streaks.service';
     StreaksRepositoryClient,
   ],
   controllers: [GoalsController],
+  exports: [StreaksService],
 })
 export class GoalsModule {}

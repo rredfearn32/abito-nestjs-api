@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../infrastructure/prisma/prisma.service';
+import { isNotEmpty } from 'class-validator';
 
 @Injectable()
 export class StreaksRepositoryClient {
@@ -34,6 +35,34 @@ export class StreaksRepositoryClient {
       data: {
         inProgress: false,
         updatedAt: new Date().toISOString(),
+      },
+    });
+  }
+
+  async expireStreaks() {
+    const cutoff = new Date(Date.now() - 24 * 60 * 60 * 1000);
+
+    return this.prismaService.streak.updateManyAndReturn({
+      where: {
+        inProgress: true,
+        OR: [
+          {
+            updatedAt: {
+              lte: cutoff,
+            },
+          },
+          {
+            createdAt: { lte: cutoff },
+            updatedAt: null,
+          },
+        ],
+        goal: {
+          type: 'START',
+        },
+      },
+      data: {
+        updatedAt: new Date().toISOString(),
+        inProgress: false,
       },
     });
   }

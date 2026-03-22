@@ -35,6 +35,10 @@ export class StreaksService {
     return this.streaksRepositoryClient.updateStreak(streakId, goal.id);
   }
 
+  async expireStreaks(): Promise<void> {
+    await this.streaksRepositoryClient.expireStreaks();
+  }
+
   async endStreak(streakId: string, goal: Goal) {
     const targetStreak = goal.streaks.find(({ id }) => id === streakId);
 
