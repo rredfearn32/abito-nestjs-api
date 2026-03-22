@@ -1,6 +1,12 @@
 {
   "version": 2,
   "buildCommand": "npx prisma migrate deploy && npm run vercel-build",
+  "crons": [
+    {
+      "path": "/cron/expire-streaks",
+      "schedule": "0 * * * *"
+    }
+  ],
   "builds": [
     {
       "src": "api/index.js",
