@@ -1,6 +1,11 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { UsersRepositoryClient } from './repositories/users.repository-client';
-import { User } from 'generated/prisma';
+import { User, Prisma } from 'generated/prisma';
 import RegisterRequestDto from '../../modules/auth/dtos/RegisterRequest.dto';
 import UpdateProfileRequestDto from '../../modules/auth/dtos/UpdateProfileRequest.dto';
 import { ERRORS } from '../../modules/auth/messages/errors';
@@ -31,7 +36,17 @@ export class UsersService {
   }
 
   async createUser(newUser: RegisterRequestDto): Promise<User | undefined> {
-    return this.usersRepositoryClient.createUser(newUser);
+    try {
+      return await this.usersRepositoryClient.createUser(newUser);
+    } catch (e) {
+      if (
+        e instanceof Prisma.PrismaClientKnownRequestError &&
+        e.code === 'P2002'
+      ) {
+        throw new ConflictException(ERRORS.USERNAME_TAKEN);
+      }
+      throw e;
+    }
   }
 
   deleteUser(id: string) {
