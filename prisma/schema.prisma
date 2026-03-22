@@ -28,9 +28,9 @@ model RefreshToken {
   id        String    @id @default(uuid()) @db.Uuid
   userId    String    @map("user_id") @db.Uuid
   token     String    @unique @db.VarChar(255)
-  expiresAt DateTime  @map("expires_at") @db.Timestamp(6)
-  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamp(6)
-  revokedAt DateTime? @map("revoked_at") @db.Timestamp(6)
+  expiresAt DateTime  @map("expires_at") @db.Timestamptz(6)
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  revokedAt DateTime? @map("revoked_at") @db.Timestamptz(6)
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
@@ -51,8 +51,8 @@ enum GoalType {
 
 model Streak {
   id         String    @id @default(uuid()) @db.Uuid
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime?
+  createdAt  DateTime  @default(now()) @db.Timestamptz(6)
+  updatedAt  DateTime? @db.Timestamptz(6)
   inProgress Boolean   @default(true)
   goalId     String    @db.Uuid
   goal       Goal      @relation(fields: [goalId], references: [id], onDelete: Cascade)
