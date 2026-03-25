@@ -115,7 +115,7 @@ export class GoalsController {
   }
 
   @Patch('/:goalId/streaks/:streakId')
-  @ApiOperation({ summary: 'Record a check-in on a streak' })
+  @ApiOperation({ summary: 'Record a check-in on a streak for a START goal' })
   @ApiParam({ name: 'goalId', description: 'Numeric ID of the goal' })
   @ApiParam({ name: 'streakId', description: 'Numeric ID of the streak' })
   @ApiOkResponse({ description: 'Updated streak' })
