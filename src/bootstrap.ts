@@ -7,6 +7,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { AuthModule } from './modules/auth/auth.module';
 import { GoalsModule } from './modules/goals/goals.module';
 import { CronModule } from './modules/cron/cron.module';
+import { UsersModule } from './modules/users/users.module';
 
 export async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -30,7 +31,7 @@ export async function bootstrap() {
     .build();
 
   const document = SwaggerModule.createDocument(app, config, {
-    include: [AuthModule, GoalsModule, CronModule],
+    include: [AuthModule, GoalsModule, UsersModule, CronModule],
   });
 
   // Use static assets URL

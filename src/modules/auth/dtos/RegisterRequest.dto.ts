@@ -2,32 +2,32 @@ import { ApiProperty } from '@nestjs/swagger';
 import {
   IsEmail,
   IsNotEmpty,
-  IsOptional,
   IsString,
   Matches,
   MaxLength,
   MinLength,
 } from 'class-validator';
+import { AUTH_ERRORS } from 'src/messages/auth.errors';
 
 export default class RegisterRequestDto {
   @ApiProperty()
   @IsString()
-  @IsNotEmpty({ message: 'Username is required' })
-  @MinLength(3, { message: 'USERNAME_REQUIREMENTS_MIN' })
-  @MaxLength(30, { message: 'USERNAME_REQUIREMENTS_MAX' })
+  @IsNotEmpty({ message: AUTH_ERRORS.USERNAME_REQUIRED })
+  @MinLength(3, { message: AUTH_ERRORS.USERNAME_REQUIREMENTS_MIN })
+  @MaxLength(30, { message: AUTH_ERRORS.USERNAME_REQUIREMENTS_MAX })
   username: string;
 
   @ApiProperty()
-  @IsNotEmpty({ message: 'Username is required' })
-  @IsEmail()
+  @IsNotEmpty({ message: AUTH_ERRORS.EMAIL_REQUIRED })
+  @IsEmail({}, { message: AUTH_ERRORS.INVALID_EMAIL_FORMAT })
   email: string;
 
   @ApiProperty()
-  @IsOptional()
   @IsString()
-  @MinLength(8, { message: 'PASSWORD_REQUIREMENTS_LENGTH' })
+  @IsNotEmpty({ message: AUTH_ERRORS.PASSWORD_REQUIRED })
+  @MinLength(8, { message: AUTH_ERRORS.PASSWORD_REQUIREMENTS_LENGTH })
   @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, {
-    message: 'PASSWORD_REQUIREMENTS_COMPLEXITY',
+    message: AUTH_ERRORS.PASSWORD_REQUIREMENTS_COMPLEXITY,
   })
   password: string;
 }

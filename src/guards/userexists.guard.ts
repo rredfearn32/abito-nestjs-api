@@ -4,8 +4,8 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { UsersService } from '../infrastructure/users/users.service';
-import { ERRORS } from '../modules/auth/messages/errors';
+import { USER_ERROR } from '../messages/users.errors';
+import { UsersService } from '../modules/users/users.service';
 
 @Injectable()
 export class UserExistsGuard implements CanActivate {
@@ -18,7 +18,7 @@ export class UserExistsGuard implements CanActivate {
     const user = await this.usersService.findUserById(userId);
 
     if (!user) {
-      throw new NotFoundException(ERRORS.USER_NOT_FOUND);
+      throw new NotFoundException(USER_ERROR.USER_NOT_FOUND);
     }
 
     request.user = user;

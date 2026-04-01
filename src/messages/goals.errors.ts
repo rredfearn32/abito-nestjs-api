@@ -1,0 +1,3 @@
+export enum GOAL_ERRORS {
+  GOAL_NOT_FOUND = 'GOAL_NOT_FOUND',
+}

@@ -1,18 +1,11 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { GoalsRepositoryClient } from './repositories/goals.repository-client';
-import { NewGoal } from './types/NewGoal';
 import { UpdateGoalDto } from './dtos/UpdateGoal.dto';
-import { ERRORS } from './messages/errors';
-import { plainToInstance } from 'class-transformer';
-import { GoalResponseDto } from './dtos/GoalResponse.dto';
-import { DeleteGoalResponseDto } from './dtos/DeleteGoal.dto';
-import {
-  CreateGoalRequestDto,
-  CreateGoalResponseDto,
-} from './dtos/CreateGoal.dto';
+import { GOAL_ERRORS } from '../../messages/goals.errors';
 import { Goal } from './types/Goal';
-import { GetAllGoalsResponseDto } from './dtos/GetAllGoalsResponse.dto';
 import { findActiveStreak, findPreviousStreaks } from './domain/goal.helpers';
+import { NewGoal } from './types/NewGoal';
+import { GoalView } from './types/GoalView';
 
 @Injectable()
 export class GoalsService {
@@ -21,66 +14,44 @@ export class GoalsService {
     private goalsRepositoryClient: GoalsRepositoryClient,
   ) {}
 
-  toGoalResponseDto(goal: Goal): GoalResponseDto {
-    return plainToInstance(GoalResponseDto, {
-      ...goal,
+  toGoalView(goal: Goal, includePreviousStreaks: boolean = true): GoalView {
+    const goalView: GoalView = {
+      id: goal.id,
+      title: goal.title,
+      type: goal.type,
       activeStreak: findActiveStreak(goal.streaks),
-      previousStreaks: findPreviousStreaks(goal.streaks),
-    });
+    };
+    if (includePreviousStreaks) {
+      goalView.previousStreaks = findPreviousStreaks(goal.streaks);
+    }
+    return goalView;
   }
 
-  async findGoalById(userId: string, goalId: string): Promise<Goal> {
+  // This method needs to return a raw Goal, as it is used by the GoalExistsGuard
+  async findSingleGoalById(userId: string, goalId: string): Promise<Goal> {
     const goal = await this.goalsRepositoryClient.getGoalById(goalId, userId);
-    if (!goal) throw new NotFoundException(ERRORS.GOAL_NOT_FOUND);
+    if (!goal) throw new NotFoundException(GOAL_ERRORS.GOAL_NOT_FOUND);
 
     return goal;
   }
 
-  async createGoal(
-    newGoalDto: CreateGoalRequestDto,
-    userId: string,
-  ): Promise<CreateGoalResponseDto> {
-    const newGoal: NewGoal = { ...newGoalDto, userId };
-
-    const createdGoal = await this.goalsRepositoryClient.createGoal(newGoal);
-
-    return plainToInstance(CreateGoalResponseDto, createdGoal);
+  async createGoal(newGoal: NewGoal, userId: string) {
+    return this.goalsRepositoryClient.createGoal(newGoal, userId);
   }
 
-  async getUsersGoals(userId: string): Promise<GetAllGoalsResponseDto[]> {
-    const goals = await this.goalsRepositoryClient.getUsersGoals(userId);
-
-    return goals.map((goal) => {
-      const activeStreak = findActiveStreak(goal.streaks);
-
-      return plainToInstance(GetAllGoalsResponseDto, {
-        ...goal,
-        activeStreak,
-      });
-    });
+  async getAllGoalsForUser(userId: string) {
+    return this.goalsRepositoryClient.getUsersGoals(userId);
   }
 
-  async deleteGoal(
-    goal: Goal,
-    ownerId: string,
-  ): Promise<DeleteGoalResponseDto> {
-    const deleteGoalResult = await this.goalsRepositoryClient.deleteGoal(
-      goal.id,
-      ownerId,
-    );
-
-    return plainToInstance(DeleteGoalResponseDto, deleteGoalResult);
+  async deleteGoal(goal: Goal, userId: string) {
+    return await this.goalsRepositoryClient.deleteGoal(goal.id, userId);
   }
 
   async updateGoal(
     goal: Goal,
     ownerId: string,
     updateGoal: UpdateGoalDto,
-  ): Promise<GoalResponseDto> {
-    await this.goalsRepositoryClient.updateGoal(goal.id, ownerId, updateGoal);
-
-    const updatedGoal = await this.findGoalById(ownerId, goal.id);
-
-    return this.toGoalResponseDto(updatedGoal);
+  ): Promise<Goal> {
+    return this.goalsRepositoryClient.updateGoal(goal.id, ownerId, updateGoal);
   }
 }

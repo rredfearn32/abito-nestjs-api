@@ -1,19 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../infrastructure/prisma/prisma.service';
-import { NewGoal } from '../types/NewGoal';
 import { UpdateGoalDto } from '../dtos/UpdateGoal.dto';
+import { NewGoal } from '../types/NewGoal';
 
 @Injectable()
 export class GoalsRepositoryClient {
   constructor(private prismaService: PrismaService) {}
 
-  async createGoal(newGoal: NewGoal) {
-    const { title, userId, type } = newGoal;
+  async createGoal(newGoal: NewGoal, userId: string) {
+    const { title, type } = newGoal;
     return this.prismaService.goal.create({
       data: {
         title,
         type,
         user: { connect: { id: userId } },
+      },
+      include: {
+        streaks: true,
       },
     });
   }
@@ -58,6 +61,9 @@ export class GoalsRepositoryClient {
       where: {
         id: goalId,
         userId: ownerId,
+      },
+      include: {
+        streaks: true,
       },
       data: updateGoal,
     });

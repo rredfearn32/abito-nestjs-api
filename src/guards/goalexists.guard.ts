@@ -14,7 +14,7 @@ export class GoalExistsGuard implements CanActivate {
       return true;
     }
 
-    request.goal = await this.goalsService.findGoalById(userId, goalId);
+    request.goal = await this.goalsService.findSingleGoalById(userId, goalId);
     return true;
   }
 }

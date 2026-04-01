@@ -1,14 +1,11 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { UsersService } from '../../infrastructure/users/users.service';
+import { UsersService } from '../users/users.service';
 import RegisterRequestDto from './dtos/RegisterRequest.dto';
-import { compare, hash } from './helpers/hashing';
-import DeleteAccountRequestDto from './dtos/DeleteAccountRequest.dto';
-import UpdateProfileRequestDto from './dtos/UpdateProfileRequest.dto';
-import UpdateProfileResponseDto from './dtos/UpdateProfileResponse.dto';
-import { ERRORS } from './messages/errors';
-import { TokensService } from '../../infrastructure/tokens/tokens.service';
-import { TokenGenerationPayload } from '../../infrastructure/tokens/types/TokenGenerationPayload';
+import { compare, hash } from '../../utils/hashing';
+import { AUTH_ERRORS } from '../../messages/auth.errors';
 import AuthResponseDto from './dtos/AuthResponse.dto';
+import { TokensService } from './tokens.service';
+import { TokenGenerationPayload } from './types/TokenGenerationPayload';
 
 @Injectable()
 export class AuthService {
@@ -40,7 +37,7 @@ export class AuthService {
 
     // Check if there's a provided password, and the password entered matches the user's recorded one
     if (!user?.password || !(await compare(password, user?.password))) {
-      throw new UnauthorizedException(ERRORS.INVALID_CREDENTIALS);
+      throw new UnauthorizedException(AUTH_ERRORS.INVALID_CREDENTIALS);
     }
 
     const tokenGenerationPayload: TokenGenerationPayload = { sub: user.id };
@@ -55,21 +52,5 @@ export class AuthService {
         tokenGenerationPayload,
       ),
     };
-  }
-
-  deleteAccount(jwt: DeleteAccountRequestDto) {
-    this.userService.deleteUser(jwt.sub);
-  }
-
-  async updateProfile(
-    jwt: any,
-    updatedProfile: UpdateProfileRequestDto,
-  ): Promise<UpdateProfileResponseDto> {
-    const user = await this.userService.findUserById(jwt.sub);
-    if (updatedProfile.password) {
-      updatedProfile.password = await hash(updatedProfile.password);
-    }
-    const updatedUser = { ...user, ...updatedProfile };
-    return this.userService.updateUser(jwt.sub, updatedUser);
   }
 }

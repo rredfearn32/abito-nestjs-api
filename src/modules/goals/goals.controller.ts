@@ -24,16 +24,15 @@ import { AuthGuard } from '../../guards/auth.guard';
 import { GoalsService } from './goals.service';
 import { GoalResponseDto } from './dtos/GoalResponse.dto';
 import { UpdateGoalDto } from './dtos/UpdateGoal.dto';
-import { CreateStreakResponseDto } from './dtos/CreateStreak.dto';
-import {
-  CreateGoalRequestDto,
-  CreateGoalResponseDto,
-} from './dtos/CreateGoal.dto';
+import { CreateStreakResponseDto } from './dtos/CreateStreakResponse.dto';
+import { CreateGoalRequestDto } from './dtos/CreateGoalRequest.dto';
+import { CreateGoalResponseDto } from './dtos/CreateGoalResponse.dto';
 import { DeleteGoalResponseDto } from './dtos/DeleteGoal.dto';
 import { StreaksService } from './streaks.service';
 import { UserExistsGuard } from '../../guards/userexists.guard';
 import { GoalExistsGuard } from '../../guards/goalexists.guard';
 import { GetAllGoalsResponseDto } from './dtos/GetAllGoalsResponse.dto';
+import { plainToInstance } from 'class-transformer';
 
 @ApiTags('Goals')
 @ApiBearerAuth()
@@ -50,7 +49,12 @@ export class GoalsController {
   @ApiOkResponse({ type: [GetAllGoalsResponseDto] })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
   async getAllGoalsForUser(@Req() req): Promise<GetAllGoalsResponseDto[]> {
-    return this.goalsService.getUsersGoals(req.jwt.sub);
+    const goals = await this.goalsService.getAllGoalsForUser(req.jwt.sub);
+
+    return plainToInstance(
+      GetAllGoalsResponseDto,
+      goals.map((goal) => this.goalsService.toGoalView(goal, false)),
+    );
   }
 
   @Get('/:goalId')
@@ -64,7 +68,10 @@ export class GoalsController {
     @Param('goalId') _: string,
     @Req() req,
   ): Promise<GoalResponseDto> {
-    return this.goalsService.toGoalResponseDto(req.goal);
+    return plainToInstance(
+      GoalResponseDto,
+      this.goalsService.toGoalView(req.goal),
+    );
   }
 
   @Post('/')
@@ -72,7 +79,12 @@ export class GoalsController {
   @ApiCreatedResponse({ type: CreateGoalResponseDto })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
   async createGoal(@Body() newGoalDto: CreateGoalRequestDto, @Req() req) {
-    return this.goalsService.createGoal(newGoalDto, req.jwt.sub);
+    const newGoal = await this.goalsService.createGoal(newGoalDto, req.jwt.sub);
+
+    return plainToInstance(
+      CreateGoalResponseDto,
+      this.goalsService.toGoalView(newGoal),
+    );
   }
 
   @Delete('/:goalId')
@@ -83,7 +95,14 @@ export class GoalsController {
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
   @ApiNotFoundResponse({ description: 'Goal not found' })
   async deleteGoal(@Param('goalId') _: string, @Req() req) {
-    return this.goalsService.deleteGoal(req.goal, req.jwt.sub);
+    const deletedGoal = await this.goalsService.deleteGoal(
+      req.goal,
+      req.jwt.sub,
+    );
+    return plainToInstance(
+      DeleteGoalResponseDto,
+      this.goalsService.toGoalView(deletedGoal),
+    );
   }
 
   @Patch('/:goalId')
@@ -95,10 +114,18 @@ export class GoalsController {
   @ApiNotFoundResponse({ description: 'Goal not found' })
   async updateGoal(
     @Param('goalId') _: string,
-    @Body() updatedGoal: UpdateGoalDto,
+    @Body() goalUpdates: UpdateGoalDto,
     @Req() req,
   ) {
-    return this.goalsService.updateGoal(req.goal, req.jwt.sub, updatedGoal);
+    const updatedGoal = await this.goalsService.updateGoal(
+      req.goal,
+      req.jwt.sub,
+      goalUpdates,
+    );
+    return plainToInstance(
+      GoalResponseDto,
+      this.goalsService.toGoalView(updatedGoal),
+    );
   }
 
   @Post('/:goalId/streaks')
@@ -111,7 +138,8 @@ export class GoalsController {
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
   @ApiNotFoundResponse({ description: 'Goal not found' })
   async createStreak(@Param('goalId') _: string, @Req() req) {
-    return this.streaksService.createStreak(req.goal);
+    const createdStreak = await this.streaksService.createStreak(req.goal);
+    return plainToInstance(CreateStreakResponseDto, createdStreak);
   }
 
   @Patch('/:goalId/streaks/:streakId')

@@ -1,8 +1,8 @@
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
-import { RefreshTokensRepositoryClient } from './repositories/refresh-tokens.repository-client';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { TokenGenerationPayload } from './types/TokenGenerationPayload';
+import { RefreshTokensRepositoryClient } from '../../infrastructure/refresh-tokens.repository-client';
 
 @Injectable()
 export class TokensService {
