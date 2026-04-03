@@ -12,9 +12,9 @@ export class GoalResponseDto {
   @ApiProperty()
   type: GoalType;
 
-  @ApiProperty({ type: Object, nullable: true })
+  @ApiProperty({ type: Streak, nullable: true })
   activeStreak: Streak | null;
 
-  @ApiProperty()
+  @ApiProperty({ type: [Streak] })
   previousStreaks: Streak[];
 }
