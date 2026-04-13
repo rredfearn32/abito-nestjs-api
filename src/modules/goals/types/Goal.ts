@@ -1,5 +1,4 @@
-import { Streak } from './Streak';
-import { GoalType } from '../../../../generated/prisma';
+import { GoalType, Streak } from '@prisma/client';
 
 export interface Goal {
   id: string;
