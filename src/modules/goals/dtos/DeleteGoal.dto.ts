@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { GoalType } from '../../../../generated/prisma';
+import { GoalType } from '@prisma/client';
 
 export class DeleteGoalResponseDto {
   @ApiProperty()

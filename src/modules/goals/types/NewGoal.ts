@@ -1,4 +1,4 @@
-import { GoalType } from '../../../../generated/prisma';
+import { GoalType } from '@prisma/client';
 
 export interface NewGoal {
   title: string;

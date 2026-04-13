@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Streak } from '../types/Streak';
-import { GoalType } from '../../../../generated/prisma';
+import { GoalType } from '@prisma/client';
 
 export class GoalResponseDto {
   @ApiProperty()

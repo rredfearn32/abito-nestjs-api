@@ -8,7 +8,7 @@ import { USER_ERROR } from '../../messages/users.errors';
 import UpdateProfileRequestDto from './dtos/UpdateProfileRequest.dto';
 import { UsersRepositoryClient } from '../../infrastructure/users.repository-client';
 import { hash } from '../../utils/hashing';
-import { Prisma } from 'generated/prisma';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class UsersService {

@@ -1,6 +1,6 @@
 import { IsEnum, IsNotEmpty } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { GoalType } from '../../../../generated/prisma';
+import { GoalType } from '@prisma/client';
 
 export class CreateGoalRequestDto {
   @ApiProperty()
