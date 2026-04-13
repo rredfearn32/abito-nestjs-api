@@ -1,0 +1,886 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/auth/register": {
+      "post": {
+        "operationId": "AuthController_register",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body"
+          }
+        },
+        "summary": "Register a new user",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "operationId": "AuthController_login",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body"
+          },
+          "401": {
+            "description": "Invalid credentials"
+          }
+        },
+        "summary": "Log in with email and password",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/refresh": {
+      "post": {
+        "operationId": "AuthController_refresh",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid or expired refresh token"
+          }
+        },
+        "summary": "Refresh access and refresh tokens",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/users/profile": {
+      "get": {
+        "operationId": "UsersController_getProfile",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get the authenticated user's profile",
+        "tags": [
+          "Users"
+        ]
+      },
+      "patch": {
+        "operationId": "UsersController_updateProfile",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProfileRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Update the authenticated user's profile",
+        "tags": [
+          "Users"
+        ]
+      }
+    },
+    "/users/account": {
+      "delete": {
+        "operationId": "UsersController_deleteAccount",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Account deleted successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Delete the authenticated user's account",
+        "tags": [
+          "Users"
+        ]
+      }
+    },
+    "/goals": {
+      "get": {
+        "operationId": "GoalsController_getAllGoalsForUser",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetAllGoalsResponseDto"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get all goals for the authenticated user",
+        "tags": [
+          "Goals"
+        ]
+      },
+      "post": {
+        "operationId": "GoalsController_createGoal",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateGoalRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateGoalResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Create a new goal",
+        "tags": [
+          "Goals"
+        ]
+      }
+    },
+    "/goals/{goalId}": {
+      "get": {
+        "operationId": "GoalsController_getGoalById",
+        "parameters": [
+          {
+            "name": "goalId",
+            "required": true,
+            "in": "path",
+            "description": "Numeric ID of the goal",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GoalResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID format"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Goal not found"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get a goal by ID",
+        "tags": [
+          "Goals"
+        ]
+      },
+      "delete": {
+        "operationId": "GoalsController_deleteGoal",
+        "parameters": [
+          {
+            "name": "goalId",
+            "required": true,
+            "in": "path",
+            "description": "Numeric ID of the goal to delete",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteGoalResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID format"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Goal not found"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Delete a goal",
+        "tags": [
+          "Goals"
+        ]
+      },
+      "patch": {
+        "operationId": "GoalsController_updateGoal",
+        "parameters": [
+          {
+            "name": "goalId",
+            "required": true,
+            "in": "path",
+            "description": "Numeric ID of the goal to update",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateGoalDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GoalResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID format"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Goal not found"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Update a goal's properties (e.g. title)",
+        "tags": [
+          "Goals"
+        ]
+      }
+    },
+    "/goals/{goalId}/streaks": {
+      "post": {
+        "operationId": "GoalsController_createStreak",
+        "parameters": [
+          {
+            "name": "goalId",
+            "required": true,
+            "in": "path",
+            "description": "Numeric ID of the goal",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateStreakResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID format, or a streak is already in progress"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Goal not found"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Start a new streak for a goal",
+        "tags": [
+          "Goals"
+        ]
+      }
+    },
+    "/goals/{goalId}/streaks/{streakId}": {
+      "patch": {
+        "operationId": "GoalsController_updateStreak",
+        "parameters": [
+          {
+            "name": "goalId",
+            "required": true,
+            "in": "path",
+            "description": "Numeric ID of the goal",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "streakId",
+            "required": true,
+            "in": "path",
+            "description": "Numeric ID of the streak",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated streak"
+          },
+          "400": {
+            "description": "Invalid ID format, or streak cannot be updated (not in progress / wrong type)"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Goal not found"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Record a check-in on a streak for a START goal",
+        "tags": [
+          "Goals"
+        ]
+      },
+      "delete": {
+        "operationId": "GoalsController_endStreak",
+        "parameters": [
+          {
+            "name": "goalId",
+            "required": true,
+            "in": "path",
+            "description": "Numeric ID of the goal",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "streakId",
+            "required": true,
+            "in": "path",
+            "description": "Numeric ID of the streak",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ended streak"
+          },
+          "400": {
+            "description": "Invalid ID format, or streak cannot be ended (not in progress / wrong type)"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Goal not found"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "End an in-progress streak",
+        "tags": [
+          "Goals"
+        ]
+      }
+    },
+    "/cron/expire-start-streaks": {
+      "post": {
+        "operationId": "CronController_expireStreaks",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Expire stale in-progress streaks",
+        "tags": [
+          "Cron"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Abito API",
+    "description": "An API for Abito.dev",
+    "version": "0.1",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http",
+        "description": "The Token used to communicate directly with the underlying API"
+      }
+    },
+    "schemas": {
+      "RegisterRequestDto": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "username",
+          "email",
+          "password"
+        ]
+      },
+      "AuthResponseDto": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "accessToken": {
+            "type": "string"
+          },
+          "refreshToken": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "userId",
+          "username",
+          "accessToken",
+          "refreshToken"
+        ]
+      },
+      "LoginRequestDto": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "username",
+          "password"
+        ]
+      },
+      "RefreshRequestDto": {
+        "type": "object",
+        "properties": {
+          "refreshToken": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "refreshToken"
+        ]
+      },
+      "UserResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "username",
+          "email"
+        ]
+      },
+      "UpdateProfileRequestDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "GetAllGoalsResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "activeStreak": {
+            "type": "object",
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "type",
+          "activeStreak"
+        ]
+      },
+      "Streak": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "inProgress": {
+            "type": "boolean"
+          },
+          "goalId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "createdAt",
+          "updatedAt",
+          "inProgress",
+          "goalId"
+        ]
+      },
+      "GoalResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "activeStreak": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Streak"
+              }
+            ]
+          },
+          "previousStreaks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Streak"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "type",
+          "activeStreak",
+          "previousStreaks"
+        ]
+      },
+      "CreateGoalRequestDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "START",
+              "STOP"
+            ]
+          }
+        },
+        "required": [
+          "title",
+          "type"
+        ]
+      },
+      "CreateGoalResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "START",
+              "STOP"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "type"
+        ]
+      },
+      "DeleteGoalResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "type"
+        ]
+      },
+      "UpdateGoalDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "title"
+        ]
+      },
+      "CreateStreakResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          },
+          "inProgress": {
+            "type": "boolean"
+          },
+          "goalId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "createdAt",
+          "updatedAt",
+          "inProgress",
+          "goalId"
+        ]
+      }
+    }
+  }
+}

@@ -25,7 +25,8 @@
     "docker:restart": "docker-compose restart",
     "start:dev": "npm run docker:up && nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main"
+    "start:prod": "node dist/main",
+    "export:openapi": "ts-node -r tsconfig-paths/register scripts/export-openapi.ts"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
