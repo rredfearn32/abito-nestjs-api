@@ -3,7 +3,7 @@
   "buildCommand": "npx prisma migrate deploy && npm run vercel-build",
   "crons": [
     {
-      "path": "/cron/expire-streaks",
+      "path": "/cron/expire-start-streaks",
       "schedule": "0 23 * * *"
     }
   ],

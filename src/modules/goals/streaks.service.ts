@@ -2,6 +2,7 @@ import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { StreaksRepositoryClient } from './repositories/streaks.repository-client';
 import { STREAK_ERRORS } from '../../messages/streaks.errors';
 import { Goal } from './types/Goal';
+import { Streak } from '@prisma/client';
 
 @Injectable()
 export class StreaksService {
@@ -31,8 +32,8 @@ export class StreaksService {
     return this.streaksRepositoryClient.updateStreak(streakId, goal.id);
   }
 
-  async expireStreaks(): Promise<void> {
-    await this.streaksRepositoryClient.expireStreaks();
+  async expireStreaks(): Promise<Streak[]> {
+    return this.streaksRepositoryClient.expireStreaks();
   }
 
   async endStreak(streakId: string, goal: Goal) {

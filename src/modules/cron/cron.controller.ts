@@ -1,4 +1,4 @@
-import { Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import { Controller, Get, HttpCode, HttpStatus } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CronService } from './cron.service';
 
@@ -7,7 +7,7 @@ import { CronService } from './cron.service';
 export class CronController {
   constructor(private readonly cronService: CronService) {}
 
-  @Post('expire-start-streaks')
+  @Get('expire-start-streaks')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Expire stale in-progress streaks' })
   async expireStreaks(): Promise<void> {
