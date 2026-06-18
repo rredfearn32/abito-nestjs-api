@@ -1,38 +1,4 @@
-# Abito NestJS API
-
-The main purpose of this project is learning. Therefore, please do not make changes or offer to make changes to files,
-unless the user specifically requests this.
-
-When I ask for help fixing a bug, follow these steps:
-
-Please help me resolve this by:
-
-1. **Suggest the fix**: Analyze my codebase context and propose what needs to be changed to resolve this error. If you
-   do not have access to my codebase, ask me for the codebase and try to fix the error based on the information you
-   have.
-2. **Explain the root cause**: Break down why this error occurred:
-
-- What was the code actually doing vs. what it needed to do?
-- What conditions triggered this specific error?
-- What misconception or oversight led to this?
-
-3. **Teach the concept**: Help me understand the underlying principle:
-
-- Why does this error exist and what is it protecting me from?
-- What's the correct mental model for this concept?
-- How does this fit into the broader framework/language design?
-
-4. **Show warning signs**: Help me recognize this pattern in the future:
-
-- What should I look out for that might cause this again?
-- Are there similar mistakes I might make in related scenarios?
-- What code smells or patterns indicate this issue?
-
-5. **Discuss alternatives**: Explain if there are different valid approaches and their trade-offs
-
-My goal is to build lasting understanding so I can avoid and resolve similar errors independently in the future.
-
-## Project overview
+# Abito Project overview
 
 NestJS REST API for Abito.dev. Uses Prisma with PostgreSQL, deployed on Vercel as a serverless function. Local
 development uses Docker for the database.
@@ -55,7 +21,7 @@ npm run export:openapi  # Export OpenAPI spec to file
 
 ```
 src/
-  infrastructure/       # Data-access layer — thin Prisma wrappers, no business logic
+  infrastructure/       # Shared data-access layer — thin Prisma wrappers, no business logic
     prisma/             # PrismaService (DB connection), PrismaModule
     users.repository-client.ts
     refresh-tokens.repository-client.ts
@@ -63,6 +29,7 @@ src/
     auth/               # Register, login, refresh, delete account, token management
     users/              # User profile (get/update)
     goals/              # Goals and streaks
+      repositories/     # Feature-specific repository clients (goals, streaks)
     cron/               # Scheduled jobs
   guards/               # AuthGuard, UserExistsGuard, GoalExistsGuard
   messages/             # Shared error enums (auth.errors, users.errors, etc.)
@@ -74,8 +41,10 @@ api/
 
 ### Layer responsibilities
 
-- **Repository clients** (`infrastructure/`): direct Prisma calls only. Accept and return Prisma types (
-  `Prisma.UserCreateInput`, `User`, etc.). No exceptions, no business logic.
+- **Repository clients**: direct Prisma calls only. Accept and return Prisma types (
+  `Prisma.UserCreateInput`, `User`, etc.). No exceptions, no business logic. Shared clients (users,
+  refresh-tokens) live in `infrastructure/`; feature-specific clients live with their module (e.g.
+  `modules/goals/repositories/`).
 - **Services** (`modules/*/`): business logic, validation, exceptions. Call repository clients. Use `Prisma.*Input`
   types for writes, `User`/domain types for reads.
 - **Controllers** (`modules/*/`): HTTP boundary only. Accept DTOs, call services, map responses with `plainToInstance`.
@@ -132,4 +101,4 @@ Domain-specific error enums live in `src/messages/`:
 - Entry point: `api/index.js` → `require('../dist/bootstrap')`
 - Build command: `npx prisma migrate deploy && npm run vercel-build`
 - `vercel-build`: `prisma generate && nest build`
-- Cron job configured in `vercel.json`: `/cron/expire-streaks` runs nightly at 23:00 UTC
+- Cron job configured in `vercel.json`: `/cron/expire-start-streaks` runs nightly at 23:00 UTC
