@@ -28,7 +28,7 @@ export class TokensService {
     const token = this.jwtService.signAsync(
       { ...payload, rtId },
       {
-        expiresIn: daysUntilExpiration + 'd',
+        expiresIn: daysUntilExpiration * 24 * 60 * 60, // seconds
         secret: this.configService.get<string>('JWT_REFRESH_SECRET'),
       },
     );
